@@ -50,7 +50,9 @@ ENV PORT=8080
 ENV DB_PATH=/data/budgetmate.db
 
 # Define volume for persistent SQLite storage
-VOLUME ["/data"]
+# Note: Railway handles this via external configuration, so we only need the path to exist
+# VOLUME ["/data"] <-- Banned by Railway
+
 
 # Copy binary from builder
 COPY --from=builder /budgetmate /budgetmate
