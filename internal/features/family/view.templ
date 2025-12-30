@@ -6,7 +6,7 @@ import (
 )
 
 templ SettingsPage(user *database.User, family *database.Family, familyMembers []database.User) {
-    @components.Layout("Settings", "settings") {
+    @components.Layout("Family", "family") {
         <div class="max-w-4xl mx-auto space-y-8">
             <header>
                  <h1 class="text-3xl font-bold text-slate-900">Family Settings</h1>
@@ -121,7 +121,7 @@ templ InviteLinkView(link string) {
                 Copy
             </button>
         </div>
-        <p class="text-xs text-slate-400 mt-2 text-center">Link expires in 24 hours.</p>
+        <p class="text-xs text-slate-400 mt-2 text-center">Link expires in 7 days.</p>
     </div>
 }
 

@@ -332,11 +332,14 @@ func UpdateUserFamily(userID int64, familyID int64) error {
 // --- Invite Functions ---
 
 func CreateInvite(familyID, userID int64) (string, error) {
-	code, err := GenerateInviteCode()
+	// Generate secure 32-char hex token
+	code, err := GenerateSecureToken()
 	if err != nil {
 		return "", err
 	}
-	expiresAt := time.Now().Add(24 * time.Hour) // 24 hour expiry
+	// Use only first 32 characters for shorter URLs
+	code = code[:32]
+	expiresAt := time.Now().Add(7 * 24 * time.Hour) // 7 day expiry
 
 	_, err = DB.Exec("INSERT INTO invites (code, family_id, created_by, expires_at) VALUES (?, ?, ?, ?)",
 		code, familyID, userID, expiresAt)

@@ -190,7 +190,7 @@ func SettingsPage(user *database.User, family *database.Family, familyMembers []
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = components.Layout("Settings", "settings").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.Layout("Family", "family").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -232,7 +232,7 @@ func InviteLinkView(link string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "\" readonly class=\"w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500\" id=\"invite-link\"><div class=\"absolute right-3 top-1/2 -translate-y-1/2 text-slate-400\"><svg class=\"w-4 h-4\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1\"></path></svg></div></div><button class=\"px-4 py-2 bg-slate-900 text-white font-medium rounded-xl text-sm hover:bg-slate-800 transition-colors active:scale-95\" onclick=\"\r\n                    const link = document.getElementById('invite-link');\r\n                    link.select();\r\n                    document.execCommand('copy');\r\n                    this.textContent = 'Copied!';\r\n                    setTimeout(() => this.textContent = 'Copy', 2000);\r\n                \">Copy</button></div><p class=\"text-xs text-slate-400 mt-2 text-center\">Link expires in 24 hours.</p></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "\" readonly class=\"w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500\" id=\"invite-link\"><div class=\"absolute right-3 top-1/2 -translate-y-1/2 text-slate-400\"><svg class=\"w-4 h-4\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1\"></path></svg></div></div><button class=\"px-4 py-2 bg-slate-900 text-white font-medium rounded-xl text-sm hover:bg-slate-800 transition-colors active:scale-95\" onclick=\"\r\n                    const link = document.getElementById('invite-link');\r\n                    link.select();\r\n                    document.execCommand('copy');\r\n                    this.textContent = 'Copied!';\r\n                    setTimeout(() => this.textContent = 'Copy', 2000);\r\n                \">Copy</button></div><p class=\"text-xs text-slate-400 mt-2 text-center\">Link expires in 7 days.</p></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
