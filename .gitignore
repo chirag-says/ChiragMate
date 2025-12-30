@@ -1,0 +1,36 @@
+# BudgetMate SQLite Database
+budgetmate.db
+
+# Go binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary
+*.test
+
+# Output of the go coverage tool
+*.out
+
+# Dependency directories
+vendor/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Templ generated files (optional - can be committed)
+# *_templ.go
+
+# Environment
+.env
+.env.local

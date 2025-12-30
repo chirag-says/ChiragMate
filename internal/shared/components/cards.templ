@@ -1,0 +1,74 @@
+package components
+
+import "fmt"
+
+templ Card(title string) {
+	<div class="bg-white rounded-2xl border border-slate-200 shadow-sm card-hover">
+		if title != "" {
+			<div class="px-6 py-4 border-b border-slate-100">
+				<h3 class="text-sm font-semibold text-slate-800">{ title }</h3>
+			</div>
+		}
+		<div class="p-6">
+			{ children... }
+		</div>
+	</div>
+}
+
+templ StatCard(title string, value string, subtitle string, positive bool) {
+	<div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 card-hover">
+		<div class="flex items-start justify-between">
+			<div>
+				<p class="text-sm font-medium text-slate-500">{ title }</p>
+				<p class={ "text-3xl font-bold mt-2",
+					templ.KV("text-emerald-600", positive),
+					templ.KV("text-slate-800", !positive) }>
+					{ value }
+				</p>
+				if subtitle != "" {
+					<p class="text-sm text-slate-500 mt-1">{ subtitle }</p>
+				}
+			</div>
+			<div class={ "w-12 h-12 rounded-2xl flex items-center justify-center",
+				templ.KV("bg-emerald-50", positive),
+				templ.KV("bg-slate-100", !positive) }>
+				if positive {
+					<svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+					</svg>
+				} else {
+					<svg class="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+					</svg>
+				}
+			</div>
+		</div>
+	</div>
+}
+
+// FormatINR formats a float as Indian Rupee currency
+func FormatINR(amount float64) string {
+	if amount < 0 {
+		return fmt.Sprintf("-₹%.2f", -amount)
+	}
+	return fmt.Sprintf("₹%.2f", amount)
+}
+
+// FormatINRCompact formats large amounts in K/L/Cr format
+func FormatINRCompact(amount float64) string {
+	absAmount := amount
+	if absAmount < 0 {
+		absAmount = -amount
+	}
+
+	switch {
+	case absAmount >= 10000000:
+		return fmt.Sprintf("₹%.1f Cr", amount/10000000)
+	case absAmount >= 100000:
+		return fmt.Sprintf("₹%.1f L", amount/100000)
+	case absAmount >= 1000:
+		return fmt.Sprintf("₹%.1f K", amount/1000)
+	default:
+		return fmt.Sprintf("₹%.0f", amount)
+	}
+}
