@@ -31,10 +31,16 @@ templ CategoryDoughnutChart(data map[string]float64) {
 					<p class="text-sm">No expense data yet</p>
 				</div>
 			} else {
+				{{ chartData := ChartDataToJSON(data) }}
 				<div class="relative">
-					<canvas id="categoryChart" class="max-h-64"></canvas>
+					<canvas 
+                        id="categoryChart" 
+                        class="max-h-64"
+                        data-labels={ chartData.Labels }
+                        data-values={ chartData.Values }
+                    ></canvas>
 				</div>
-				@ChartScriptInline(ChartDataToJSON(data))
+				@ChartScriptInline()
 				<!-- Legend -->
 				<div class="mt-6 space-y-2">
 					@CategoryLegend(data)
@@ -66,12 +72,13 @@ func ChartDataToJSON(data map[string]float64) ChartData {
 	}
 }
 
-templ ChartScriptInline(chartData ChartData) {
+templ ChartScriptInline() {
 	<script>
 		(function() {
-			const ctx = document.getElementById('categoryChart').getContext('2d');
-			const labels = JSON.parse('{ chartData.Labels }');
-			const values = JSON.parse('{ chartData.Values }');
+			const canvas = document.getElementById('categoryChart');
+			const ctx = canvas.getContext('2d');
+			const labels = JSON.parse(canvas.dataset.labels);
+			const values = JSON.parse(canvas.dataset.values);
 			
 			// Premium color palette
 			const colors = ['#10b981', '#f59e0b', '#6366f1', '#ec4899', '#64748b', '#14b8a6', '#8b5cf6', '#f97316'];

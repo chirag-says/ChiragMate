@@ -45,15 +45,42 @@ func CategoryDoughnutChart(data map[string]float64) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<div class=\"relative\"><canvas id=\"categoryChart\" class=\"max-h-64\"></canvas></div>")
+			chartData := ChartDataToJSON(data)
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<div class=\"relative\"><canvas id=\"categoryChart\" class=\"max-h-64\" data-labels=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = ChartScriptInline(ChartDataToJSON(data)).Render(ctx, templ_7745c5c3_Buffer)
+			var templ_7745c5c3_Var2 string
+			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(chartData.Labels)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/charts.templ`, Line: 39, Col: 54}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, " <!-- Legend --> <div class=\"mt-6 space-y-2\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\" data-values=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var3 string
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(chartData.Values)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/charts.templ`, Line: 40, Col: 54}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\"></canvas></div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = ChartScriptInline().Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, " <!-- Legend --> <div class=\"mt-6 space-y-2\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -61,12 +88,12 @@ func CategoryDoughnutChart(data map[string]float64) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -96,7 +123,7 @@ func ChartDataToJSON(data map[string]float64) ChartData {
 	}
 }
 
-func ChartScriptInline(chartData ChartData) templ.Component {
+func ChartScriptInline() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -112,12 +139,12 @@ func ChartScriptInline(chartData ChartData) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var2 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var2 == nil {
-			templ_7745c5c3_Var2 = templ.NopComponent
+		templ_7745c5c3_Var4 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var4 == nil {
+			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<script>\r\n\t\t(function() {\r\n\t\t\tconst ctx = document.getElementById('categoryChart').getContext('2d');\r\n\t\t\tconst labels = JSON.parse('{ chartData.Labels }');\r\n\t\t\tconst values = JSON.parse('{ chartData.Values }');\r\n\t\t\t\r\n\t\t\t// Premium color palette\r\n\t\t\tconst colors = ['#10b981', '#f59e0b', '#6366f1', '#ec4899', '#64748b', '#14b8a6', '#8b5cf6', '#f97316'];\r\n\t\t\t\r\n\t\t\tnew Chart(ctx, {\r\n\t\t\t\ttype: 'doughnut',\r\n\t\t\t\tdata: {\r\n\t\t\t\t\tlabels: labels,\r\n\t\t\t\t\tdatasets: [{\r\n\t\t\t\t\t\tdata: values,\r\n\t\t\t\t\t\tbackgroundColor: colors.slice(0, values.length),\r\n\t\t\t\t\t\tborderWidth: 0,\r\n\t\t\t\t\t\thoverOffset: 4\r\n\t\t\t\t\t}]\r\n\t\t\t\t},\r\n\t\t\t\toptions: {\r\n\t\t\t\t\tresponsive: true,\r\n\t\t\t\t\tmaintainAspectRatio: true,\r\n\t\t\t\t\tcutout: '70%',\r\n\t\t\t\t\tplugins: {\r\n\t\t\t\t\t\tlegend: {\r\n\t\t\t\t\t\t\tdisplay: false\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\ttooltip: {\r\n\t\t\t\t\t\t\tbackgroundColor: '#1e293b',\r\n\t\t\t\t\t\t\ttitleColor: '#f8fafc',\r\n\t\t\t\t\t\t\tbodyColor: '#f8fafc',\r\n\t\t\t\t\t\t\tpadding: 12,\r\n\t\t\t\t\t\t\tcornerRadius: 8,\r\n\t\t\t\t\t\t\tcallbacks: {\r\n\t\t\t\t\t\t\t\tlabel: function(context) {\r\n\t\t\t\t\t\t\t\t\tconst value = context.raw;\r\n\t\t\t\t\t\t\t\t\treturn '₹' + value.toLocaleString('en-IN', {minimumFractionDigits: 2});\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t});\r\n\t\t})();\r\n\t</script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<script>\r\n\t\t(function() {\r\n\t\t\tconst canvas = document.getElementById('categoryChart');\r\n\t\t\tconst ctx = canvas.getContext('2d');\r\n\t\t\tconst labels = JSON.parse(canvas.dataset.labels);\r\n\t\t\tconst values = JSON.parse(canvas.dataset.values);\r\n\t\t\t\r\n\t\t\t// Premium color palette\r\n\t\t\tconst colors = ['#10b981', '#f59e0b', '#6366f1', '#ec4899', '#64748b', '#14b8a6', '#8b5cf6', '#f97316'];\r\n\t\t\t\r\n\t\t\tnew Chart(ctx, {\r\n\t\t\t\ttype: 'pie',\r\n\t\t\t\tdata: {\r\n\t\t\t\t\tlabels: labels,\r\n\t\t\t\t\tdatasets: [{\r\n\t\t\t\t\t\tdata: values,\r\n\t\t\t\t\t\tbackgroundColor: colors.slice(0, values.length),\r\n\t\t\t\t\t\tborderWidth: 0,\r\n\t\t\t\t\t\thoverOffset: 4\r\n\t\t\t\t\t}]\r\n\t\t\t\t},\r\n\t\t\t\toptions: {\r\n\t\t\t\t\tresponsive: true,\r\n\t\t\t\t\tmaintainAspectRatio: true,\r\n\t\t\t\t\tplugins: {\r\n\t\t\t\t\t\tlegend: {\r\n\t\t\t\t\t\t\tdisplay: false\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\ttooltip: {\r\n\t\t\t\t\t\t\tbackgroundColor: '#1e293b',\r\n\t\t\t\t\t\t\ttitleColor: '#f8fafc',\r\n\t\t\t\t\t\t\tbodyColor: '#f8fafc',\r\n\t\t\t\t\t\t\tpadding: 12,\r\n\t\t\t\t\t\t\tcornerRadius: 8,\r\n\t\t\t\t\t\t\tcallbacks: {\r\n\t\t\t\t\t\t\t\tlabel: function(context) {\r\n\t\t\t\t\t\t\t\t\tconst value = context.raw;\r\n\t\t\t\t\t\t\t\t\treturn '₹' + value.toLocaleString('en-IN', {minimumFractionDigits: 2});\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t});\r\n\t\t})();\r\n\t</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -141,9 +168,9 @@ func CategoryLegend(data map[string]float64) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var3 == nil {
-			templ_7745c5c3_Var3 = templ.NopComponent
+		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var5 == nil {
+			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		for category, amount := range data {
@@ -172,9 +199,9 @@ func CategoryLegendItem(category string, amount float64, data map[string]float64
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var4 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var4 == nil {
-			templ_7745c5c3_Var4 = templ.NopComponent
+		templ_7745c5c3_Var6 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var6 == nil {
+			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 
@@ -194,59 +221,59 @@ func CategoryLegendItem(category string, amount float64, data map[string]float64
 			percentage = (amount / total) * 100
 		}
 		color := colors[idx%len(colors)]
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<div class=\"flex items-center justify-between text-sm\"><div class=\"flex items-center gap-2\"><div class=\"w-3 h-3 rounded-full\" style=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var5 string
-		templ_7745c5c3_Var5, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues(fmt.Sprintf("background-color: %s", color))
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/charts.templ`, Line: 145, Col: 87}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "\"></div><span class=\"text-slate-600\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var6 string
-		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(category)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/charts.templ`, Line: 146, Col: 42}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "</span></div><div class=\"flex items-center gap-3\"><span class=\"text-slate-900 font-medium\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<div class=\"flex items-center justify-between text-sm\"><div class=\"flex items-center gap-2\"><div class=\"w-3 h-3 rounded-full\" style=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var7 string
-		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(FormatINR(amount))
+		templ_7745c5c3_Var7, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues(fmt.Sprintf("background-color: %s", color))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/charts.templ`, Line: 149, Col: 63}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/charts.templ`, Line: 151, Col: 87}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "</span> <span class=\"text-slate-400 text-xs w-12 text-right\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\"></div><span class=\"text-slate-600\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var8 string
-		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%.1f%%", percentage))
+		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(category)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/charts.templ`, Line: 150, Col: 91}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/charts.templ`, Line: 152, Col: 42}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "</span></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "</span></div><div class=\"flex items-center gap-3\"><span class=\"text-slate-900 font-medium\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var9 string
+		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(FormatINR(amount))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/charts.templ`, Line: 155, Col: 63}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "</span> <span class=\"text-slate-400 text-xs w-12 text-right\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var10 string
+		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%.1f%%", percentage))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/charts.templ`, Line: 156, Col: 91}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "</span></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

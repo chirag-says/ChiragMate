@@ -31,15 +31,15 @@ templ LandingPage() {
 						</p>
 						
 						<!-- CTAs -->
-						<div class="flex flex-col sm:flex-row gap-4 mb-8">
-							<a href="/app" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-emerald-600 text-white font-semibold rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-200 hover:shadow-emerald-300">
+						<div class="flex flex-col sm:flex-row gap-3 mb-8">
+							<a href="/app" class="inline-flex items-center justify-center gap-2 px-5 py-3 md:px-6 md:py-3.5 bg-emerald-600 text-white font-semibold rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-200 hover:shadow-emerald-300 text-sm md:text-base">
 								Start Free
-								<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
 								</svg>
 							</a>
-							<a href="#demo" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white text-slate-700 font-semibold rounded-xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all">
-								<svg class="w-5 h-5 text-slate-500" fill="currentColor" viewBox="0 0 20 20">
+							<a href="#demo" class="inline-flex items-center justify-center gap-2 px-5 py-3 md:px-6 md:py-3.5 bg-white text-slate-700 font-semibold rounded-xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all text-sm md:text-base">
+								<svg class="w-4 h-4 md:w-5 md:h-5 text-slate-500" fill="currentColor" viewBox="0 0 20 20">
 									<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
 								</svg>
 								See Demo
@@ -50,6 +50,45 @@ templ LandingPage() {
 						<p class="text-sm text-slate-500">
 							No credit card required • Data stays on your device
 						</p>
+						
+						<!-- Mobile App Preview -->
+						<div class="lg:hidden mt-10 relative">
+							<div class="absolute -inset-4 bg-gradient-to-r from-emerald-100 to-sky-100 rounded-3xl blur-2xl opacity-50"></div>
+							<div class="relative bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+								<!-- Phone Status Bar -->
+								<div class="bg-slate-800 px-4 py-2 flex items-center justify-center">
+									<span class="text-xs text-slate-400">budgetmate.app</span>
+								</div>
+								<div class="p-4 bg-slate-50">
+									<!-- Mini Stats -->
+									<div class="grid grid-cols-3 gap-2 mb-3">
+										<div class="bg-white rounded-xl p-3 border border-slate-100 text-center">
+											<p class="text-[10px] text-slate-500">Balance</p>
+											<p class="text-sm font-bold text-slate-900">₹47,765</p>
+										</div>
+										<div class="bg-white rounded-xl p-3 border border-slate-100 text-center">
+											<p class="text-[10px] text-slate-500">Income</p>
+											<p class="text-sm font-bold text-emerald-600">₹50K</p>
+										</div>
+										<div class="bg-white rounded-xl p-3 border border-slate-100 text-center">
+											<p class="text-[10px] text-slate-500">Spent</p>
+											<p class="text-sm font-bold text-amber-600">₹2,235</p>
+										</div>
+									</div>
+									<!-- Mini Spending Chart -->
+									<div class="bg-white rounded-xl p-4 border border-slate-100">
+										<p class="text-[10px] text-slate-500 mb-2">Spending by Category</p>
+										<div class="flex items-end gap-1.5 h-16">
+											<div class="flex-1 bg-emerald-500 rounded-t animate-pulse" style="height: 60%; animation-delay: 0s"></div>
+											<div class="flex-1 bg-amber-500 rounded-t animate-pulse" style="height: 40%; animation-delay: 0.1s"></div>
+											<div class="flex-1 bg-indigo-500 rounded-t animate-pulse" style="height: 80%; animation-delay: 0.2s"></div>
+											<div class="flex-1 bg-pink-500 rounded-t animate-pulse" style="height: 30%; animation-delay: 0.3s"></div>
+											<div class="flex-1 bg-cyan-500 rounded-t animate-pulse" style="height: 50%; animation-delay: 0.4s"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 					
 					<!-- Right: App Preview -->
@@ -104,7 +143,7 @@ templ LandingPage() {
 		<!-- Stats Section (KEEP AS IS) -->
 		<section class="py-12 px-6 bg-white border-y border-slate-100">
 			<div class="max-w-6xl mx-auto">
-				<div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+				<div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
 					@StatItem("100%", "Privacy-First", "Data never leaves your device")
 					@StatItem("5X", "Faster Entry", "Import transactions via CSV")
 					@StatItem("₹0", "Forever Free", "No hidden costs or limits")
@@ -124,7 +163,7 @@ templ LandingPage() {
 						</svg>
 						Powerful Features
 					</div>
-					<h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+					<h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
 						Everything you need.
 						<br/>
 						<span class="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Nothing you don't.</span>
@@ -135,7 +174,7 @@ templ LandingPage() {
 				</div>
 				
 				<!-- Bento Grid -->
-				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
 					<!-- Large Feature Card - Privacy -->
 					<div class="lg:col-span-2 group relative bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 overflow-hidden">
 						<div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/20 rounded-full blur-3xl"></div>
@@ -246,7 +285,7 @@ templ LandingPage() {
 						</svg>
 						Simple Workflow
 					</div>
-					<h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+					<h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
 						Three steps to
 						<span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent"> financial clarity</span>
 					</h2>
@@ -333,7 +372,7 @@ templ LandingPage() {
 						</svg>
 						Loved by Families
 					</div>
-					<h2 class="text-4xl md:text-5xl font-bold text-white mb-4">
+					<h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
 						Real stories from
 						<span class="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent"> real families</span>
 					</h2>
@@ -343,7 +382,7 @@ templ LandingPage() {
 				</div>
 				
 				<!-- Testimonials Grid -->
-				<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
 					<!-- Featured Testimonial -->
 					<div class="md:col-span-2 bg-gradient-to-br from-emerald-500/20 to-emerald-500/5 rounded-3xl p-8 border border-emerald-500/20">
 						<div class="flex items-start gap-4 mb-6">
@@ -470,15 +509,15 @@ templ LandingPage() {
 					</svg>
 					Ready in 60 seconds
 				</div>
-				<h2 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+				<h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
 					Start building your
 					<br/>family's wealth today
 				</h2>
 				<p class="text-xl text-emerald-100 mb-10 max-w-2xl mx-auto">
 					Join thousands of Indian families who've taken control of their finances. It's free, completely private, and works instantly.
 				</p>
-				<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-					<a href="/app" class="px-8 py-4 bg-white text-emerald-600 font-bold rounded-xl hover:bg-emerald-50 transition-all shadow-2xl shadow-emerald-900/30 text-lg">
+				<div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+					<a href="/app" class="px-6 py-3 md:px-8 md:py-4 bg-white text-emerald-600 font-bold rounded-xl hover:bg-emerald-50 transition-all shadow-2xl shadow-emerald-900/30 text-sm md:text-lg">
 						Launch BudgetMate — Free Forever
 					</a>
 				</div>
@@ -508,9 +547,9 @@ templ LandingPage() {
 }
 
 templ StatItem(value string, label string, desc string) {
-	<div class="text-center">
-		<p class="text-3xl md:text-4xl font-bold text-emerald-600 mb-1">{ value }</p>
-		<p class="text-sm font-semibold text-slate-900 mb-1">{ label }</p>
-		<p class="text-xs text-slate-500">{ desc }</p>
+	<div class="text-center px-2">
+		<p class="text-2xl md:text-3xl lg:text-4xl font-bold text-emerald-600 mb-1">{ value }</p>
+		<p class="text-xs md:text-sm font-semibold text-slate-900 mb-1">{ label }</p>
+		<p class="text-[10px] md:text-xs text-slate-500 leading-tight">{ desc }</p>
 	</div>
 }
