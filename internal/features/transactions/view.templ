@@ -129,26 +129,28 @@ templ ExpenseSummaryCard(transactions []database.Transaction) {
 
 templ TransactionTableRow(t database.Transaction) {
 	<div id={ fmt.Sprintf("tx-row-%d", t.ID) } class="px-6 py-4 flex items-center justify-between hover:bg-slate-50 cursor-pointer" hx-get={ fmt.Sprintf("/app/transactions/%d/edit", t.ID) } hx-target={ fmt.Sprintf("#tx-row-%d", t.ID) } hx-swap="outerHTML">
-		<div class="flex items-center gap-4">
-			<div class={ "w-10 h-10 rounded-xl flex items-center justify-center", templ.KV("bg-emerald-50", t.Type == "income"), templ.KV("bg-rose-50", t.Type == "expense") }>
+		<div class="flex items-center gap-4 min-w-0">
+			<div class={ "w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0", templ.KV("bg-emerald-50", t.Type == "income"), templ.KV("bg-rose-50", t.Type == "expense") }>
 				if t.Type == "income" {
 					<svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
 				} else {
 					<svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/></svg>
 				}
 			</div>
-			<div>
-				<p class="text-sm font-medium text-slate-800">{ t.Description }</p>
-				<p class="text-xs text-slate-500">{ t.Category } • { t.Date.Format("Jan 02, 2006") }</p>
+			<div class="min-w-0">
+				<p class="text-sm font-medium text-slate-800 truncate">{ t.Description }</p>
+				<p class="text-xs text-slate-500 truncate">{ t.Category } • { t.Date.Format("Jan 02, 2006") }</p>
 			</div>
 		</div>
-		<p class={ "text-sm font-semibold", templ.KV("text-emerald-600", t.Type == "income"), templ.KV("text-rose-500", t.Type == "expense") }>
-			if t.Type == "income" {
-				+{ components.FormatINR(t.Amount) }
-			} else {
-				-{ components.FormatINR(t.Amount) }
-			}
-		</p>
+		<div class="ml-2 flex-shrink-0">
+			<p class={ "text-sm font-semibold", templ.KV("text-emerald-600", t.Type == "income"), templ.KV("text-rose-500", t.Type == "expense") }>
+				if t.Type == "income" {
+					+{ components.FormatINR(t.Amount) }
+				} else {
+					-{ components.FormatINR(t.Amount) }
+				}
+			</p>
+		</div>
 	</div>
 }
 

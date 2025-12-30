@@ -77,7 +77,7 @@ templ ChartScriptInline(chartData ChartData) {
 			const colors = ['#10b981', '#f59e0b', '#6366f1', '#ec4899', '#64748b', '#14b8a6', '#8b5cf6', '#f97316'];
 			
 			new Chart(ctx, {
-				type: 'doughnut',
+				type: 'pie',
 				data: {
 					labels: labels,
 					datasets: [{
@@ -90,7 +90,6 @@ templ ChartScriptInline(chartData ChartData) {
 				options: {
 					responsive: true,
 					maintainAspectRatio: true,
-					cutout: '70%',
 					plugins: {
 						legend: {
 							display: false
