@@ -43,7 +43,7 @@ func LandingPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!-- Hero Section --> <section class=\"pt-28 pb-16 px-6 bg-gradient-to-b from-slate-50 via-white to-slate-50\"><div class=\"max-w-6xl mx-auto\"><div class=\"grid grid-cols-1 lg:grid-cols-2 gap-12 items-center\"><!-- Left: Copy --><div class=\"fade-in\"><!-- Badge --><div class=\"inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-100 text-emerald-700 rounded-full text-sm font-medium mb-6\"><svg class=\"w-4 h-4\" fill=\"currentColor\" viewBox=\"0 0 20 20\"><path fill-rule=\"evenodd\" d=\"M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z\" clip-rule=\"evenodd\"></path></svg> 100% Privacy-First</div><!-- Headline --><h1 class=\"text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-[1.1] tracking-tight mb-6\">Stop chasing expenses. <span class=\"text-emerald-600\">Start building wealth.</span></h1><!-- Subhead --><p class=\"text-lg md:text-xl text-slate-600 leading-relaxed mb-8 max-w-lg\">The first offline-first expense tracker built for Indian families.  Import UPI transactions, track spending by category, and make smarter financial decisions together.</p><!-- CTAs --><div class=\"flex flex-col sm:flex-row gap-4 mb-8\"><a href=\"/app\" class=\"inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-emerald-600 text-white font-semibold rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-200 hover:shadow-emerald-300\">Start Free <svg class=\"w-5 h-5\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M13 7l5 5m0 0l-5 5m5-5H6\"></path></svg></a> <a href=\"#demo\" class=\"inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white text-slate-700 font-semibold rounded-xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all\"><svg class=\"w-5 h-5 text-slate-500\" fill=\"currentColor\" viewBox=\"0 0 20 20\"><path fill-rule=\"evenodd\" d=\"M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z\" clip-rule=\"evenodd\"></path></svg> See Demo</a></div><!-- Trust --><p class=\"text-sm text-slate-500\">No credit card required • Data stays on your device</p></div><!-- Right: App Preview --><div class=\"relative hidden lg:block\"><div class=\"absolute -inset-4 bg-gradient-to-r from-emerald-100 to-sky-100 rounded-3xl blur-2xl opacity-40\"></div><div class=\"relative bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden\"><!-- Mock Dashboard --><div class=\"bg-slate-800 px-4 py-2 flex items-center gap-2\"><div class=\"flex gap-1.5\"><div class=\"w-3 h-3 rounded-full bg-red-400\"></div><div class=\"w-3 h-3 rounded-full bg-amber-400\"></div><div class=\"w-3 h-3 rounded-full bg-emerald-400\"></div></div><div class=\"flex-1 text-center\"><span class=\"text-xs text-slate-400\">budgetmate.app</span></div></div><div class=\"p-6 bg-slate-50\"><!-- Mini Dashboard --><div class=\"grid grid-cols-3 gap-3 mb-4\"><div class=\"bg-white rounded-xl p-4 border border-slate-100\"><p class=\"text-xs text-slate-500 mb-1\">Balance</p><p class=\"text-lg font-bold text-slate-900\">₹47,765</p></div><div class=\"bg-white rounded-xl p-4 border border-slate-100\"><p class=\"text-xs text-slate-500 mb-1\">Income</p><p class=\"text-lg font-bold text-emerald-600\">₹50,000</p></div><div class=\"bg-white rounded-xl p-4 border border-slate-100\"><p class=\"text-xs text-slate-500 mb-1\">Expenses</p><p class=\"text-lg font-bold text-amber-600\">₹2,235</p></div></div><!-- Mini Chart --><div class=\"bg-white rounded-xl p-4 border border-slate-100\"><p class=\"text-xs text-slate-500 mb-3\">Spending by Category</p><div class=\"flex items-end gap-2 h-24\"><div class=\"flex-1 bg-emerald-500 rounded-t-lg\" style=\"height: 60%\"></div><div class=\"flex-1 bg-amber-500 rounded-t-lg\" style=\"height: 40%\"></div><div class=\"flex-1 bg-indigo-500 rounded-t-lg\" style=\"height: 80%\"></div><div class=\"flex-1 bg-pink-500 rounded-t-lg\" style=\"height: 30%\"></div><div class=\"flex-1 bg-slate-400 rounded-t-lg\" style=\"height: 50%\"></div></div></div></div></div></div></div></div></section><!-- Stats Section --> <section class=\"py-12 px-6 bg-white border-y border-slate-100\"><div class=\"max-w-6xl mx-auto\"><div class=\"grid grid-cols-2 md:grid-cols-4 gap-8\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!-- Hero Section (KEEP AS IS - User loves this) --> <section class=\"pt-28 pb-16 px-6 bg-gradient-to-b from-slate-50 via-white to-slate-50\"><div class=\"max-w-6xl mx-auto\"><div class=\"grid grid-cols-1 lg:grid-cols-2 gap-12 items-center\"><!-- Left: Copy --><div class=\"fade-in\"><!-- Badge --><div class=\"inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-100 text-emerald-700 rounded-full text-sm font-medium mb-6\"><svg class=\"w-4 h-4\" fill=\"currentColor\" viewBox=\"0 0 20 20\"><path fill-rule=\"evenodd\" d=\"M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z\" clip-rule=\"evenodd\"></path></svg> 100% Privacy-First</div><!-- Headline --><h1 class=\"text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-[1.1] tracking-tight mb-6\">Stop chasing expenses. <span class=\"text-emerald-600\">Start building wealth.</span></h1><!-- Subhead --><p class=\"text-lg md:text-xl text-slate-600 leading-relaxed mb-8 max-w-lg\">The first offline-first expense tracker built for Indian families.  Import UPI transactions, track spending by category, and make smarter financial decisions together.</p><!-- CTAs --><div class=\"flex flex-col sm:flex-row gap-4 mb-8\"><a href=\"/app\" class=\"inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-emerald-600 text-white font-semibold rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-200 hover:shadow-emerald-300\">Start Free <svg class=\"w-5 h-5\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M13 7l5 5m0 0l-5 5m5-5H6\"></path></svg></a> <a href=\"#demo\" class=\"inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white text-slate-700 font-semibold rounded-xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all\"><svg class=\"w-5 h-5 text-slate-500\" fill=\"currentColor\" viewBox=\"0 0 20 20\"><path fill-rule=\"evenodd\" d=\"M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z\" clip-rule=\"evenodd\"></path></svg> See Demo</a></div><!-- Trust --><p class=\"text-sm text-slate-500\">No credit card required • Data stays on your device</p></div><!-- Right: App Preview --><div class=\"relative hidden lg:block\"><div class=\"absolute -inset-4 bg-gradient-to-r from-emerald-100 to-sky-100 rounded-3xl blur-2xl opacity-40\"></div><div class=\"relative bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden\"><!-- Mock Dashboard --><div class=\"bg-slate-800 px-4 py-2 flex items-center gap-2\"><div class=\"flex gap-1.5\"><div class=\"w-3 h-3 rounded-full bg-red-400\"></div><div class=\"w-3 h-3 rounded-full bg-amber-400\"></div><div class=\"w-3 h-3 rounded-full bg-emerald-400\"></div></div><div class=\"flex-1 text-center\"><span class=\"text-xs text-slate-400\">budgetmate.app</span></div></div><div class=\"p-6 bg-slate-50\"><!-- Mini Dashboard --><div class=\"grid grid-cols-3 gap-3 mb-4\"><div class=\"bg-white rounded-xl p-4 border border-slate-100\"><p class=\"text-xs text-slate-500 mb-1\">Balance</p><p class=\"text-lg font-bold text-slate-900\">₹47,765</p></div><div class=\"bg-white rounded-xl p-4 border border-slate-100\"><p class=\"text-xs text-slate-500 mb-1\">Income</p><p class=\"text-lg font-bold text-emerald-600\">₹50,000</p></div><div class=\"bg-white rounded-xl p-4 border border-slate-100\"><p class=\"text-xs text-slate-500 mb-1\">Expenses</p><p class=\"text-lg font-bold text-amber-600\">₹2,235</p></div></div><!-- Mini Chart --><div class=\"bg-white rounded-xl p-4 border border-slate-100\"><p class=\"text-xs text-slate-500 mb-3\">Spending by Category</p><div class=\"flex items-end gap-2 h-24\"><div class=\"flex-1 bg-emerald-500 rounded-t-lg\" style=\"height: 60%\"></div><div class=\"flex-1 bg-amber-500 rounded-t-lg\" style=\"height: 40%\"></div><div class=\"flex-1 bg-indigo-500 rounded-t-lg\" style=\"height: 80%\"></div><div class=\"flex-1 bg-pink-500 rounded-t-lg\" style=\"height: 30%\"></div><div class=\"flex-1 bg-slate-400 rounded-t-lg\" style=\"height: 50%\"></div></div></div></div></div></div></div></div></section><!-- Stats Section (KEEP AS IS) --> <section class=\"py-12 px-6 bg-white border-y border-slate-100\"><div class=\"max-w-6xl mx-auto\"><div class=\"grid grid-cols-2 md:grid-cols-4 gap-8\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -63,67 +63,47 @@ func LandingPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div></div></section><!-- Features Section --> <section id=\"features\" class=\"py-20 px-6 bg-slate-50\"><div class=\"max-w-6xl mx-auto\"><!-- Section Header --><div class=\"text-center mb-16\"><p class=\"text-sm font-semibold text-emerald-600 uppercase tracking-wider mb-3\">Features</p><h2 class=\"text-3xl md:text-4xl font-bold text-slate-900 mb-4\">Everything you need to manage family finances</h2><p class=\"text-lg text-slate-600 max-w-2xl mx-auto\">Built for the way Indian families actually handle money — UPI, bank transfers, and shared expenses.</p></div><!-- Feature Grid --><div class=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div></div></section><!-- NEW: Premium Bento Features Grid --> <section id=\"features\" class=\"py-24 px-6 bg-gradient-to-b from-slate-50 to-white overflow-hidden\"><div class=\"max-w-6xl mx-auto\"><!-- Section Header --><div class=\"text-center mb-16 relative\"><div class=\"inline-flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-full text-sm font-medium text-slate-600 mb-4\"><svg class=\"w-4 h-4\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M13 10V3L4 14h7v7l9-11h-7z\"></path></svg> Powerful Features</div><h2 class=\"text-4xl md:text-5xl font-bold text-slate-900 mb-4\">Everything you need.<br><span class=\"bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent\">Nothing you don't.</span></h2><p class=\"text-lg text-slate-600 max-w-2xl mx-auto\">Built for the way Indian families actually handle money.</p></div><!-- Bento Grid --><div class=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4\"><!-- Large Feature Card - Privacy --><div class=\"lg:col-span-2 group relative bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 overflow-hidden\"><div class=\"absolute top-0 right-0 w-64 h-64 bg-emerald-500/20 rounded-full blur-3xl\"></div><div class=\"relative z-10\"><div class=\"w-14 h-14 bg-emerald-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300\"><svg class=\"w-7 h-7 text-emerald-400\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z\"></path></svg></div><h3 class=\"text-2xl font-bold text-white mb-3\">Privacy by Design</h3><p class=\"text-slate-300 leading-relaxed mb-6 max-w-md\">Your financial data never leaves your device. No cloud sync by default. No data harvesting. No ads. Just pure, private financial clarity.</p><div class=\"flex flex-wrap gap-3\"><span class=\"px-3 py-1 bg-white/10 rounded-full text-sm text-slate-300\">Local SQLite</span> <span class=\"px-3 py-1 bg-white/10 rounded-full text-sm text-slate-300\">Zero Telemetry</span> <span class=\"px-3 py-1 bg-white/10 rounded-full text-sm text-slate-300\">Open Source</span></div></div></div><!-- Family Sync Card --><div class=\"group relative bg-gradient-to-br from-indigo-50 to-white rounded-3xl p-6 border border-indigo-100 overflow-hidden hover:shadow-xl hover:shadow-indigo-100/50 transition-all duration-300\"><div class=\"absolute -bottom-8 -right-8 w-32 h-32 bg-indigo-200 rounded-full blur-2xl opacity-50\"></div><div class=\"relative z-10\"><div class=\"w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300\"><svg class=\"w-6 h-6 text-indigo-600\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z\"></path></svg></div><h3 class=\"text-xl font-bold text-slate-900 mb-2\">Family Sync</h3><p class=\"text-slate-600 text-sm leading-relaxed\">Share budgets with family. Track household expenses together with role-based access.</p></div></div><!-- Smart Categories Card --><div class=\"group relative bg-gradient-to-br from-amber-50 to-white rounded-3xl p-6 border border-amber-100 overflow-hidden hover:shadow-xl hover:shadow-amber-100/50 transition-all duration-300\"><div class=\"absolute -bottom-8 -right-8 w-32 h-32 bg-amber-200 rounded-full blur-2xl opacity-50\"></div><div class=\"relative z-10\"><div class=\"w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300\"><svg class=\"w-6 h-6 text-amber-600\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z\"></path></svg></div><h3 class=\"text-xl font-bold text-slate-900 mb-2\">Smart AI</h3><p class=\"text-slate-600 text-sm leading-relaxed\">Auto-categorize expenses. Swiggy → Food, Ola → Transport. Like magic.</p></div></div><!-- CSV Import Card --><div class=\"group relative bg-gradient-to-br from-pink-50 to-white rounded-3xl p-6 border border-pink-100 overflow-hidden hover:shadow-xl hover:shadow-pink-100/50 transition-all duration-300\"><div class=\"absolute -bottom-8 -right-8 w-32 h-32 bg-pink-200 rounded-full blur-2xl opacity-50\"></div><div class=\"relative z-10\"><div class=\"w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300\"><svg class=\"w-6 h-6 text-pink-600\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12\"></path></svg></div><h3 class=\"text-xl font-bold text-slate-900 mb-2\">CSV Import</h3><p class=\"text-slate-600 text-sm leading-relaxed\">Import from any bank or UPI app. HDFC, ICICI, SBI, PhonePe, GPay supported.</p></div></div><!-- Large Analytics Card --><div class=\"lg:col-span-2 group relative bg-gradient-to-br from-emerald-50 to-teal-50 rounded-3xl p-8 border border-emerald-100 overflow-hidden hover:shadow-xl hover:shadow-emerald-100/50 transition-all duration-300\"><div class=\"absolute top-0 right-0 w-96 h-96\"><!-- Decorative Chart --><svg viewBox=\"0 0 200 100\" class=\"w-full h-full opacity-20\"><path d=\"M0 80 Q 40 60, 80 70 T 160 40 T 200 50\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" class=\"text-emerald-500\"></path> <path d=\"M0 90 Q 40 80, 80 85 T 160 60 T 200 70\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" class=\"text-teal-400\"></path></svg></div><div class=\"relative z-10 flex items-start justify-between\"><div><div class=\"w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300\"><svg class=\"w-7 h-7 text-emerald-600\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z\"></path></svg></div><h3 class=\"text-2xl font-bold text-slate-900 mb-3\">Beautiful Analytics</h3><p class=\"text-slate-600 leading-relaxed max-w-sm\">Stunning charts and insights. Know exactly where your money goes with category breakdowns, trends, and smart summaries.</p></div><div class=\"hidden md:flex gap-2\"><div class=\"w-16 h-24 bg-emerald-200 rounded-lg\"></div><div class=\"w-16 h-32 bg-emerald-300 rounded-lg\"></div><div class=\"w-16 h-20 bg-emerald-400 rounded-lg\"></div><div class=\"w-16 h-28 bg-emerald-500 rounded-lg\"></div></div></div></div></div></div></section><!-- NEW: How It Works - Timeline Style --> <section id=\"demo\" class=\"py-24 px-6 bg-white relative overflow-hidden\"><!-- Background Decoration --><div class=\"absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(16,185,129,0.05),transparent_50%)]\"></div><div class=\"absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(99,102,241,0.05),transparent_50%)]\"></div><div class=\"max-w-5xl mx-auto relative z-10\"><div class=\"text-center mb-20\"><div class=\"inline-flex items-center gap-2 px-4 py-2 bg-indigo-100 rounded-full text-sm font-medium text-indigo-600 mb-4\"><svg class=\"w-4 h-4\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M13 10V3L4 14h7v7l9-11h-7z\"></path></svg> Simple Workflow</div><h2 class=\"text-4xl md:text-5xl font-bold text-slate-900 mb-4\">Three steps to <span class=\"bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent\">financial clarity</span></h2></div><!-- Timeline --><div class=\"relative\"><!-- Connecting Line --><div class=\"hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-emerald-200 via-indigo-200 to-purple-200 transform -translate-x-1/2\"></div><!-- Step 1 --><div class=\"relative flex flex-col md:flex-row items-center gap-8 mb-16\"><div class=\"flex-1 text-center md:text-right order-2 md:order-1\"><div class=\"bg-gradient-to-br from-emerald-50 to-white p-8 rounded-3xl border border-emerald-100 inline-block max-w-sm hover:shadow-xl hover:shadow-emerald-100/50 transition-all duration-300\"><div class=\"w-16 h-16 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto md:ml-auto md:mr-0 mb-4 shadow-lg shadow-emerald-200\"><svg class=\"w-8 h-8 text-white\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12\"></path></svg></div><h3 class=\"text-xl font-bold text-slate-900 mb-2\">Import Your Data</h3><p class=\"text-slate-600\">Download your bank statement or UPI history as CSV. Upload it with one click.</p></div></div><div class=\"w-16 h-16 bg-white border-4 border-emerald-500 rounded-full flex items-center justify-center z-10 order-1 md:order-2 shadow-lg\"><span class=\"text-2xl font-bold text-emerald-600\">1</span></div><div class=\"flex-1 order-3 hidden md:block\"></div></div><!-- Step 2 --><div class=\"relative flex flex-col md:flex-row items-center gap-8 mb-16\"><div class=\"flex-1 hidden md:block\"></div><div class=\"w-16 h-16 bg-white border-4 border-indigo-500 rounded-full flex items-center justify-center z-10 shadow-lg\"><span class=\"text-2xl font-bold text-indigo-600\">2</span></div><div class=\"flex-1 text-center md:text-left\"><div class=\"bg-gradient-to-br from-indigo-50 to-white p-8 rounded-3xl border border-indigo-100 inline-block max-w-sm hover:shadow-xl hover:shadow-indigo-100/50 transition-all duration-300\"><div class=\"w-16 h-16 bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto md:mr-auto md:ml-0 mb-4 shadow-lg shadow-indigo-200\"><svg class=\"w-8 h-8 text-white\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z\"></path></svg></div><h3 class=\"text-xl font-bold text-slate-900 mb-2\">AI Categorizes</h3><p class=\"text-slate-600\">Smart AI suggests categories. Review and make quick edits if needed.</p></div></div></div><!-- Step 3 --><div class=\"relative flex flex-col md:flex-row items-center gap-8\"><div class=\"flex-1 text-center md:text-right order-2 md:order-1\"><div class=\"bg-gradient-to-br from-purple-50 to-white p-8 rounded-3xl border border-purple-100 inline-block max-w-sm hover:shadow-xl hover:shadow-purple-100/50 transition-all duration-300\"><div class=\"w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-2xl flex items-center justify-center mx-auto md:ml-auto md:mr-0 mb-4 shadow-lg shadow-purple-200\"><svg class=\"w-8 h-8 text-white\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z\"></path></svg></div><h3 class=\"text-xl font-bold text-slate-900 mb-2\">See Insights</h3><p class=\"text-slate-600\">Beautiful analytics show where your money goes. Make informed decisions.</p></div></div><div class=\"w-16 h-16 bg-white border-4 border-purple-500 rounded-full flex items-center justify-center z-10 order-1 md:order-2 shadow-lg\"><span class=\"text-2xl font-bold text-purple-600\">3</span></div><div class=\"flex-1 order-3 hidden md:block\"></div></div></div></div></section><!-- NEW: Premium Testimonials --> <section class=\"py-24 px-6 bg-slate-900 relative overflow-hidden\"><!-- Background Decoration --><div class=\"absolute inset-0\"><div class=\"absolute top-20 left-10 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl\"></div><div class=\"absolute bottom-20 right-10 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl\"></div></div><div class=\"max-w-6xl mx-auto relative z-10\"><div class=\"text-center mb-16\"><div class=\"inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full text-sm font-medium text-emerald-400 mb-4\"><svg class=\"w-4 h-4\" fill=\"currentColor\" viewBox=\"0 0 20 20\"><path d=\"M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z\"></path></svg> Loved by Families</div><h2 class=\"text-4xl md:text-5xl font-bold text-white mb-4\">Real stories from <span class=\"bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent\">real families</span></h2><p class=\"text-slate-400 text-lg max-w-xl mx-auto\">Join thousands of Indian families who've transformed their financial lives.</p></div><!-- Testimonials Grid --><div class=\"grid grid-cols-1 md:grid-cols-3 gap-6\"><!-- Featured Testimonial --><div class=\"md:col-span-2 bg-gradient-to-br from-emerald-500/20 to-emerald-500/5 rounded-3xl p-8 border border-emerald-500/20\"><div class=\"flex items-start gap-4 mb-6\"><div class=\"w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center flex-shrink-0\"><span class=\"text-2xl font-bold text-white\">PS</span></div><div><h4 class=\"text-lg font-semibold text-white\">Priya Sharma</h4><p class=\"text-emerald-400 text-sm\">Homemaker • Bangalore</p></div></div><blockquote class=\"text-xl text-slate-300 leading-relaxed mb-6\">\"Finally, an expense tracker that <span class=\"text-emerald-400 font-semibold\">doesn't sell my data!</span> The CSV import for UPI transactions is a game-changer. I know exactly where every rupee goes now.\"</blockquote><div class=\"flex gap-1\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = FeatureCard("shield-check", "Privacy by Design", "Your financial data stays on your device. No cloud sync, no data harvesting, no ads based on your spending.", "emerald").Render(ctx, templ_7745c5c3_Buffer)
+			for i := 0; i < 5; i++ {
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<svg class=\"w-5 h-5 text-amber-400\" fill=\"currentColor\" viewBox=\"0 0 20 20\"><path d=\"M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z\"></path></svg>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div></div><!-- Stat Card --><div class=\"bg-gradient-to-br from-indigo-500/20 to-indigo-500/5 rounded-3xl p-8 border border-indigo-500/20 flex flex-col justify-between\"><div><div class=\"text-6xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent mb-2\">2K+</div><p class=\"text-slate-400\">Families using BudgetMate</p></div><div class=\"flex items-center gap-3 mt-6 pt-6 border-t border-white/10\"><div class=\"flex -space-x-3\"><div class=\"w-10 h-10 rounded-full bg-indigo-500 border-2 border-slate-900 flex items-center justify-center text-white text-xs font-bold\">RV</div><div class=\"w-10 h-10 rounded-full bg-pink-500 border-2 border-slate-900 flex items-center justify-center text-white text-xs font-bold\">AN</div><div class=\"w-10 h-10 rounded-full bg-amber-500 border-2 border-slate-900 flex items-center justify-center text-white text-xs font-bold\">SK</div></div><span class=\"text-sm text-slate-400\">+1,997 more</span></div></div><!-- Testimonial 2 --><div class=\"bg-slate-800/50 rounded-3xl p-6 border border-slate-700/50 hover:border-slate-600 transition-colors\"><div class=\"flex items-center gap-3 mb-4\"><div class=\"w-12 h-12 rounded-xl bg-gradient-to-br from-pink-400 to-rose-600 flex items-center justify-center\"><span class=\"text-lg font-bold text-white\">AN</span></div><div><h4 class=\"font-semibold text-white\">Ankit & Neha</h4><p class=\"text-slate-500 text-sm\">IT Professionals • Pune</p></div></div><p class=\"text-slate-300 text-sm leading-relaxed mb-4\">\"My husband and I can finally track our household expenses together. The family mode is brilliant for joint financial planning.\"</p><div class=\"flex gap-1\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = FeatureCard("users", "Family Collaboration", "Share budgets with family members. Track household expenses together with role-based access controls.", "indigo").Render(ctx, templ_7745c5c3_Buffer)
+			for i := 0; i < 5; i++ {
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<svg class=\"w-4 h-4 text-amber-400\" fill=\"currentColor\" viewBox=\"0 0 20 20\"><path d=\"M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z\"></path></svg>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div></div><!-- Testimonial 3 --><div class=\"bg-slate-800/50 rounded-3xl p-6 border border-slate-700/50 hover:border-slate-600 transition-colors\"><div class=\"flex items-center gap-3 mb-4\"><div class=\"w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center\"><span class=\"text-lg font-bold text-white\">RV</span></div><div><h4 class=\"font-semibold text-white\">Rahul Verma</h4><p class=\"text-slate-500 text-sm\">Freelancer • Delhi</p></div></div><p class=\"text-slate-300 text-sm leading-relaxed mb-4\">\"As a freelancer, I needed something simple that works offline. BudgetMate is exactly what I was looking for. Free and private!\"</p><div class=\"flex gap-1\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = FeatureCard("sparkles", "Smart Categories", "AI-powered expense categorization. Automatically tags Swiggy as Food, Ola as Transport, and more.", "amber").Render(ctx, templ_7745c5c3_Buffer)
+			for i := 0; i < 5; i++ {
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<svg class=\"w-4 h-4 text-amber-400\" fill=\"currentColor\" viewBox=\"0 0 20 20\"><path d=\"M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z\"></path></svg>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</div></div><!-- Testimonial 4 --><div class=\"bg-slate-800/50 rounded-3xl p-6 border border-slate-700/50 hover:border-slate-600 transition-colors\"><div class=\"flex items-center gap-3 mb-4\"><div class=\"w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center\"><span class=\"text-lg font-bold text-white\">SK</span></div><div><h4 class=\"font-semibold text-white\">Sunita Kapoor</h4><p class=\"text-slate-500 text-sm\">Retired Teacher • Mumbai</p></div></div><p class=\"text-slate-300 text-sm leading-relaxed mb-4\">\"I'm not tech-savvy, but BudgetMate is so simple! My pension tracking is now effortless. Thank you for this wonderful app.\"</p><div class=\"flex gap-1\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = FeatureCard("upload", "CSV Import", "Import transactions from any bank or UPI app. Works with HDFC, ICICI, SBI, PhonePe, GPay statements.", "pink").Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
+			for i := 0; i < 5; i++ {
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<svg class=\"w-4 h-4 text-amber-400\" fill=\"currentColor\" viewBox=\"0 0 20 20\"><path d=\"M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z\"></path></svg>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
 			}
-			templ_7745c5c3_Err = FeatureCard("chart-bar", "Visual Analytics", "Beautiful charts showing spending patterns. Know exactly where your money goes each month.", "sky").Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = FeatureCard("device-mobile", "Works Offline", "No internet? No problem. Everything works locally — perfect for areas with spotty connectivity.", "violet").Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div></div></section><!-- How It Works --> <section id=\"demo\" class=\"py-20 px-6 bg-white\"><div class=\"max-w-6xl mx-auto\"><div class=\"text-center mb-16\"><p class=\"text-sm font-semibold text-emerald-600 uppercase tracking-wider mb-3\">How It Works</p><h2 class=\"text-3xl md:text-4xl font-bold text-slate-900 mb-4\">From chaos to clarity in 3 steps</h2></div><div class=\"grid grid-cols-1 md:grid-cols-3 gap-8\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = StepCard("1", "Import Transactions", "Download your bank statement or UPI history as CSV. Upload it to BudgetMate with one click.").Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = StepCard("2", "Review & Categorize", "Smart AI suggests categories. Review the suggestions and make quick edits if needed.").Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = StepCard("3", "Track & Decide", "See beautiful analytics. Understand spending patterns. Make informed financial decisions.").Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div></div></section><!-- Testimonials --> <section class=\"py-20 px-6 bg-slate-900 text-white\"><div class=\"max-w-6xl mx-auto\"><div class=\"text-center mb-16\"><p class=\"text-sm font-semibold text-emerald-400 uppercase tracking-wider mb-3\">Testimonials</p><h2 class=\"text-3xl md:text-4xl font-bold mb-4\">Loved by families across India</h2></div><div class=\"grid grid-cols-1 md:grid-cols-3 gap-6\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = TestimonialCard("Finally, an expense tracker that doesn't sell my data! The CSV import feature is a game changer for tracking my UPI transactions.", "Priya Sharma", "Homemaker, Bangalore").Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = TestimonialCard("My husband and I can now track our household expenses together. The family mode is brilliant for joint financial planning.", "Ankit & Neha", "IT Professionals, Pune").Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = TestimonialCard("As a freelancer, I needed something simple that works offline. BudgetMate is exactly what I was looking for. Free and private!", "Rahul Verma", "Freelance Designer, Delhi").Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div></div></section><!-- Final CTA --> <section class=\"py-20 px-6 bg-gradient-to-br from-emerald-600 to-emerald-700\"><div class=\"max-w-4xl mx-auto text-center\"><h2 class=\"text-3xl md:text-4xl font-bold text-white mb-4\">Ready to take control of your family finances?</h2><p class=\"text-xl text-emerald-100 mb-8 max-w-2xl mx-auto\">Join thousands of Indian families who manage their money smarter with BudgetMate. It's free, private, and ready in seconds.</p><div class=\"flex flex-col sm:flex-row items-center justify-center gap-4\"><a href=\"/app\" class=\"px-8 py-4 bg-white text-emerald-600 font-bold rounded-xl hover:bg-emerald-50 transition-all shadow-lg\">Launch BudgetMate — It's Free</a></div><p class=\"text-emerald-200 text-sm mt-6\">No signup • No credit card • Works instantly</p></div></section>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "</div></div></div></div></section><!-- Final CTA --> <section class=\"py-24 px-6 bg-gradient-to-br from-emerald-600 via-emerald-600 to-teal-600 relative overflow-hidden\"><!-- Background Decoration --><div class=\"absolute inset-0\"><div class=\"absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.1),transparent_40%)]\"></div><div class=\"absolute bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl\"></div></div><div class=\"max-w-4xl mx-auto text-center relative z-10\"><div class=\"inline-flex items-center gap-2 px-4 py-2 bg-white/20 rounded-full text-sm font-medium text-white mb-6\"><svg class=\"w-4 h-4\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M13 10V3L4 14h7v7l9-11h-7z\"></path></svg> Ready in 60 seconds</div><h2 class=\"text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight\">Start building your<br>family's wealth today</h2><p class=\"text-xl text-emerald-100 mb-10 max-w-2xl mx-auto\">Join thousands of Indian families who've taken control of their finances. It's free, completely private, and works instantly.</p><div class=\"flex flex-col sm:flex-row items-center justify-center gap-4\"><a href=\"/app\" class=\"px-8 py-4 bg-white text-emerald-600 font-bold rounded-xl hover:bg-emerald-50 transition-all shadow-2xl shadow-emerald-900/30 text-lg\">Launch BudgetMate — Free Forever</a></div><div class=\"flex items-center justify-center gap-6 mt-8 text-emerald-200 text-sm\"><span class=\"flex items-center gap-2\"><svg class=\"w-4 h-4\" fill=\"currentColor\" viewBox=\"0 0 20 20\"><path fill-rule=\"evenodd\" d=\"M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z\" clip-rule=\"evenodd\"></path></svg> No signup required</span> <span class=\"flex items-center gap-2\"><svg class=\"w-4 h-4\" fill=\"currentColor\" viewBox=\"0 0 20 20\"><path fill-rule=\"evenodd\" d=\"M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z\" clip-rule=\"evenodd\"></path></svg> No credit card</span> <span class=\"flex items-center gap-2\"><svg class=\"w-4 h-4\" fill=\"currentColor\" viewBox=\"0 0 20 20\"><path fill-rule=\"evenodd\" d=\"M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z\" clip-rule=\"evenodd\"></path></svg> 100% private</span></div></div></section>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -158,423 +138,46 @@ func StatItem(value string, label string, desc string) templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<div class=\"text-center\"><p class=\"text-3xl md:text-4xl font-bold text-emerald-600 mb-1\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<div class=\"text-center\"><p class=\"text-3xl md:text-4xl font-bold text-emerald-600 mb-1\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(value)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/landing/view.templ`, Line: 202, Col: 73}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/landing/view.templ`, Line: 512, Col: 73}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</p><p class=\"text-sm font-semibold text-slate-900 mb-1\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "</p><p class=\"text-sm font-semibold text-slate-900 mb-1\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(label)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/landing/view.templ`, Line: 203, Col: 62}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/landing/view.templ`, Line: 513, Col: 62}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</p><p class=\"text-xs text-slate-500\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "</p><p class=\"text-xs text-slate-500\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(desc)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/landing/view.templ`, Line: 204, Col: 42}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/landing/view.templ`, Line: 514, Col: 42}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</p></div>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		return nil
-	})
-}
-
-func FeatureCard(icon string, title string, description string, color string) templ.Component {
-	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
-			return templ_7745c5c3_CtxErr
-		}
-		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-		if !templ_7745c5c3_IsBuffer {
-			defer func() {
-				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err == nil {
-					templ_7745c5c3_Err = templ_7745c5c3_BufErr
-				}
-			}()
-		}
-		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var7 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var7 == nil {
-			templ_7745c5c3_Var7 = templ.NopComponent
-		}
-		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<div class=\"bg-white rounded-2xl p-6 border border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all duration-300\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var8 = []any{"w-12 h-12 rounded-xl flex items-center justify-center mb-4",
-			templ.KV("bg-emerald-100", color == "emerald"),
-			templ.KV("bg-indigo-100", color == "indigo"),
-			templ.KV("bg-amber-100", color == "amber"),
-			templ.KV("bg-pink-100", color == "pink"),
-			templ.KV("bg-sky-100", color == "sky"),
-			templ.KV("bg-violet-100", color == "violet")}
-		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var8...)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<div class=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var9 string
-		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var8).String())
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/landing/view.templ`, Line: 1, Col: 0}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		if icon == "shield-check" {
-			var templ_7745c5c3_Var10 = []any{"w-6 h-6", templ.KV("text-emerald-600", color == "emerald")}
-			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var10...)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<svg class=\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var11 string
-			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var10).String())
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/landing/view.templ`, Line: 1, Col: 0}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z\"></path></svg> ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		if icon == "users" {
-			var templ_7745c5c3_Var12 = []any{"w-6 h-6", templ.KV("text-indigo-600", color == "indigo")}
-			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var12...)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "<svg class=\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var13 string
-			templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var12).String())
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/landing/view.templ`, Line: 1, Col: 0}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z\"></path></svg> ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		if icon == "sparkles" {
-			var templ_7745c5c3_Var14 = []any{"w-6 h-6", templ.KV("text-amber-600", color == "amber")}
-			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var14...)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<svg class=\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var15 string
-			templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var14).String())
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/landing/view.templ`, Line: 1, Col: 0}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z\"></path></svg> ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		if icon == "upload" {
-			var templ_7745c5c3_Var16 = []any{"w-6 h-6", templ.KV("text-pink-600", color == "pink")}
-			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var16...)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "<svg class=\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var17 string
-			templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var16).String())
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/landing/view.templ`, Line: 1, Col: 0}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12\"></path></svg> ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		if icon == "chart-bar" {
-			var templ_7745c5c3_Var18 = []any{"w-6 h-6", templ.KV("text-sky-600", color == "sky")}
-			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var18...)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "<svg class=\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var19 string
-			templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var18).String())
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/landing/view.templ`, Line: 1, Col: 0}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z\"></path></svg> ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		if icon == "device-mobile" {
-			var templ_7745c5c3_Var20 = []any{"w-6 h-6", templ.KV("text-violet-600", color == "violet")}
-			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var20...)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "<svg class=\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var21 string
-			templ_7745c5c3_Var21, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var20).String())
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/landing/view.templ`, Line: 1, Col: 0}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var21))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z\"></path></svg>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "</div><h3 class=\"text-lg font-semibold text-slate-900 mb-2\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var22 string
-		templ_7745c5c3_Var22, templ_7745c5c3_Err = templ.JoinStringErrs(title)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/landing/view.templ`, Line: 248, Col: 63}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var22))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "</h3><p class=\"text-slate-600 text-sm leading-relaxed\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var23 string
-		templ_7745c5c3_Var23, templ_7745c5c3_Err = templ.JoinStringErrs(description)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/landing/view.templ`, Line: 249, Col: 65}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var23))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "</p></div>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		return nil
-	})
-}
-
-func StepCard(number string, title string, description string) templ.Component {
-	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
-			return templ_7745c5c3_CtxErr
-		}
-		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-		if !templ_7745c5c3_IsBuffer {
-			defer func() {
-				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err == nil {
-					templ_7745c5c3_Err = templ_7745c5c3_BufErr
-				}
-			}()
-		}
-		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var24 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var24 == nil {
-			templ_7745c5c3_Var24 = templ.NopComponent
-		}
-		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "<div class=\"text-center\"><div class=\"w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-4\"><span class=\"text-2xl font-bold text-emerald-600\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var25 string
-		templ_7745c5c3_Var25, templ_7745c5c3_Err = templ.JoinStringErrs(number)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/landing/view.templ`, Line: 256, Col: 61}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var25))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "</span></div><h3 class=\"text-xl font-semibold text-slate-900 mb-2\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var26 string
-		templ_7745c5c3_Var26, templ_7745c5c3_Err = templ.JoinStringErrs(title)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/landing/view.templ`, Line: 258, Col: 63}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var26))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "</h3><p class=\"text-slate-600 leading-relaxed\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var27 string
-		templ_7745c5c3_Var27, templ_7745c5c3_Err = templ.JoinStringErrs(description)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/landing/view.templ`, Line: 259, Col: 57}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var27))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, "</p></div>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		return nil
-	})
-}
-
-func TestimonialCard(quote string, name string, role string) templ.Component {
-	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
-			return templ_7745c5c3_CtxErr
-		}
-		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-		if !templ_7745c5c3_IsBuffer {
-			defer func() {
-				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err == nil {
-					templ_7745c5c3_Err = templ_7745c5c3_BufErr
-				}
-			}()
-		}
-		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var28 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var28 == nil {
-			templ_7745c5c3_Var28 = templ.NopComponent
-		}
-		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, "<div class=\"bg-slate-800 rounded-2xl p-6 border border-slate-700\"><!-- Stars --><div class=\"flex gap-1 mb-4\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		for i := 0; i < 5; i++ {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, "<svg class=\"w-5 h-5 text-amber-400\" fill=\"currentColor\" viewBox=\"0 0 20 20\"><path d=\"M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z\"></path></svg>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "</div><!-- Quote --><p class=\"text-slate-300 leading-relaxed mb-6\">\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var29 string
-		templ_7745c5c3_Var29, templ_7745c5c3_Err = templ.JoinStringErrs(quote)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/landing/view.templ`, Line: 274, Col: 57}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var29))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "\"</p><!-- Author --><div><p class=\"font-semibold text-white\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var30 string
-		templ_7745c5c3_Var30, templ_7745c5c3_Err = templ.JoinStringErrs(name)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/landing/view.templ`, Line: 277, Col: 45}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var30))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 36, "</p><p class=\"text-sm text-slate-400\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var31 string
-		templ_7745c5c3_Var31, templ_7745c5c3_Err = templ.JoinStringErrs(role)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/landing/view.templ`, Line: 278, Col: 43}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var31))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 37, "</p></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "</p></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
