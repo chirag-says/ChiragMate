@@ -67,7 +67,7 @@ templ ExpenseSummaryCard(transactions []database.Transaction) {
 }
 
 templ TransactionTableRow(t database.Transaction) {
-	<div id={ fmt.Sprintf("tx-row-%d", t.ID) } class="px-6 py-4 flex items-center justify-between hover:bg-slate-50 cursor-pointer" hx-get={ fmt.Sprintf("/transactions/%d/edit", t.ID) } hx-target={ fmt.Sprintf("#tx-row-%d", t.ID) } hx-swap="outerHTML">
+	<div id={ fmt.Sprintf("tx-row-%d", t.ID) } class="px-6 py-4 flex items-center justify-between hover:bg-slate-50 cursor-pointer" hx-get={ fmt.Sprintf("/app/transactions/%d/edit", t.ID) } hx-target={ fmt.Sprintf("#tx-row-%d", t.ID) } hx-swap="outerHTML">
 		<div class="flex items-center gap-4">
 			<div class={ "w-10 h-10 rounded-xl flex items-center justify-center", templ.KV("bg-emerald-50", t.Type == "income"), templ.KV("bg-rose-50", t.Type == "expense") }>
 				if t.Type == "income" {
@@ -92,12 +92,12 @@ templ TransactionTableRow(t database.Transaction) {
 }
 
 templ TransactionEditRow(t database.Transaction) {
-	<form id={ fmt.Sprintf("tx-row-%d", t.ID) } class="px-6 py-4 bg-emerald-50 border-l-4 border-emerald-500" hx-post={ fmt.Sprintf("/transactions/%d", t.ID) } hx-target={ fmt.Sprintf("#tx-row-%d", t.ID) } hx-swap="outerHTML">
+	<form id={ fmt.Sprintf("tx-row-%d", t.ID) } class="px-6 py-4 bg-emerald-50 border-l-4 border-emerald-500" hx-post={ fmt.Sprintf("/app/transactions/%d", t.ID) } hx-target={ fmt.Sprintf("#tx-row-%d", t.ID) } hx-swap="outerHTML">
 		<div class="grid grid-cols-4 gap-4 items-end">
 			<div><label class="block text-xs font-medium text-slate-600 mb-1">Description</label><input type="text" name="description" value={ t.Description } class="w-full px-3 py-2 text-sm border border-slate-300 rounded-xl"/></div>
 			<div><label class="block text-xs font-medium text-slate-600 mb-1">Amount</label><input type="number" name="amount" value={ fmt.Sprintf("%.2f", t.Amount) } step="0.01" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-xl"/></div>
 			<div><label class="block text-xs font-medium text-slate-600 mb-1">Category</label><input type="text" name="category" value={ t.Category } class="w-full px-3 py-2 text-sm border border-slate-300 rounded-xl"/></div>
-			<div class="flex gap-2"><button type="submit" class="flex-1 px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded-xl">Save</button><button type="button" class="px-4 py-2 bg-slate-200 text-slate-700 text-sm font-medium rounded-xl" hx-get={ fmt.Sprintf("/transactions/%d/view", t.ID) } hx-target={ fmt.Sprintf("#tx-row-%d", t.ID) } hx-swap="outerHTML">Cancel</button></div>
+			<div class="flex gap-2"><button type="submit" class="flex-1 px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded-xl">Save</button><button type="button" class="px-4 py-2 bg-slate-200 text-slate-700 text-sm font-medium rounded-xl" hx-get={ fmt.Sprintf("/app/transactions/%d/view", t.ID) } hx-target={ fmt.Sprintf("#tx-row-%d", t.ID) } hx-swap="outerHTML">Cancel</button></div>
 		</div>
 	</form>
 }

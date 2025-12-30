@@ -7,6 +7,7 @@ import (
 
 	"github.com/budgetmate/web/internal/database"
 	"github.com/budgetmate/web/internal/features/dashboard"
+	"github.com/budgetmate/web/internal/features/landing"
 	"github.com/budgetmate/web/internal/features/transactions"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -37,25 +38,38 @@ func main() {
 	r.Handle("/assets/*", http.StripPrefix("/assets/", fileServer))
 
 	// Initialize handlers
+	landingHandler := landing.NewHandler()
 	dashboardHandler := dashboard.NewHandler()
 	transactionsHandler := transactions.NewHandler()
 
-	// Routes
-	r.Get("/", dashboardHandler.HandleIndex)
-	r.Get("/transactions", transactionsHandler.HandleList)
-	r.Get("/transactions/{id}/edit", transactionsHandler.HandleGetEdit)
-	r.Get("/transactions/{id}/view", transactionsHandler.HandleGetView)
-	r.Post("/transactions/{id}", transactionsHandler.HandleUpdate)
+	// =====================
+	// PUBLIC ROUTES (Marketing)
+	// =====================
+	r.Get("/", landingHandler.HandleIndex)
 
-	// CSV Import routes
-	r.Get("/transactions/import/form", transactionsHandler.HandleShowImportForm)
-	r.Get("/transactions/import/cancel", transactionsHandler.HandleHideImportForm)
-	r.Post("/transactions/import", transactionsHandler.HandleImport)
+	// =====================
+	// APP ROUTES (Authenticated area)
+	// =====================
+	r.Route("/app", func(r chi.Router) {
+		// Dashboard
+		r.Get("/", dashboardHandler.HandleIndex)
 
-	// Settings placeholder
-	r.Get("/settings", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "text/html")
-		w.Write([]byte(`<html><head><title>Settings</title></head><body><h1>Settings Coming Soon</h1><a href="/">Back to Dashboard</a></body></html>`))
+		// Transactions
+		r.Get("/transactions", transactionsHandler.HandleList)
+		r.Get("/transactions/{id}/edit", transactionsHandler.HandleGetEdit)
+		r.Get("/transactions/{id}/view", transactionsHandler.HandleGetView)
+		r.Post("/transactions/{id}", transactionsHandler.HandleUpdate)
+
+		// CSV Import
+		r.Get("/transactions/import/form", transactionsHandler.HandleShowImportForm)
+		r.Get("/transactions/import/cancel", transactionsHandler.HandleHideImportForm)
+		r.Post("/transactions/import", transactionsHandler.HandleImport)
+
+		// Settings placeholder
+		r.Get("/settings", func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "text/html")
+			w.Write([]byte(`<html><head><title>Settings</title></head><body><h1>Settings Coming Soon</h1><a href="/app">Back to Dashboard</a></body></html>`))
+		})
 	})
 
 	// Start server
@@ -65,8 +79,9 @@ func main() {
 	}
 
 	log.Printf("🚀 BudgetMate Web starting on http://localhost:%s", port)
-	log.Printf("📊 Dashboard: http://localhost:%s/", port)
-	log.Printf("💰 Transactions: http://localhost:%s/transactions", port)
+	log.Printf("🏠 Landing: http://localhost:%s/", port)
+	log.Printf("📊 Dashboard: http://localhost:%s/app", port)
+	log.Printf("💰 Transactions: http://localhost:%s/app/transactions", port)
 
 	if err := http.ListenAndServe(":"+port, r); err != nil {
 		log.Fatalf("Server failed: %v", err)

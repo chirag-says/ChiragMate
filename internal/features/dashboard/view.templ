@@ -100,7 +100,7 @@ templ TransactionDataGrid(transactions []database.Transaction) {
 					<p class="text-xs text-slate-500">Last 5 entries</p>
 				</div>
 			</div>
-			<a href="/transactions" class="inline-flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-700 font-medium transition-colors">
+			<a href="/app/transactions" class="inline-flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-700 font-medium transition-colors">
 				View all
 				<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -139,7 +139,7 @@ templ TransactionGridRow(t database.Transaction) {
 	<div 
 		id={ fmt.Sprintf("transaction-%d", t.ID) }
 		class="px-6 py-4 grid grid-cols-12 gap-4 items-center border-b border-slate-50 hover:bg-slate-50 transition-colors cursor-pointer"
-		hx-get={ fmt.Sprintf("/transactions/%d/edit", t.ID) }
+		hx-get={ fmt.Sprintf("/app/transactions/%d/edit", t.ID) }
 		hx-target={ fmt.Sprintf("#transaction-%d", t.ID) }
 		hx-swap="outerHTML"
 	>
@@ -176,7 +176,7 @@ templ TransactionEditRow(t database.Transaction) {
 	<form 
 		id={ fmt.Sprintf("transaction-%d", t.ID) }
 		class="px-6 py-4 bg-slate-50 border-l-4 border-emerald-500"
-		hx-post={ fmt.Sprintf("/transactions/%d", t.ID) }
+		hx-post={ fmt.Sprintf("/app/transactions/%d", t.ID) }
 		hx-target={ fmt.Sprintf("#transaction-%d", t.ID) }
 		hx-swap="outerHTML"
 	>
@@ -219,7 +219,7 @@ templ TransactionEditRow(t database.Transaction) {
 				<button 
 					type="button"
 					class="px-4 py-2 bg-white border border-slate-300 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 transition-colors"
-					hx-get={ fmt.Sprintf("/transactions/%d/view", t.ID) }
+					hx-get={ fmt.Sprintf("/app/transactions/%d/view", t.ID) }
 					hx-target={ fmt.Sprintf("#transaction-%d", t.ID) }
 					hx-swap="outerHTML"
 				>

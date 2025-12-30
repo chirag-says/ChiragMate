@@ -7,7 +7,7 @@ templ ImportButton() {
 	<button 
 		id="import-btn-container"
 		class="px-4 py-2 bg-slate-100 text-slate-700 text-sm font-medium rounded-xl hover:bg-slate-200 transition-colors flex items-center gap-2"
-		hx-get="/transactions/import/form"
+		hx-get="/app/transactions/import/form"
 		hx-target="#import-btn-container"
 		hx-swap="outerHTML"
 	>
@@ -27,7 +27,7 @@ templ ImportForm() {
 				<button 
 					type="button"
 					class="text-slate-400 hover:text-slate-600 transition-colors"
-					hx-get="/transactions/import/cancel"
+					hx-get="/app/transactions/import/cancel"
 					hx-target="#import-btn-container"
 					hx-swap="outerHTML"
 				>
@@ -39,7 +39,7 @@ templ ImportForm() {
 			
 			<form 
 				class="p-5"
-				hx-post="/transactions/import"
+				hx-post="/app/transactions/import"
 				hx-encoding="multipart/form-data"
 				hx-target="#import-result"
 				hx-swap="innerHTML"
@@ -86,7 +86,7 @@ templ ImportForm() {
 					<button 
 						type="button"
 						class="px-4 py-2.5 bg-slate-100 text-slate-600 text-sm font-medium rounded-xl hover:bg-slate-200 transition-colors"
-						hx-get="/transactions/import/cancel"
+						hx-get="/app/transactions/import/cancel"
 						hx-target="#import-btn-container"
 						hx-swap="outerHTML"
 					>
@@ -100,7 +100,7 @@ templ ImportForm() {
 		<button 
 			type="button"
 			class="fixed inset-0 bg-black/20 z-40"
-			hx-get="/transactions/import/cancel"
+			hx-get="/app/transactions/import/cancel"
 			hx-target="#import-btn-container"
 			hx-swap="outerHTML"
 		></button>
@@ -131,7 +131,7 @@ templ ImportResult(success bool, message string, count int) {
 templ ImportResultWithRefresh(success bool, message string, count int) {
 	<div 
 		class="p-3 rounded-xl text-sm bg-emerald-50 text-emerald-700 border border-emerald-200"
-		hx-get="/transactions"
+		hx-get="/app/transactions"
 		hx-trigger="load delay:1500ms"
 		hx-target="body"
 		hx-push-url="true"
