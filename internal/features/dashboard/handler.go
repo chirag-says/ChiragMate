@@ -24,6 +24,7 @@ type DashboardData struct {
 	Transactions      []database.Transaction
 	CategoryBreakdown map[string]float64
 	Insight           Insight // Calm AI nudge
+	UserName          string  // Personalized greeting
 }
 
 // HandleIndex renders the main dashboard page
@@ -87,6 +88,7 @@ func (h *Handler) HandleIndex(w http.ResponseWriter, r *http.Request) {
 		Transactions:      transactions,
 		CategoryBreakdown: categoryBreakdown,
 		Insight:           insight,
+		UserName:          user.Name, // Pass User Name
 	}
 
 	// Render the dashboard

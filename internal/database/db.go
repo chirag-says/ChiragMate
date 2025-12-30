@@ -6,7 +6,6 @@ import (
 	"log"
 	"time"
 
-	"golang.org/x/crypto/bcrypt"
 	_ "modernc.org/sqlite"
 )
 
@@ -177,7 +176,8 @@ func CreateFamily(name string) (int64, error) {
 }
 
 func CreateUser(email, password, name, avatar string, familyID int64, role string) (*User, error) {
-	hashed, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	// Hash password using the new security package
+	hashed, err := HashPassword(password)
 	if err != nil {
 		return nil, err
 	}
@@ -189,7 +189,7 @@ func CreateUser(email, password, name, avatar string, familyID int64, role strin
 	res, err := DB.Exec(`
         INSERT INTO users (email, password_hash, name, avatar_url, family_id, role)
         VALUES (?, ?, ?, ?, ?, ?)
-    `, email, string(hashed), name, avatar, familyID, role)
+    `, email, hashed, name, avatar, familyID, role)
 	if err != nil {
 		return nil, err
 	}
@@ -197,6 +197,47 @@ func CreateUser(email, password, name, avatar string, familyID int64, role strin
 
 	return &User{
 		ID: id, Email: email, Name: name, FamilyID: familyID, Role: role, AvatarURL: avatar,
+	}, nil
+}
+
+// RegisterFamilyAdmin creates a new family and its admin user transactionally
+func RegisterFamilyAdmin(name, email, password string) (*User, error) {
+	tx, err := DB.Begin()
+	if err != nil {
+		return nil, fmt.Errorf("transaction begin failed: %w", err)
+	}
+	defer tx.Rollback()
+
+	// 1. Create Family
+	res, err := tx.Exec("INSERT INTO families (name, subscription_tier) VALUES (?, 'free')", "The "+name+"s")
+	if err != nil {
+		return nil, fmt.Errorf("failed to create family: %w", err)
+	}
+	familyID, _ := res.LastInsertId()
+
+	// 2. Hash Password
+	hashed, err := HashPassword(password)
+	if err != nil {
+		return nil, fmt.Errorf("failed to hash password: %w", err)
+	}
+
+	// 3. Create Admin User
+	avatar := "https://ui-avatars.com/api/?name=" + name + "&background=random"
+	res, err = tx.Exec(`
+        INSERT INTO users (email, password_hash, name, avatar_url, family_id, role)
+        VALUES (?, ?, ?, ?, ?, ?)
+    `, email, hashed, name, avatar, familyID, "admin")
+	if err != nil {
+		return nil, fmt.Errorf("failed to create admin user: %w", err)
+	}
+	userID, _ := res.LastInsertId()
+
+	if err := tx.Commit(); err != nil {
+		return nil, fmt.Errorf("transaction commit failed: %w", err)
+	}
+
+	return &User{
+		ID: userID, Email: email, Name: name, FamilyID: familyID, Role: "admin", AvatarURL: avatar,
 	}, nil
 }
 
@@ -211,10 +252,13 @@ func GetUserByEmail(email string) (*User, error) {
 }
 
 func CreateSession(userID int64) (string, error) {
-	token := fmt.Sprintf("%d_%d", userID, time.Now().UnixNano()) // Simple token generator
-	expiresAt := time.Now().Add(24 * time.Hour * 7)              // 7 days
+	token, err := GenerateSecureToken()
+	if err != nil {
+		return "", err
+	}
+	expiresAt := time.Now().Add(24 * time.Hour * 7) // 7 days
 
-	_, err := DB.Exec("INSERT INTO sessions (token, user_id, expires_at) VALUES (?, ?, ?)", token, userID, expiresAt)
+	_, err = DB.Exec("INSERT INTO sessions (token, user_id, expires_at) VALUES (?, ?, ?)", token, userID, expiresAt)
 	return token, err
 }
 

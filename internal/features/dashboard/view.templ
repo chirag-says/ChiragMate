@@ -20,7 +20,13 @@ templ DashboardPage(data DashboardData) {
 					</svg>
 				</div>
 				<div>
-					<h1 class="text-2xl font-semibold text-slate-900">Financial Overview</h1>
+					<h1 class="text-2xl font-semibold text-slate-900">
+						if data.UserName != "" {
+							Welcome, { data.UserName }
+						} else {
+							Financial Overview
+						}
+					</h1>
 					<p class="text-sm text-slate-500">Your family's financial snapshot at a glance</p>
 				</div>
 			</div>

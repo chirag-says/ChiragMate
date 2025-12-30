@@ -31,12 +31,14 @@ func RequireAuth(next http.Handler) http.Handler {
 				Path:     "/",
 				MaxAge:   -1,
 				HttpOnly: true,
+				Secure:   false, // Set to true in production
+				SameSite: http.SameSiteStrictMode,
 			})
 			http.Redirect(w, r, "/login", http.StatusSeeOther)
 			return
 		}
 
-		// Add user to context
+		// Add user to context - Store the full User object
 		ctx := context.WithValue(r.Context(), UserKey, user)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
