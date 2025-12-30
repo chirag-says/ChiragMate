@@ -69,26 +69,28 @@ templ Layout(title string, activeTab string) {
 	</head>
 	<body class="h-full bg-slate-50 font-sans antialiased">
 		<div class="flex h-full">
-			<!-- Sidebar -->
+			<!-- Sidebar (Desktop) -->
 			@Sidebar(activeTab)
 			
 			<!-- Main Content -->
-			<main class="flex-1 overflow-y-auto">
+			<main class="flex-1 overflow-y-auto pb-24 md:pb-0">
                 <header class="flex justify-end p-4">
                      @NotificationCenter()
                 </header>
-				<div class="px-8 pb-8">
+				<div class="px-4 md:px-8 pb-8">
 					{ children... }
 				</div>
 			</main>
 		</div>
+        <!-- Bottom Nav (Mobile) -->
+        @BottomNav(activeTab)
 	</body>
 	</html>
 }
 
 templ Header() {
 	<meta charset="UTF-8"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 	<meta name="description" content="BudgetMate - Privacy-centric family finance dashboard for the Indian market"/>
 	<title>BudgetMate</title>
 	
@@ -157,11 +159,16 @@ templ Header() {
 			transform: translateY(-2px);
 			box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
 		}
+        
+        /* Safe area padding for mobile bottom nav */
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
 	</style>
 }
 
 templ Sidebar(activeTab string) {
-	<aside class="w-64 bg-white border-r border-slate-200 flex flex-col">
+	<aside class="hidden md:flex w-64 bg-white border-r border-slate-200 flex-col">
 		<!-- Logo -->
 		<div class="p-6 border-b border-slate-100">
 			<div class="flex items-center gap-3">
@@ -199,6 +206,25 @@ templ Sidebar(activeTab string) {
 			</div>
 		</div>
 	</aside>
+}
+
+templ BottomNav(activeTab string) {
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 flex justify-around p-2 z-50 pb-safe shadow-[0_-5px_10px_rgba(0,0,0,0.02)]">
+        @MobileNavItem("/app", "Home", dashboardIcon(), activeTab == "dashboard")
+        @MobileNavItem("/app/transactions", "Transact", transactionsIcon(), activeTab == "transactions")
+        @MobileNavItem("/app/settings", "Settings", settingsIcon(), activeTab == "settings")
+    </nav>
+}
+
+templ MobileNavItem(href, label string, icon templ.Component, active bool) {
+    <a href={ templ.SafeURL(href) } class={ "flex flex-col items-center justify-center p-2 rounded-xl transition-all w-full active:scale-95", 
+        templ.KV("text-emerald-600 bg-emerald-50/50", active),
+        templ.KV("text-slate-500 hover:bg-slate-50", !active) }>
+        <div class={ "w-6 h-6 mb-1", templ.KV("text-emerald-600", active) }>
+            @icon
+        </div>
+        <span class="text-[10px] font-medium leading-none">{ label }</span>
+    </a>
 }
 
 templ NavItem(href string, label string, icon templ.Component, active bool) {

@@ -117,8 +117,8 @@ templ TransactionDataGrid(transactions []database.Transaction) {
 			</a>
 		</div>
 		
-		<!-- Table Header -->
-		<div class="px-6 py-3 bg-slate-50 border-b border-slate-100 grid grid-cols-12 gap-4">
+		<!-- Table Header (Hidden on Mobile) -->
+		<div class="hidden md:grid px-6 py-3 bg-slate-50 border-b border-slate-100 grid-cols-12 gap-4">
 			<div class="col-span-5 text-xs font-medium text-slate-500 uppercase tracking-wider">Description</div>
 			<div class="col-span-3 text-xs font-medium text-slate-500 uppercase tracking-wider">Category</div>
 			<div class="col-span-2 text-xs font-medium text-slate-500 uppercase tracking-wider">Date</div>
@@ -147,27 +147,53 @@ templ TransactionDataGrid(transactions []database.Transaction) {
 templ TransactionGridRow(t database.Transaction) {
 	<div 
 		id={ fmt.Sprintf("transaction-%d", t.ID) }
-		class="px-6 py-4 grid grid-cols-12 gap-4 items-center border-b border-slate-50 hover:bg-slate-50 transition-colors cursor-pointer"
+		class="px-6 py-4 border-b border-slate-50 hover:bg-slate-50 transition-colors cursor-pointer flex flex-col md:grid md:grid-cols-12 gap-2 md:gap-4 md:items-center"
 		hx-get={ fmt.Sprintf("/app/transactions/%d/edit", t.ID) }
 		hx-target={ fmt.Sprintf("#transaction-%d", t.ID) }
 		hx-swap="outerHTML"
 	>
-		<!-- Description -->
-		<div class="col-span-5">
-			<p class="text-sm font-medium text-slate-900 truncate">{ t.Description }</p>
+		<!-- Description Column (Mobile: Contains everything / Desktop: Just Description) -->
+		<div class="col-span-5 w-full">
+			<div class="flex items-center justify-between">
+				<p class="text-sm font-medium text-slate-900 truncate">{ t.Description }</p>
+				
+				<!-- Mobile Amount -->
+				<div class="md:hidden">
+					<p class={ "text-sm font-semibold",
+						templ.KV("text-emerald-600", t.Type == "income"),
+						templ.KV("text-slate-900", t.Type == "expense") }>
+						if t.Type == "income" {
+							+{ components.FormatINR(t.Amount) }
+						} else {
+							-{ components.FormatINR(t.Amount) }
+						}
+					</p>
+				</div>
+			</div>
+			
+			<!-- Mobile Metadata -->
+			<div class="md:hidden flex items-center gap-2 mt-1">
+				<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-600">
+					{ t.Category }
+				</span>
+				<span class="text-[10px] text-slate-400">• { t.Date.Format("Jan 02") }</span>
+			</div>
 		</div>
-		<!-- Category -->
-		<div class="col-span-3">
+
+		<!-- Desktop Only: Category -->
+		<div class="hidden md:block col-span-3">
 			<span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-slate-100 text-slate-600">
 				{ t.Category }
 			</span>
 		</div>
-		<!-- Date -->
-		<div class="col-span-2">
+		
+		<!-- Desktop Only: Date -->
+		<div class="hidden md:block col-span-2">
 			<p class="text-sm text-slate-500">{ t.Date.Format("Jan 02") }</p>
 		</div>
-		<!-- Amount -->
-		<div class="col-span-2 text-right">
+		
+		<!-- Desktop Only: Amount -->
+		<div class="hidden md:block col-span-2 text-right">
 			<p class={ "text-sm font-semibold",
 				templ.KV("text-emerald-600", t.Type == "income"),
 				templ.KV("text-slate-900", t.Type == "expense") }>
@@ -218,7 +244,7 @@ templ TransactionEditRow(t database.Transaction) {
 					class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
 				/>
 			</div>
-			<div class="flex gap-2">
+			<div class="flex gap-2 mt-2 md:mt-0">
 				<button 
 					type="submit"
 					class="flex-1 px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded-lg hover:bg-emerald-700 transition-colors"
