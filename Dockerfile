@@ -38,21 +38,18 @@ RUN CGO_ENABLED=0 GOOS=linux go build \
 # --------------------------------
 # Stage 2: Production Runner
 # --------------------------------
-# Use Google's Distroless image for maximum security (no shell, no package manager)
-FROM gcr.io/distroless/static-debian12
+# Switched to Alpine for better runtime compatibility and directory management
+FROM alpine:latest
 
-# Metadata
-LABEL org.opencontainers.image.title="BudgetMate"
-LABEL org.opencontainers.image.description="Secure Family Finance Dashboard"
+# Install CA certificates for HTTPS requests
+RUN apk --no-cache add ca-certificates
+
+# Create the data directory explicitly to prevent runtime crashes
+RUN mkdir -p /data
 
 # Set environment variables
 ENV PORT=8080
 ENV DB_PATH=/data/budgetmate.db
-
-# Define volume for persistent SQLite storage
-# Note: Railway handles this via external configuration, so we only need the path to exist
-# VOLUME ["/data"] <-- Banned by Railway
-
 
 # Copy binary from builder
 COPY --from=builder /budgetmate /budgetmate
