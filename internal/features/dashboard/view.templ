@@ -8,6 +8,9 @@ import (
 
 templ DashboardPage(data DashboardData) {
 	@components.Layout("Dashboard") {
+		<!-- Calm AI Insight Card -->
+		@InsightCard(data.Insight)
+		
 		<!-- Header -->
 		<div class="mb-8">
 			<div class="flex items-center gap-4">
@@ -247,4 +250,69 @@ templ TransactionList(transactions []database.Transaction) {
 // TransactionRow is kept for backward compatibility with HTMX responses
 templ TransactionRow(t database.Transaction) {
 	@TransactionGridRow(t)
+}
+
+// InsightCard displays the Calm AI nudge with premium glass styling
+templ InsightCard(insight Insight) {
+	<div class="mb-8 relative overflow-hidden">
+		<div class={ "rounded-2xl p-6 border",
+			templ.KV("bg-gradient-to-r from-indigo-50 via-purple-50 to-white border-indigo-100", !insight.IsPositive),
+			templ.KV("bg-gradient-to-r from-emerald-50 via-teal-50 to-white border-emerald-100", insight.IsPositive) }>
+			<!-- Decorative blur -->
+			<div class={ "absolute -top-10 -right-10 w-32 h-32 rounded-full blur-3xl opacity-30",
+				templ.KV("bg-indigo-300", !insight.IsPositive),
+				templ.KV("bg-emerald-300", insight.IsPositive) }></div>
+			
+			<div class="relative z-10 flex items-start gap-4">
+				<!-- Icon -->
+				<div class={ "w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0",
+					templ.KV("bg-indigo-100", !insight.IsPositive),
+					templ.KV("bg-emerald-100", insight.IsPositive) }>
+					if insight.IconType == "sparkles" {
+						<svg class={ "w-6 h-6", templ.KV("text-indigo-600", !insight.IsPositive), templ.KV("text-emerald-600", insight.IsPositive) } fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+						</svg>
+					}
+					if insight.IconType == "trending-up" {
+						<svg class={ "w-6 h-6", templ.KV("text-indigo-600", !insight.IsPositive), templ.KV("text-emerald-600", insight.IsPositive) } fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+						</svg>
+					}
+					if insight.IconType == "heart" {
+						<svg class={ "w-6 h-6", templ.KV("text-indigo-600", !insight.IsPositive), templ.KV("text-emerald-600", insight.IsPositive) } fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+						</svg>
+					}
+					if insight.IconType == "alert" {
+						<svg class={ "w-6 h-6", templ.KV("text-indigo-600", !insight.IsPositive), templ.KV("text-emerald-600", insight.IsPositive) } fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+						</svg>
+					}
+				</div>
+				
+				<!-- Content -->
+				<div class="flex-1">
+					<div class="flex items-center gap-2 mb-1">
+						<span class={ "text-xs font-semibold uppercase tracking-wider",
+							templ.KV("text-indigo-600", !insight.IsPositive),
+							templ.KV("text-emerald-600", insight.IsPositive) }>
+							if insight.IsPositive {
+								Calm AI Insight
+							} else {
+								Worth Exploring
+							}
+						</span>
+						<span class={ "w-2 h-2 rounded-full animate-pulse",
+							templ.KV("bg-indigo-400", !insight.IsPositive),
+							templ.KV("bg-emerald-400", insight.IsPositive) }></span>
+					</div>
+					<p class={ "text-base font-medium leading-relaxed",
+						templ.KV("text-indigo-900", !insight.IsPositive),
+						templ.KV("text-emerald-900", insight.IsPositive) }>
+						{ insight.Message }
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
 }

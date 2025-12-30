@@ -21,6 +21,7 @@ type DashboardData struct {
 	TotalExpenses     float64
 	Transactions      []database.Transaction
 	CategoryBreakdown map[string]float64
+	Insight           Insight // Calm AI nudge
 }
 
 // HandleIndex renders the main dashboard page
@@ -53,12 +54,22 @@ func (h *Handler) HandleIndex(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Get ALL transactions for insight analysis
+	allTransactions, err := database.GetAllTransactions()
+	if err != nil {
+		http.Error(w, "Failed to get all transactions", http.StatusInternalServerError)
+		return
+	}
+
 	// Get category breakdown for chart
 	categoryBreakdown, err := database.GetCategoryBreakdown()
 	if err != nil {
 		http.Error(w, "Failed to get category breakdown", http.StatusInternalServerError)
 		return
 	}
+
+	// Generate Calm AI insight
+	insight := GenerateInsight(allTransactions)
 
 	// Build dashboard data
 	data := DashboardData{
@@ -67,6 +78,7 @@ func (h *Handler) HandleIndex(w http.ResponseWriter, r *http.Request) {
 		TotalExpenses:     expenses,
 		Transactions:      transactions,
 		CategoryBreakdown: categoryBreakdown,
+		Insight:           insight,
 	}
 
 	// Render the dashboard
