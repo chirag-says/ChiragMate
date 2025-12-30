@@ -1,6 +1,6 @@
 package components
 
-templ Layout(title string) {
+templ Layout(title string, activeTab string) {
 	<!DOCTYPE html>
 	<html lang="en" class="h-full">
 	<head>
@@ -11,6 +11,7 @@ templ Layout(title string) {
 		
 		<!-- Tailwind CSS -->
 		<script src="https://cdn.tailwindcss.com"></script>
+		<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 		<script>
 			tailwind.config = {
 				theme: {
@@ -69,11 +70,14 @@ templ Layout(title string) {
 	<body class="h-full bg-slate-50 font-sans antialiased">
 		<div class="flex h-full">
 			<!-- Sidebar -->
-			@Sidebar()
+			@Sidebar(activeTab)
 			
 			<!-- Main Content -->
 			<main class="flex-1 overflow-y-auto">
-				<div class="p-8">
+                <header class="flex justify-end p-4">
+                     @NotificationCenter()
+                </header>
+				<div class="px-8 pb-8">
 					{ children... }
 				</div>
 			</main>
@@ -82,7 +86,7 @@ templ Layout(title string) {
 	</html>
 }
 
-templ Sidebar() {
+templ Sidebar(activeTab string) {
 	<aside class="w-64 bg-white border-r border-slate-200 flex flex-col">
 		<!-- Logo -->
 		<div class="p-6 border-b border-slate-100">
@@ -102,9 +106,9 @@ templ Sidebar() {
 		<!-- Navigation -->
 		<nav class="flex-1 p-4">
 			<ul class="space-y-1">
-				@NavItem("/app", "Dashboard", dashboardIcon(), true)
-				@NavItem("/app/transactions", "Transactions", transactionsIcon(), false)
-				@NavItem("/app/settings", "Settings", settingsIcon(), false)
+				@NavItem("/app", "Dashboard", dashboardIcon(), activeTab == "dashboard")
+				@NavItem("/app/transactions", "Transactions", transactionsIcon(), activeTab == "transactions")
+				@NavItem("/app/settings", "Settings", settingsIcon(), activeTab == "settings")
 			</ul>
 		</nav>
 		
@@ -116,7 +120,7 @@ templ Sidebar() {
 				</div>
 				<div>
 					<p class="text-sm font-medium text-slate-700">Family Mode</p>
-					<p class="text-xs text-slate-500">5 members</p>
+					<p class="text-xs text-slate-500">Member</p>
 				</div>
 			</div>
 		</div>
@@ -135,6 +139,33 @@ templ NavItem(href string, label string, icon templ.Component, active bool) {
 			{ label }
 		</a>
 	</li>
+}
+
+templ NotificationCenter() {
+    <div x-data="{ open: false }" class="relative">
+        <button @click="open = !open" class="p-2 text-slate-400 hover:text-slate-600 transition-colors relative">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+            <span id="notification-badge" class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white hidden"></span>
+        </button>
+        
+        <div 
+            x-show="open" 
+            @click.away="open = false" 
+            class="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-slate-100 z-50 overflow-hidden"
+            style="display: none;"
+            hx-get="/app/notifications"
+            hx-trigger="intersect once, mouseenter once"
+        >
+             <div class="px-4 py-3 border-b border-slate-100 bg-slate-50">
+                 <h3 class="text-sm font-semibold text-slate-700">Notifications</h3>
+             </div>
+             <div class="max-h-96 overflow-y-auto" id="notification-list">
+                 <div class="p-8 text-center text-slate-500 text-sm">
+                     Loading...
+                 </div>
+             </div>
+        </div>
+    </div>
 }
 
 templ dashboardIcon() {

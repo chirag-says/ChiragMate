@@ -15,33 +15,32 @@ function Show-Help {
 }
 
 function Run-Dev {
-    Write-Host "🚀 Starting BudgetMate..."
+    Write-Host "Starting BudgetMate..."
     templ generate
     go run ./cmd/server
 }
 
 function Run-Build {
-    Write-Host "🔨 Building Optimized Binary..."
+    Write-Host "Building Optimized Binary..."
     templ generate
     $env:CGO_ENABLED = "0"
     if (!(Test-Path "bin")) { New-Item -ItemType Directory -Path "bin" | Out-Null }
-    # Added -ldflags="-s -w" to match Dockerfile optimization
-    go build -ldflags '-s -w' -o bin/budgetmate.exe ./cmd/server
-    Write-Host "✅ Built: bin\budgetmate.exe"
+    go build -ldflags "-s -w" -o bin/budgetmate.exe ./cmd/server
+    Write-Host "Built: bin\budgetmate.exe"
 }
 
 function Run-Docker {
-    Write-Host "🐳 Building Docker Image..."
+    Write-Host "Building Docker Image..."
     docker build -t budgetmate:latest .
 }
 
 function Run-Clean {
-    Write-Host "🧹 Cleaning..."
+    Write-Host "Cleaning..."
     if (Test-Path "bin") { Remove-Item -Recurse -Force "bin" }
     if (Test-Path "tmp") { Remove-Item -Recurse -Force "tmp" }
     Get-ChildItem -Filter "*.db" | Remove-Item -Force
     Get-ChildItem -Filter "*.db-*" | Remove-Item -Force
-    Write-Host "✅ Cleaned"
+    Write-Host "Cleaned"
 }
 
 switch ($Target) {

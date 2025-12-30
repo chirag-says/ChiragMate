@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/budgetmate/web/internal/database"
+	"github.com/budgetmate/web/internal/middleware"
 )
 
 // HandleShowImportForm returns the import form (HTMX partial)
@@ -24,6 +25,12 @@ func (h *Handler) HandleHideImportForm(w http.ResponseWriter, r *http.Request) {
 
 // HandleImport processes the CSV file upload
 func (h *Handler) HandleImport(w http.ResponseWriter, r *http.Request) {
+	user := middleware.GetUser(r.Context())
+	if user == nil {
+		ImportResult(false, "Session expired, please refresh", 0).Render(r.Context(), w)
+		return
+	}
+
 	// Parse multipart form (max 10MB)
 	if err := r.ParseMultipartForm(10 << 20); err != nil {
 		ImportResult(false, "Failed to parse form: "+err.Error(), 0).Render(r.Context(), w)
@@ -53,6 +60,12 @@ func (h *Handler) HandleImport(w http.ResponseWriter, r *http.Request) {
 		}
 		ImportResult(false, errMsg, 0).Render(r.Context(), w)
 		return
+	}
+
+	// Assign User and Family IDs
+	for i := range transactions {
+		transactions[i].UserID = user.ID
+		transactions[i].FamilyID = user.FamilyID
 	}
 
 	// Bulk insert

@@ -7,7 +7,7 @@ import (
 )
 
 templ DashboardPage(data DashboardData) {
-	@components.Layout("Dashboard") {
+	@components.Layout("Dashboard", "dashboard") {
 		<!-- Calm AI Insight Card -->
 		@InsightCard(data.Insight)
 		
