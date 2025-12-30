@@ -325,6 +325,51 @@ func DeleteSession(token string) error {
 	return err
 }
 
+// UpdateUser updates a user's profile information
+func UpdateUser(id int64, name, email string) error {
+	// Update avatar URL if name changed
+	avatar := "https://ui-avatars.com/api/?name=" + name + "&background=random"
+	_, err := DB.Exec(`
+        UPDATE users SET name = ?, email = ?, avatar_url = ? WHERE id = ?
+    `, name, email, avatar, id)
+	return err
+}
+
+// UpdatePassword updates a user's password hash
+func UpdatePassword(userID int64, newHash string) error {
+	_, err := DB.Exec("UPDATE users SET password_hash = ? WHERE id = ?", newHash, userID)
+	return err
+}
+
+// VerifyPassword checks if the provided password matches the stored hash
+func VerifyPassword(userID int64, plainPassword string) bool {
+	var storedHash string
+	err := DB.QueryRow("SELECT password_hash FROM users WHERE id = ?", userID).Scan(&storedHash)
+	if err != nil {
+		return false
+	}
+	return CheckPasswordHash(plainPassword, storedHash)
+}
+
+// RevokeOtherSessions deletes all sessions for a user except the current one
+func RevokeOtherSessions(userID int64, currentToken string) error {
+	_, err := DB.Exec("DELETE FROM sessions WHERE user_id = ? AND token != ?", userID, currentToken)
+	return err
+}
+
+// GetUserByID retrieves a user by their ID
+func GetUserByID(id int64) (*User, error) {
+	u := &User{}
+	err := DB.QueryRow(`
+        SELECT id, email, password_hash, name, avatar_url, family_id, role 
+        FROM users WHERE id = ?
+    `, id).Scan(&u.ID, &u.Email, &u.PasswordHash, &u.Name, &u.AvatarURL, &u.FamilyID, &u.Role)
+	if err != nil {
+		return nil, err
+	}
+	return u, nil
+}
+
 func GetFamilyByID(id int64) (*Family, error) {
 	f := &Family{}
 	err := DB.QueryRow("SELECT id, name, subscription_tier, created_at FROM families WHERE id = ?", id).

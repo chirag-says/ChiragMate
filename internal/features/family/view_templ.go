@@ -741,27 +741,27 @@ func UserSettingsPage(user *database.User, family *database.Family) templ.Compon
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 55, "\" class=\"w-20 h-20 rounded-full border-4 border-slate-100 shadow-sm\"><div><p class=\"text-lg font-semibold text-slate-800\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 55, "\" class=\"w-20 h-20 rounded-full border-4 border-slate-100 shadow-sm\" id=\"user-avatar\"><div><p class=\"text-lg font-semibold text-slate-800\" id=\"display-name\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var37 string
 			templ_7745c5c3_Var37, templ_7745c5c3_Err = templ.JoinStringErrs(user.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/family/view.templ`, Line: 382, Col: 87}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/family/view.templ`, Line: 382, Col: 105}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var37))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 56, "</p><p class=\"text-sm text-slate-500\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 56, "</p><p class=\"text-sm text-slate-500\" id=\"display-email\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var38 string
 			templ_7745c5c3_Var38, templ_7745c5c3_Err = templ.JoinStringErrs(user.Email)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/family/view.templ`, Line: 383, Col: 74}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/family/view.templ`, Line: 383, Col: 93}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var38))
 			if templ_7745c5c3_Err != nil {
@@ -804,49 +804,33 @@ func UserSettingsPage(user *database.User, family *database.Family) templ.Compon
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 60, "</span></div></div><div class=\"grid grid-cols-1 md:grid-cols-2 gap-4\"><div><label class=\"block text-sm font-medium text-slate-700 mb-1\">Display Name</label> <input type=\"text\" value=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 60, "</span></div></div><!-- Profile Update Form --><form hx-post=\"/app/settings/profile\" hx-target=\"#profile-feedback\" hx-swap=\"innerHTML\" class=\"space-y-4\"><div id=\"profile-feedback\"></div><div class=\"grid grid-cols-1 md:grid-cols-2 gap-4\"><div><label class=\"block text-sm font-medium text-slate-700 mb-1\">Display Name</label> <input type=\"text\" name=\"name\" value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var42 string
 			templ_7745c5c3_Var42, templ_7745c5c3_Err = templ.JoinStringErrs(user.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/family/view.templ`, Line: 394, Col: 64}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/family/view.templ`, Line: 406, Col: 53}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var42))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 61, "\" class=\"w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none\" disabled></div><div><label class=\"block text-sm font-medium text-slate-700 mb-1\">Email</label> <input type=\"email\" value=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 61, "\" required minlength=\"2\" class=\"w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none\"></div><div><label class=\"block text-sm font-medium text-slate-700 mb-1\">Email</label> <input type=\"email\" name=\"email\" value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var43 string
 			templ_7745c5c3_Var43, templ_7745c5c3_Err = templ.JoinStringErrs(user.Email)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/family/view.templ`, Line: 398, Col: 66}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/family/view.templ`, Line: 417, Col: 54}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var43))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 62, "\" class=\"w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none\" disabled></div></div></div></div><!-- Preferences Section --><div class=\"bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden\"><div class=\"px-6 py-4 border-b border-slate-100 flex items-center gap-3\"><div class=\"w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center\"><svg class=\"w-4 h-4 text-purple-600\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z\"></path> <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M15 12a3 3 0 11-6 0 3 3 0 016 0z\"></path></svg></div><h2 class=\"text-sm font-semibold text-slate-900\">Preferences</h2></div><div class=\"p-6 space-y-4\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = SettingsToggle("Email Notifications", "Receive updates about family activity", true).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = SettingsToggle("Budget Alerts", "Get notified when spending approaches limits", true).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = SettingsToggle("Dark Mode", "Toggle dark appearance (coming soon)", false).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 63, "</div></div><!-- Security Section --><div class=\"bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden\"><div class=\"px-6 py-4 border-b border-slate-100 flex items-center gap-3\"><div class=\"w-8 h-8 rounded-lg bg-rose-50 flex items-center justify-center\"><svg class=\"w-4 h-4 text-rose-600\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z\"></path></svg></div><h2 class=\"text-sm font-semibold text-slate-900\">Security</h2></div><div class=\"p-6 space-y-4\"><div class=\"flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-100\"><div><p class=\"text-sm font-medium text-slate-800\">Password</p><p class=\"text-xs text-slate-500\">Last changed: Never</p></div><button class=\"px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors\">Change</button></div><div class=\"flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-100\"><div><p class=\"text-sm font-medium text-slate-800\">Two-Factor Auth</p><p class=\"text-xs text-slate-500\">Add extra security to your account</p></div><span class=\"text-xs font-medium text-slate-400 px-2 py-1 bg-slate-100 rounded\">Coming Soon</span></div></div></div><!-- Danger Zone --><div class=\"bg-white rounded-2xl border border-rose-200 shadow-sm overflow-hidden\"><div class=\"px-6 py-4 border-b border-rose-100 flex items-center gap-3 bg-rose-50\"><div class=\"w-8 h-8 rounded-lg bg-rose-100 flex items-center justify-center\"><svg class=\"w-4 h-4 text-rose-600\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z\"></path></svg></div><h2 class=\"text-sm font-semibold text-rose-800\">Danger Zone</h2></div><div class=\"p-6\"><div class=\"flex items-center justify-between\"><div><p class=\"text-sm font-medium text-slate-800\">Sign Out</p><p class=\"text-xs text-slate-500\">End your current session</p></div><form action=\"/logout\" method=\"POST\"><button type=\"submit\" class=\"px-4 py-2 text-sm font-medium text-rose-600 hover:bg-rose-50 border border-rose-200 rounded-lg transition-colors\">Sign Out</button></form></div></div></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 62, "\" required class=\"w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none\"></div></div><div class=\"flex justify-end\"><button type=\"submit\" class=\"px-6 py-2.5 bg-emerald-600 text-white font-medium rounded-xl hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-100\">Save Changes</button></div></form></div></div><!-- Security Section --><div class=\"bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden\" x-data=\"{ showPasswordForm: false }\"><div class=\"px-6 py-4 border-b border-slate-100 flex items-center gap-3\"><div class=\"w-8 h-8 rounded-lg bg-rose-50 flex items-center justify-center\"><svg class=\"w-4 h-4 text-rose-600\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z\"></path></svg></div><h2 class=\"text-sm font-semibold text-slate-900\">Security</h2></div><div class=\"p-6 space-y-4\"><!-- Password Toggle Button --><div class=\"flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-100\" x-show=\"!showPasswordForm\"><div><p class=\"text-sm font-medium text-slate-800\">Password</p><p class=\"text-xs text-slate-500\">Change your account password</p></div><button @click=\"showPasswordForm = true\" class=\"px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors\">Change</button></div><!-- Password Change Form (Hidden by default) --><form x-show=\"showPasswordForm\" x-transition hx-post=\"/app/settings/password\" hx-target=\"#password-feedback\" hx-swap=\"innerHTML\" class=\"p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-4\"><div id=\"password-feedback\"></div><div><label class=\"block text-sm font-medium text-slate-700 mb-1\">Current Password</label> <input type=\"password\" name=\"current_password\" required class=\"w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-rose-500 outline-none bg-white\" placeholder=\"Enter current password\"></div><div class=\"grid grid-cols-1 md:grid-cols-2 gap-4\"><div><label class=\"block text-sm font-medium text-slate-700 mb-1\">New Password</label> <input type=\"password\" name=\"new_password\" required minlength=\"6\" class=\"w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-rose-500 outline-none bg-white\" placeholder=\"Min 6 characters\"></div><div><label class=\"block text-sm font-medium text-slate-700 mb-1\">Confirm Password</label> <input type=\"password\" name=\"confirm_password\" required minlength=\"6\" class=\"w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-rose-500 outline-none bg-white\" placeholder=\"Confirm new password\"></div></div><div class=\"flex items-center justify-end gap-3\"><button type=\"button\" @click=\"showPasswordForm = false\" class=\"px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-lg transition-colors\">Cancel</button> <button type=\"submit\" class=\"px-6 py-2.5 bg-rose-600 text-white font-medium rounded-xl hover:bg-rose-700 transition-colors\">Update Password</button></div></form><!-- 2FA --><div class=\"flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-100\"><div><p class=\"text-sm font-medium text-slate-800\">Two-Factor Auth</p><p class=\"text-xs text-slate-500\">Add extra security to your account</p></div><span class=\"text-xs font-medium text-slate-400 px-2 py-1 bg-slate-100 rounded\">Coming Soon</span></div></div></div><!-- Danger Zone --><div class=\"bg-white rounded-2xl border border-rose-200 shadow-sm overflow-hidden\"><div class=\"px-6 py-4 border-b border-rose-100 flex items-center gap-3 bg-rose-50\"><div class=\"w-8 h-8 rounded-lg bg-rose-100 flex items-center justify-center\"><svg class=\"w-4 h-4 text-rose-600\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z\"></path></svg></div><h2 class=\"text-sm font-semibold text-rose-800\">Danger Zone</h2></div><div class=\"p-6\"><div class=\"flex items-center justify-between\"><div><p class=\"text-sm font-medium text-slate-800\">Sign Out</p><p class=\"text-xs text-slate-500\">End your current session</p></div><form action=\"/logout\" method=\"POST\"><button type=\"submit\" class=\"px-4 py-2 text-sm font-medium text-rose-600 hover:bg-rose-50 border border-rose-200 rounded-lg transition-colors\">Sign Out</button></form></div></div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -881,33 +865,33 @@ func SettingsToggle(title, description string, enabled bool) templ.Component {
 			templ_7745c5c3_Var44 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 64, "<div class=\"flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-100\"><div><p class=\"text-sm font-medium text-slate-800\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 63, "<div class=\"flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-100\"><div><p class=\"text-sm font-medium text-slate-800\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var45 string
 		templ_7745c5c3_Var45, templ_7745c5c3_Err = templ.JoinStringErrs(title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/family/view.templ`, Line: 483, Col: 65}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/family/view.templ`, Line: 557, Col: 65}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var45))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 65, "</p><p class=\"text-xs text-slate-500\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 64, "</p><p class=\"text-xs text-slate-500\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var46 string
 		templ_7745c5c3_Var46, templ_7745c5c3_Err = templ.JoinStringErrs(description)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/family/view.templ`, Line: 484, Col: 59}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/family/view.templ`, Line: 558, Col: 59}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var46))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 66, "</p></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 65, "</p></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -918,7 +902,7 @@ func SettingsToggle(title, description string, enabled bool) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 67, "<button class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 66, "<button class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -931,7 +915,7 @@ func SettingsToggle(title, description string, enabled bool) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 68, "\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 67, "\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -941,7 +925,7 @@ func SettingsToggle(title, description string, enabled bool) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 69, "<span class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 68, "<span class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -954,7 +938,7 @@ func SettingsToggle(title, description string, enabled bool) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 70, "\"></span></button></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 69, "\"></span></button></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

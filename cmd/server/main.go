@@ -12,6 +12,7 @@ import (
 	"github.com/budgetmate/web/internal/features/family"
 	"github.com/budgetmate/web/internal/features/landing"
 	"github.com/budgetmate/web/internal/features/notifications"
+	"github.com/budgetmate/web/internal/features/settings"
 	"github.com/budgetmate/web/internal/features/transactions"
 	mw "github.com/budgetmate/web/internal/middleware"
 	"github.com/go-chi/chi/v5"
@@ -48,6 +49,7 @@ func main() {
 	transactionsHandler := transactions.NewHandler()
 	budgetsHandler := budgets.NewHandler()
 	notificationsHandler := notifications.NewHandler()
+	settingsHandler := settings.NewHandler()
 
 	// =====================
 	// PUBLIC ROUTES (Marketing & Auth)
@@ -94,6 +96,8 @@ func main() {
 
 		// Settings (User Account Settings)
 		r.Get("/settings", family.HandleUserSettings)
+		r.Post("/settings/profile", settingsHandler.HandleUpdateProfile)
+		r.Post("/settings/password", settingsHandler.HandleChangePassword)
 		r.Get("/settings/invite/form", family.HandleShowInviteForm)
 		r.Post("/settings/invite", family.HandleInviteMember)
 		r.Post("/settings/invite/{id}/accept", family.HandleAcceptInvite)
