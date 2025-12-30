@@ -20,11 +20,13 @@ type BudgetRow struct {
 
 // BudgetsData holds all data for the budgets page
 type BudgetsData struct {
-	Month      string
-	MonthLabel string
-	Rows       []BudgetRow
-	TotalSpent float64
-	TotalLimit float64
+	Month            string
+	MonthLabel       string
+	Rows             []BudgetRow
+	TotalSpent       float64
+	TotalLimit       float64
+	PurchaseRequests []database.PurchaseRequest
+	CurrentUserID    int64
 }
 
 // Handler is the budget feature handler
@@ -50,6 +52,12 @@ func (h *Handler) HandleIndex(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := h.getBudgetData(user.FamilyID, month)
+
+	// Get purchase requests
+	requests, _ := database.GetFamilyRequests(user.FamilyID, user.ID)
+	data.PurchaseRequests = requests
+	data.CurrentUserID = user.ID
+
 	BudgetsPage(data).Render(r.Context(), w)
 }
 
@@ -182,4 +190,88 @@ func (h *Handler) getBudgetData(familyID int64, month string) BudgetsData {
 		TotalSpent: totalSpent,
 		TotalLimit: totalLimit,
 	}
+}
+
+// HandleCreateRequest creates a new purchase request
+func (h *Handler) HandleCreateRequest(w http.ResponseWriter, r *http.Request) {
+	user := middleware.GetUser(r.Context())
+	if user == nil {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	itemName := r.FormValue("item_name")
+	amountStr := r.FormValue("amount")
+
+	if itemName == "" {
+		http.Error(w, "Item name is required", http.StatusBadRequest)
+		return
+	}
+
+	amount, err := strconv.ParseFloat(amountStr, 64)
+	if err != nil || amount <= 0 {
+		http.Error(w, "Invalid amount", http.StatusBadRequest)
+		return
+	}
+
+	_, err = database.CreatePurchaseRequest(user.FamilyID, user.ID, itemName, amount)
+	if err != nil {
+		http.Error(w, "Failed to create request", http.StatusInternalServerError)
+		return
+	}
+
+	// Refresh the requests section
+	requests, _ := database.GetFamilyRequests(user.FamilyID, user.ID)
+	PurchaseRequestsSection(requests, user.ID).Render(r.Context(), w)
+}
+
+// HandleVote casts a vote on a purchase request
+func (h *Handler) HandleVote(w http.ResponseWriter, r *http.Request) {
+	user := middleware.GetUser(r.Context())
+	if user == nil {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	requestIDStr := r.FormValue("request_id")
+	vote := r.FormValue("vote")
+
+	requestID, err := strconv.ParseInt(requestIDStr, 10, 64)
+	if err != nil {
+		http.Error(w, "Invalid request ID", http.StatusBadRequest)
+		return
+	}
+
+	if vote != "approve" && vote != "reject" {
+		http.Error(w, "Invalid vote", http.StatusBadRequest)
+		return
+	}
+
+	// Cast the vote
+	if err := database.CastVote(requestID, user.ID, vote); err != nil {
+		http.Error(w, "Failed to cast vote", http.StatusInternalServerError)
+		return
+	}
+
+	// Get updated request
+	req, err := database.GetPurchaseRequest(requestID, user.ID)
+	if err != nil {
+		http.Error(w, "Request not found", http.StatusNotFound)
+		return
+	}
+
+	// Check if request should be auto-approved/rejected (majority vote)
+	if req.TotalVoters > 0 {
+		majority := (req.TotalVoters / 2) + 1
+		if req.ApproveVotes >= majority {
+			database.UpdateRequestStatus(requestID, "approved")
+			req.Status = "approved"
+		} else if req.RejectVotes >= majority {
+			database.UpdateRequestStatus(requestID, "rejected")
+			req.Status = "rejected"
+		}
+	}
+
+	// Return updated card
+	PurchaseRequestCard(*req, user.ID).Render(r.Context(), w)
 }

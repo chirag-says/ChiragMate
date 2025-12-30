@@ -157,6 +157,26 @@ func migrate() error {
             UNIQUE(family_id, category, month),
             FOREIGN KEY(family_id) REFERENCES families(id) ON DELETE CASCADE
         );`,
+		`CREATE TABLE IF NOT EXISTS purchase_requests (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            family_id INTEGER NOT NULL,
+            user_id INTEGER NOT NULL,
+            item_name TEXT NOT NULL,
+            amount REAL NOT NULL,
+            status TEXT DEFAULT 'pending' CHECK(status IN ('pending', 'approved', 'rejected')),
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY(family_id) REFERENCES families(id) ON DELETE CASCADE,
+            FOREIGN KEY(user_id) REFERENCES users(id)
+        );`,
+		`CREATE TABLE IF NOT EXISTS votes (
+            request_id INTEGER NOT NULL,
+            user_id INTEGER NOT NULL,
+            vote TEXT NOT NULL CHECK(vote IN ('approve', 'reject')),
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY(request_id, user_id),
+            FOREIGN KEY(request_id) REFERENCES purchase_requests(id) ON DELETE CASCADE,
+            FOREIGN KEY(user_id) REFERENCES users(id)
+        );`,
 	}
 
 	for _, query := range queries {
@@ -675,6 +695,130 @@ func GetAllCategories(familyID int64) ([]string, error) {
 		}
 	}
 	return categories, nil
+}
+
+// --- Purchase Request Functions ---
+
+// PurchaseRequest represents a family purchase request
+type PurchaseRequest struct {
+	ID           int64
+	FamilyID     int64
+	UserID       int64
+	UserName     string
+	UserAvatar   string
+	ItemName     string
+	Amount       float64
+	Status       string
+	CreatedAt    time.Time
+	ApproveVotes int
+	RejectVotes  int
+	TotalVoters  int
+	UserVoted    bool
+	UserVote     string
+}
+
+// CreatePurchaseRequest creates a new purchase request
+func CreatePurchaseRequest(familyID, userID int64, itemName string, amount float64) (int64, error) {
+	res, err := DB.Exec(`
+        INSERT INTO purchase_requests (family_id, user_id, item_name, amount)
+        VALUES (?, ?, ?, ?)
+    `, familyID, userID, itemName, amount)
+	if err != nil {
+		return 0, err
+	}
+	return res.LastInsertId()
+}
+
+// CastVote records a vote on a purchase request
+func CastVote(requestID, userID int64, vote string) error {
+	_, err := DB.Exec(`
+        INSERT INTO votes (request_id, user_id, vote)
+        VALUES (?, ?, ?)
+        ON CONFLICT(request_id, user_id) 
+        DO UPDATE SET vote = excluded.vote
+    `, requestID, userID, vote)
+	return err
+}
+
+// GetFamilyRequests returns all pending purchase requests for a family
+func GetFamilyRequests(familyID, currentUserID int64) ([]PurchaseRequest, error) {
+	// Get total family members for vote progress
+	var totalVoters int
+	DB.QueryRow("SELECT COUNT(*) FROM users WHERE family_id = ?", familyID).Scan(&totalVoters)
+
+	rows, err := DB.Query(`
+        SELECT 
+            pr.id, pr.family_id, pr.user_id, u.name, u.avatar_url,
+            pr.item_name, pr.amount, pr.status, pr.created_at,
+            (SELECT COUNT(*) FROM votes WHERE request_id = pr.id AND vote = 'approve') as approve_votes,
+            (SELECT COUNT(*) FROM votes WHERE request_id = pr.id AND vote = 'reject') as reject_votes,
+            (SELECT vote FROM votes WHERE request_id = pr.id AND user_id = ?) as user_vote
+        FROM purchase_requests pr
+        JOIN users u ON pr.user_id = u.id
+        WHERE pr.family_id = ? AND pr.status = 'pending'
+        ORDER BY pr.created_at DESC
+    `, currentUserID, familyID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var requests []PurchaseRequest
+	for rows.Next() {
+		var r PurchaseRequest
+		var userVote sql.NullString
+		err := rows.Scan(
+			&r.ID, &r.FamilyID, &r.UserID, &r.UserName, &r.UserAvatar,
+			&r.ItemName, &r.Amount, &r.Status, &r.CreatedAt,
+			&r.ApproveVotes, &r.RejectVotes, &userVote,
+		)
+		if err != nil {
+			continue
+		}
+		r.TotalVoters = totalVoters
+		r.UserVoted = userVote.Valid
+		r.UserVote = userVote.String
+		requests = append(requests, r)
+	}
+	return requests, nil
+}
+
+// GetPurchaseRequest retrieves a single request by ID
+func GetPurchaseRequest(requestID, currentUserID int64) (*PurchaseRequest, error) {
+	var r PurchaseRequest
+	var userVote sql.NullString
+
+	err := DB.QueryRow(`
+        SELECT 
+            pr.id, pr.family_id, pr.user_id, u.name, u.avatar_url,
+            pr.item_name, pr.amount, pr.status, pr.created_at,
+            (SELECT COUNT(*) FROM votes WHERE request_id = pr.id AND vote = 'approve') as approve_votes,
+            (SELECT COUNT(*) FROM votes WHERE request_id = pr.id AND vote = 'reject') as reject_votes,
+            (SELECT vote FROM votes WHERE request_id = pr.id AND user_id = ?) as user_vote
+        FROM purchase_requests pr
+        JOIN users u ON pr.user_id = u.id
+        WHERE pr.id = ?
+    `, currentUserID, requestID).Scan(
+		&r.ID, &r.FamilyID, &r.UserID, &r.UserName, &r.UserAvatar,
+		&r.ItemName, &r.Amount, &r.Status, &r.CreatedAt,
+		&r.ApproveVotes, &r.RejectVotes, &userVote,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	// Get total voters
+	DB.QueryRow("SELECT COUNT(*) FROM users WHERE family_id = ?", r.FamilyID).Scan(&r.TotalVoters)
+	r.UserVoted = userVote.Valid
+	r.UserVote = userVote.String
+
+	return &r, nil
+}
+
+// UpdateRequestStatus updates the status of a purchase request
+func UpdateRequestStatus(requestID int64, status string) error {
+	_, err := DB.Exec("UPDATE purchase_requests SET status = ? WHERE id = ?", status, requestID)
+	return err
 }
 
 func Close() error {

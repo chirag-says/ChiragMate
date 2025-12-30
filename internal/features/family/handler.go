@@ -30,6 +30,21 @@ func HandleSettings(w http.ResponseWriter, r *http.Request) {
 	SettingsPage(user, family, members).Render(r.Context(), w)
 }
 
+func HandleUserSettings(w http.ResponseWriter, r *http.Request) {
+	user := middleware.GetUser(r.Context())
+	if user == nil {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
+
+	family, err := database.GetFamilyByID(user.FamilyID)
+	if err != nil {
+		family = &database.Family{Name: "My Family", SubscriptionTier: "free"}
+	}
+
+	UserSettingsPage(user, family).Render(r.Context(), w)
+}
+
 func HandleInviteLink(w http.ResponseWriter, r *http.Request) {
 	user := middleware.GetUser(r.Context())
 	if user == nil {

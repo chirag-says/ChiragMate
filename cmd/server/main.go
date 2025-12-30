@@ -90,14 +90,14 @@ func main() {
 		r.Get("/transactions/import/cancel", transactionsHandler.HandleHideImportForm)
 		r.Post("/transactions/import", transactionsHandler.HandleImport)
 
-		// Settings (Family Command Center)
-		r.Get("/settings", family.HandleSettings)
+		// Settings (User Account Settings)
+		r.Get("/settings", family.HandleUserSettings)
 		r.Get("/settings/invite/form", family.HandleShowInviteForm)
 		r.Post("/settings/invite", family.HandleInviteMember)
 		r.Post("/settings/invite/{id}/accept", family.HandleAcceptInvite)
 		r.Post("/settings/invite/{id}/decline", family.HandleDeclineInvite)
 
-		// Family (Alias for Settings + Invite Link)
+		// Family HQ (Family Command Center)
 		r.Get("/family", family.HandleSettings)
 		r.Get("/family/invite", family.HandleInviteLink)
 
@@ -105,6 +105,8 @@ func main() {
 		r.Get("/budgets", budgetsHandler.HandleIndex)
 		r.Post("/budgets", budgetsHandler.HandleSave)
 		r.Post("/budgets/category", budgetsHandler.HandleAddCategory)
+		r.Post("/budgets/requests", budgetsHandler.HandleCreateRequest)
+		r.Post("/budgets/vote", budgetsHandler.HandleVote)
 	})
 
 	// Start server

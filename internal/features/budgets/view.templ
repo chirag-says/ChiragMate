@@ -3,6 +3,7 @@ package budgets
 import (
 	"fmt"
 	"time"
+	"github.com/budgetmate/web/internal/database"
 	"github.com/budgetmate/web/internal/shared/components"
 )
 
@@ -36,7 +37,7 @@ templ BudgetsPage(data BudgetsData) {
 		</div>
 		
 		<!-- Budget Grid -->
-		<div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+		<div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-8">
 			<div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
 				<div class="flex items-center gap-3">
 					<div class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center">
@@ -68,6 +69,11 @@ templ BudgetsPage(data BudgetsData) {
 					</div>
 				}
 			</div>
+		</div>
+		
+		<!-- Purchase Approvals Section -->
+		<div id="purchase-requests-section">
+			@PurchaseRequestsSection(data.PurchaseRequests, data.CurrentUserID)
 		</div>
 	}
 }
@@ -266,4 +272,184 @@ func minFloat(a, b float64) float64 {
 		return a
 	}
 	return b
+}
+
+templ PurchaseRequestsSection(requests []database.PurchaseRequest, currentUserID int64) {
+	<div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+		<div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+			<div class="flex items-center gap-3">
+				<div class="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center">
+					<svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+					</svg>
+				</div>
+				<div>
+					<h3 class="text-sm font-semibold text-slate-900">Purchase Approvals</h3>
+					<p class="text-xs text-slate-500">Family democracy in action</p>
+				</div>
+			</div>
+			<button 
+				class="px-3 py-1.5 bg-purple-600 text-white text-xs font-medium rounded-lg hover:bg-purple-700 transition-colors"
+				onclick="document.getElementById('new-request-modal').showModal()"
+			>
+				+ New Request
+			</button>
+		</div>
+		
+		<div class="p-6">
+			if len(requests) == 0 {
+				<div class="text-center py-8">
+					<svg class="w-12 h-12 mx-auto text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+					</svg>
+					<p class="text-sm font-medium text-slate-500">No pending requests</p>
+					<p class="text-xs text-slate-400 mt-1">Create a request for family approval</p>
+				</div>
+			} else {
+				<div class="space-y-4" id="requests-list">
+					for _, req := range requests {
+						@PurchaseRequestCard(req, currentUserID)
+					}
+				</div>
+			}
+		</div>
+	</div>
+	
+	<!-- New Request Modal -->
+	<dialog id="new-request-modal" class="p-0 rounded-2xl shadow-2xl backdrop:bg-black/50 w-full max-w-md">
+		<div class="bg-white rounded-2xl">
+			<div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+				<h3 class="text-lg font-semibold text-slate-800">New Purchase Request</h3>
+				<button onclick="document.getElementById('new-request-modal').close()" class="text-slate-400 hover:text-slate-600">
+					<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+					</svg>
+				</button>
+			</div>
+			<form 
+				hx-post="/app/budgets/requests" 
+				hx-target="#purchase-requests-section"
+				hx-swap="innerHTML"
+				class="p-6 space-y-4"
+				onsubmit="setTimeout(() => document.getElementById('new-request-modal').close(), 100)"
+			>
+				<div>
+					<label class="block text-sm font-medium text-slate-700 mb-1">What do you want to buy?</label>
+					<input 
+						type="text" 
+						name="item_name" 
+						required
+						class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none"
+						placeholder="e.g., New TV, Vacation, iPhone..."
+					/>
+				</div>
+				<div>
+					<label class="block text-sm font-medium text-slate-700 mb-1">Amount (₹)</label>
+					<input 
+						type="number" 
+						name="amount" 
+						required
+						min="1"
+						class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none"
+						placeholder="50000"
+					/>
+				</div>
+				<button type="submit" class="w-full py-3 bg-purple-600 text-white font-semibold rounded-xl hover:bg-purple-700 transition-colors">
+					Submit for Approval
+				</button>
+			</form>
+		</div>
+	</dialog>
+}
+
+templ PurchaseRequestCard(req database.PurchaseRequest, currentUserID int64) {
+	<div 
+		id={ fmt.Sprintf("request-%d", req.ID) }
+		class="p-4 rounded-xl border border-slate-100 bg-gradient-to-br from-white to-slate-50/50 hover:shadow-md transition-shadow"
+	>
+		<div class="flex items-start justify-between gap-4">
+			<!-- Left: User & Item -->
+			<div class="flex items-center gap-3 min-w-0">
+				<img src={ req.UserAvatar } alt={ req.UserName } class="w-10 h-10 rounded-full border-2 border-white shadow-sm"/>
+				<div class="min-w-0">
+					<p class="text-sm font-semibold text-slate-800 truncate">{ req.ItemName }</p>
+					<p class="text-xs text-slate-500">by { req.UserName } • { components.FormatINR(req.Amount) }</p>
+				</div>
+			</div>
+			
+			<!-- Right: Vote Buttons or Status -->
+			<div class="flex items-center gap-2 flex-shrink-0">
+				if req.Status == "pending" {
+					if !req.UserVoted {
+						<!-- Vote Buttons -->
+						<button 
+							class="p-2 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition-colors"
+							hx-post="/app/budgets/vote"
+							hx-vals={ fmt.Sprintf(`{"request_id": "%d", "vote": "approve"}`, req.ID) }
+							hx-target={ fmt.Sprintf("#request-%d", req.ID) }
+							hx-swap="outerHTML"
+						>
+							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"/>
+							</svg>
+						</button>
+						<button 
+							class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors"
+							hx-post="/app/budgets/vote"
+							hx-vals={ fmt.Sprintf(`{"request_id": "%d", "vote": "reject"}`, req.ID) }
+							hx-target={ fmt.Sprintf("#request-%d", req.ID) }
+							hx-swap="outerHTML"
+						>
+							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.096c.5 0 .905-.405.905-.904 0-.715.211-1.413.608-2.008L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5"/>
+							</svg>
+						</button>
+					} else {
+						<!-- Already Voted Badge -->
+						<span class={ "text-xs font-medium px-2 py-1 rounded-full",
+							templ.KV("bg-emerald-100 text-emerald-700", req.UserVote == "approve"),
+							templ.KV("bg-rose-100 text-rose-700", req.UserVote == "reject") }>
+							if req.UserVote == "approve" {
+								You voted ✓
+							} else {
+								You voted ✗
+							}
+						</span>
+					}
+				} else {
+					<!-- Status Badge -->
+					<span class={ "text-xs font-bold px-3 py-1 rounded-full uppercase",
+						templ.KV("bg-emerald-100 text-emerald-700", req.Status == "approved"),
+						templ.KV("bg-rose-100 text-rose-700", req.Status == "rejected") }>
+						{ req.Status }
+					</span>
+				}
+			</div>
+		</div>
+		
+		<!-- Vote Progress Bar -->
+		if req.TotalVoters > 0 && req.Status == "pending" {
+			<div class="mt-3 pt-3 border-t border-slate-100">
+				<div class="flex items-center gap-2 text-xs text-slate-500 mb-1.5">
+					<span class="text-emerald-600 font-medium">{ fmt.Sprintf("%d Yes", req.ApproveVotes) }</span>
+					<span>•</span>
+					<span class="text-rose-600 font-medium">{ fmt.Sprintf("%d No", req.RejectVotes) }</span>
+					<span>•</span>
+					<span>{ fmt.Sprintf("%d/%d voted", req.ApproveVotes + req.RejectVotes, req.TotalVoters) }</span>
+				</div>
+				<div class="h-1.5 bg-slate-100 rounded-full overflow-hidden flex">
+					if req.ApproveVotes + req.RejectVotes > 0 {
+						<div 
+							class="h-full bg-emerald-500 transition-all"
+							style={ fmt.Sprintf("width: %.1f%%", float64(req.ApproveVotes)/float64(req.ApproveVotes + req.RejectVotes)*100) }
+						></div>
+						<div 
+							class="h-full bg-rose-500 transition-all"
+							style={ fmt.Sprintf("width: %.1f%%", float64(req.RejectVotes)/float64(req.ApproveVotes + req.RejectVotes)*100) }
+						></div>
+					}
+				</div>
+			</div>
+		}
+	</div>
 }
