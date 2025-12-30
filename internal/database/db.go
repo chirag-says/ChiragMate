@@ -227,6 +227,47 @@ func GetTotalBalance() (float64, error) {
 	return income - expense, nil
 }
 
+// GetTotalIncome returns the sum of all income transactions
+func GetTotalIncome() (float64, error) {
+	var total float64
+	err := DB.QueryRow(`SELECT COALESCE(SUM(amount), 0) FROM transactions WHERE type = 'income'`).Scan(&total)
+	return total, err
+}
+
+// GetTotalExpenses returns the sum of all expense transactions
+func GetTotalExpenses() (float64, error) {
+	var total float64
+	err := DB.QueryRow(`SELECT COALESCE(SUM(amount), 0) FROM transactions WHERE type = 'expense'`).Scan(&total)
+	return total, err
+}
+
+// GetCategoryBreakdown returns spending grouped by category
+func GetCategoryBreakdown() (map[string]float64, error) {
+	rows, err := DB.Query(`
+		SELECT category, SUM(amount) as total 
+		FROM transactions 
+		WHERE type = 'expense' 
+		GROUP BY category 
+		ORDER BY total DESC
+	`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	breakdown := make(map[string]float64)
+	for rows.Next() {
+		var category string
+		var total float64
+		if err := rows.Scan(&category, &total); err != nil {
+			return nil, err
+		}
+		breakdown[category] = total
+	}
+
+	return breakdown, rows.Err()
+}
+
 // UpdateTransaction updates a transaction
 func UpdateTransaction(t *Transaction) error {
 	_, err := DB.Exec(`

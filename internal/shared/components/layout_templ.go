@@ -42,7 +42,7 @@ func Layout(title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " | BudgetMate</title><!-- Tailwind CSS --><script src=\"https://cdn.tailwindcss.com\"></script><script>\r\n\t\t\ttailwind.config = {\r\n\t\t\t\ttheme: {\r\n\t\t\t\t\textend: {\r\n\t\t\t\t\t\tfontFamily: {\r\n\t\t\t\t\t\t\tsans: ['Inter', 'system-ui', 'sans-serif'],\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t</script><!-- Google Fonts - Inter --><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin><link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap\" rel=\"stylesheet\"><!-- HTMX --><script src=\"https://unpkg.com/htmx.org@2.0.3\" integrity=\"sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq\" crossorigin=\"anonymous\"></script><style>\r\n\t\t\t/* Custom scrollbar */\r\n\t\t\t::-webkit-scrollbar {\r\n\t\t\t\twidth: 8px;\r\n\t\t\t}\r\n\t\t\t::-webkit-scrollbar-track {\r\n\t\t\t\tbackground: #f1f5f9;\r\n\t\t\t}\r\n\t\t\t::-webkit-scrollbar-thumb {\r\n\t\t\t\tbackground: #cbd5e1;\r\n\t\t\t\tborder-radius: 4px;\r\n\t\t\t}\r\n\t\t\t::-webkit-scrollbar-thumb:hover {\r\n\t\t\t\tbackground: #94a3b8;\r\n\t\t\t}\r\n\t\t\t\r\n\t\t\t/* Smooth transitions */\r\n\t\t\t.htmx-swapping {\r\n\t\t\t\topacity: 0;\r\n\t\t\t\ttransition: opacity 0.2s ease-out;\r\n\t\t\t}\r\n\t\t\t\r\n\t\t\t/* Card hover effect */\r\n\t\t\t.card-hover {\r\n\t\t\t\ttransition: transform 0.2s ease, box-shadow 0.2s ease;\r\n\t\t\t}\r\n\t\t\t.card-hover:hover {\r\n\t\t\t\ttransform: translateY(-2px);\r\n\t\t\t\tbox-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);\r\n\t\t\t}\r\n\t\t</style></head><body class=\"h-full bg-slate-50 font-sans antialiased\"><div class=\"flex h-full\"><!-- Sidebar -->")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " | BudgetMate</title><!-- Tailwind CSS --><script src=\"https://cdn.tailwindcss.com\"></script><script>\r\n\t\t\ttailwind.config = {\r\n\t\t\t\ttheme: {\r\n\t\t\t\t\textend: {\r\n\t\t\t\t\t\tfontFamily: {\r\n\t\t\t\t\t\t\tsans: ['Inter', 'system-ui', 'sans-serif'],\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t</script><!-- Google Fonts - Inter --><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin><link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap\" rel=\"stylesheet\"><!-- HTMX --><script src=\"https://unpkg.com/htmx.org@2.0.3\" integrity=\"sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq\" crossorigin=\"anonymous\"></script><!-- Chart.js --><script src=\"https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js\"></script><style>\r\n\t\t\t/* Custom scrollbar */\r\n\t\t\t::-webkit-scrollbar {\r\n\t\t\t\twidth: 8px;\r\n\t\t\t}\r\n\t\t\t::-webkit-scrollbar-track {\r\n\t\t\t\tbackground: #f1f5f9;\r\n\t\t\t}\r\n\t\t\t::-webkit-scrollbar-thumb {\r\n\t\t\t\tbackground: #cbd5e1;\r\n\t\t\t\tborder-radius: 4px;\r\n\t\t\t}\r\n\t\t\t::-webkit-scrollbar-thumb:hover {\r\n\t\t\t\tbackground: #94a3b8;\r\n\t\t\t}\r\n\t\t\t\r\n\t\t\t/* Smooth transitions */\r\n\t\t\t.htmx-swapping {\r\n\t\t\t\topacity: 0;\r\n\t\t\t\ttransition: opacity 0.2s ease-out;\r\n\t\t\t}\r\n\t\t\t\r\n\t\t\t/* Card hover effect */\r\n\t\t\t.card-hover {\r\n\t\t\t\ttransition: transform 0.2s ease, box-shadow 0.2s ease;\r\n\t\t\t}\r\n\t\t\t.card-hover:hover {\r\n\t\t\t\ttransform: translateY(-2px);\r\n\t\t\t\tbox-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);\r\n\t\t\t}\r\n\t\t</style></head><body class=\"h-full bg-slate-50 font-sans antialiased\"><div class=\"flex h-full\"><!-- Sidebar -->")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -150,7 +150,7 @@ func NavItem(href string, label string, icon templ.Component, active bool) templ
 		var templ_7745c5c3_Var6 templ.SafeURL
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(href))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/layout.templ`, Line: 126, Col: 29}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/layout.templ`, Line: 129, Col: 29}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -180,7 +180,7 @@ func NavItem(href string, label string, icon templ.Component, active bool) templ
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(label)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/layout.templ`, Line: 132, Col: 10}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/layout.templ`, Line: 135, Col: 10}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {

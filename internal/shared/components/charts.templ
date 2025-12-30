@@ -1,0 +1,153 @@
+package components
+
+import (
+	"encoding/json"
+	"fmt"
+)
+
+// CategoryDoughnutChart renders a Chart.js doughnut chart for spending by category
+templ CategoryDoughnutChart(data map[string]float64) {
+	<div class="bg-white rounded-2xl border border-slate-200 shadow-sm">
+		<div class="px-6 py-4 border-b border-slate-100">
+			<div class="flex items-center gap-3">
+				<div class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center">
+					<svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/>
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/>
+					</svg>
+				</div>
+				<div>
+					<h3 class="text-sm font-semibold text-slate-900">Spending by Category</h3>
+					<p class="text-xs text-slate-500">This period</p>
+				</div>
+			</div>
+		</div>
+		<div class="p-6">
+			if len(data) == 0 {
+				<div class="flex flex-col items-center justify-center py-8 text-slate-400">
+					<svg class="w-12 h-12 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+					</svg>
+					<p class="text-sm">No expense data yet</p>
+				</div>
+			} else {
+				<div class="relative">
+					<canvas id="categoryChart" class="max-h-64"></canvas>
+				</div>
+				@ChartScriptInline(ChartDataToJSON(data))
+				<!-- Legend -->
+				<div class="mt-6 space-y-2">
+					@CategoryLegend(data)
+				</div>
+			}
+		</div>
+	</div>
+}
+
+// ChartData holds the serialized chart data
+type ChartData struct {
+	Labels string
+	Values string
+}
+
+// ChartDataToJSON converts map to JSON strings for chart
+func ChartDataToJSON(data map[string]float64) ChartData {
+	labels := make([]string, 0, len(data))
+	values := make([]float64, 0, len(data))
+	for k, v := range data {
+		labels = append(labels, k)
+		values = append(values, v)
+	}
+	labelsJSON, _ := json.Marshal(labels)
+	valuesJSON, _ := json.Marshal(values)
+	return ChartData{
+		Labels: string(labelsJSON),
+		Values: string(valuesJSON),
+	}
+}
+
+templ ChartScriptInline(chartData ChartData) {
+	<script>
+		(function() {
+			const ctx = document.getElementById('categoryChart').getContext('2d');
+			const labels = { chartData.Labels };
+			const values = { chartData.Values };
+			
+			// Premium color palette
+			const colors = ['#10b981', '#f59e0b', '#6366f1', '#ec4899', '#64748b', '#14b8a6', '#8b5cf6', '#f97316'];
+			
+			new Chart(ctx, {
+				type: 'doughnut',
+				data: {
+					labels: labels,
+					datasets: [{
+						data: values,
+						backgroundColor: colors.slice(0, values.length),
+						borderWidth: 0,
+						hoverOffset: 4
+					}]
+				},
+				options: {
+					responsive: true,
+					maintainAspectRatio: true,
+					cutout: '70%',
+					plugins: {
+						legend: {
+							display: false
+						},
+						tooltip: {
+							backgroundColor: '#1e293b',
+							titleColor: '#f8fafc',
+							bodyColor: '#f8fafc',
+							padding: 12,
+							cornerRadius: 8,
+							callbacks: {
+								label: function(context) {
+									const value = context.raw;
+									return '₹' + value.toLocaleString('en-IN', {minimumFractionDigits: 2});
+								}
+							}
+						}
+					}
+				}
+			});
+		})();
+	</script>
+}
+
+templ CategoryLegend(data map[string]float64) {
+	for category, amount := range data {
+		@CategoryLegendItem(category, amount, data)
+	}
+}
+
+templ CategoryLegendItem(category string, amount float64, data map[string]float64) {
+	{{
+		colors := []string{"#10b981", "#f59e0b", "#6366f1", "#ec4899", "#64748b", "#14b8a6", "#8b5cf6", "#f97316"}
+		var total float64
+		var idx int
+		i := 0
+		for k, v := range data {
+			total += v
+			if k == category {
+				idx = i
+			}
+			i++
+		}
+		percentage := 0.0
+		if total > 0 {
+			percentage = (amount / total) * 100
+		}
+		color := colors[idx % len(colors)]
+	}}
+	<div class="flex items-center justify-between text-sm">
+		<div class="flex items-center gap-2">
+			<div class="w-3 h-3 rounded-full" style={ fmt.Sprintf("background-color: %s", color) }></div>
+			<span class="text-slate-600">{ category }</span>
+		</div>
+		<div class="flex items-center gap-3">
+			<span class="text-slate-900 font-medium">{ FormatINR(amount) }</span>
+			<span class="text-slate-400 text-xs w-12 text-right">{ fmt.Sprintf("%.1f%%", percentage) }</span>
+		</div>
+	</div>
+}
