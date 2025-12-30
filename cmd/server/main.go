@@ -7,6 +7,7 @@ import (
 
 	"github.com/budgetmate/web/internal/database"
 	"github.com/budgetmate/web/internal/features/auth"
+	"github.com/budgetmate/web/internal/features/budgets"
 	"github.com/budgetmate/web/internal/features/dashboard"
 	"github.com/budgetmate/web/internal/features/family"
 	"github.com/budgetmate/web/internal/features/landing"
@@ -44,6 +45,7 @@ func main() {
 	landingHandler := landing.NewHandler()
 	dashboardHandler := dashboard.NewHandler()
 	transactionsHandler := transactions.NewHandler()
+	budgetsHandler := budgets.NewHandler()
 
 	// =====================
 	// PUBLIC ROUTES (Marketing & Auth)
@@ -98,6 +100,11 @@ func main() {
 		// Family (Alias for Settings + Invite Link)
 		r.Get("/family", family.HandleSettings)
 		r.Get("/family/invite", family.HandleInviteLink)
+
+		// Budgets
+		r.Get("/budgets", budgetsHandler.HandleIndex)
+		r.Post("/budgets", budgetsHandler.HandleSave)
+		r.Post("/budgets/category", budgetsHandler.HandleAddCategory)
 	})
 
 	// Start server

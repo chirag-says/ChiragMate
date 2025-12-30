@@ -148,6 +148,15 @@ func migrate() error {
             FOREIGN KEY(family_id) REFERENCES families(id) ON DELETE CASCADE,
             FOREIGN KEY(created_by) REFERENCES users(id)
         );`,
+		`CREATE TABLE IF NOT EXISTS budgets (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            family_id INTEGER NOT NULL,
+            category TEXT NOT NULL,
+            amount REAL NOT NULL,
+            month TEXT NOT NULL,
+            UNIQUE(family_id, category, month),
+            FOREIGN KEY(family_id) REFERENCES families(id) ON DELETE CASCADE
+        );`,
 	}
 
 	for _, query := range queries {
@@ -573,6 +582,99 @@ func GetNotification(id int64) (*Notification, error) {
 func MarkNotificationRead(id int64) error {
 	_, err := DB.Exec("UPDATE notifications SET is_read = 1 WHERE id = ?", id)
 	return err
+}
+
+// --- Budget Functions ---
+
+// Budget represents a monthly budget for a category
+type Budget struct {
+	ID       int64
+	FamilyID int64
+	Category string
+	Amount   float64
+	Month    string
+}
+
+// SetBudget creates or updates a budget for a category/month
+func SetBudget(familyID int64, category, month string, amount float64) error {
+	_, err := DB.Exec(`
+        INSERT INTO budgets (family_id, category, amount, month)
+        VALUES (?, ?, ?, ?)
+        ON CONFLICT(family_id, category, month) 
+        DO UPDATE SET amount = excluded.amount
+    `, familyID, category, amount, month)
+	return err
+}
+
+// GetMonthlyBudgets returns all budgets for a family in a given month
+func GetMonthlyBudgets(familyID int64, month string) (map[string]float64, error) {
+	rows, err := DB.Query(`
+        SELECT category, amount FROM budgets
+        WHERE family_id = ? AND month = ?
+    `, familyID, month)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	budgets := make(map[string]float64)
+	for rows.Next() {
+		var category string
+		var amount float64
+		if err := rows.Scan(&category, &amount); err == nil {
+			budgets[category] = amount
+		}
+	}
+	return budgets, nil
+}
+
+// GetCategorySpendingForMonth returns spending by category for a specific month
+func GetCategorySpendingForMonth(familyID int64, month string) (map[string]float64, error) {
+	rows, err := DB.Query(`
+        SELECT category, SUM(amount) as total 
+        FROM transactions 
+        WHERE family_id = ? AND type = 'expense' AND strftime('%Y-%m', date) = ?
+        GROUP BY category 
+        ORDER BY total DESC
+    `, familyID, month)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	breakdown := make(map[string]float64)
+	for rows.Next() {
+		var category string
+		var total float64
+		if err := rows.Scan(&category, &total); err == nil {
+			breakdown[category] = total
+		}
+	}
+	return breakdown, nil
+}
+
+// GetAllCategories returns all unique expense categories for a family
+func GetAllCategories(familyID int64) ([]string, error) {
+	rows, err := DB.Query(`
+        SELECT DISTINCT category FROM transactions 
+        WHERE family_id = ? AND type = 'expense'
+        UNION
+        SELECT DISTINCT category FROM budgets WHERE family_id = ?
+        ORDER BY category
+    `, familyID, familyID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var categories []string
+	for rows.Next() {
+		var cat string
+		if err := rows.Scan(&cat); err == nil {
+			categories = append(categories, cat)
+		}
+	}
+	return categories, nil
 }
 
 func Close() error {

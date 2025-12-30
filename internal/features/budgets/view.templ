@@ -1,0 +1,269 @@
+package budgets
+
+import (
+	"fmt"
+	"time"
+	"github.com/budgetmate/web/internal/shared/components"
+)
+
+templ BudgetsPage(data BudgetsData) {
+	@components.Layout("Budgets", "budgets") {
+		<!-- Header -->
+		<div class="mb-8">
+			<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+				<div>
+					<h1 class="text-2xl font-bold text-slate-800">Budget Planning</h1>
+					<p class="text-slate-500 mt-1">Track spending limits for { data.MonthLabel }</p>
+				</div>
+				<div class="flex items-center gap-3">
+					<!-- Month Selector -->
+					<select 
+						class="px-4 py-2 border border-slate-200 rounded-xl text-sm font-medium bg-white focus:ring-2 focus:ring-emerald-500 outline-none"
+						onchange="window.location.href='/app/budgets?month='+this.value"
+					>
+						@MonthOptions(data.Month)
+					</select>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Summary Cards -->
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+			@SummaryCard("Total Spent", components.FormatINR(data.TotalSpent), "expense")
+			@SummaryCard("Total Budget", components.FormatINR(data.TotalLimit), "budget")
+			@SummaryCard("Remaining", components.FormatINR(data.TotalLimit - data.TotalSpent), 
+				getBudgetStatus(data.TotalSpent, data.TotalLimit))
+		</div>
+		
+		<!-- Budget Grid -->
+		<div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+			<div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+				<div class="flex items-center gap-3">
+					<div class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center">
+						<svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+						</svg>
+					</div>
+					<div>
+						<h3 class="text-sm font-semibold text-slate-900">Category Budgets</h3>
+						<p class="text-xs text-slate-500">{ fmt.Sprintf("%d categories", len(data.Rows)) }</p>
+					</div>
+				</div>
+			</div>
+			
+			<div class="p-6">
+				if len(data.Rows) == 0 {
+					<div class="text-center py-12">
+						<svg class="w-12 h-12 mx-auto text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+						</svg>
+						<p class="text-sm font-medium text-slate-500">No spending data yet</p>
+						<p class="text-xs text-slate-400 mt-1">Add some transactions to start budgeting</p>
+					</div>
+				} else {
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="budget-grid">
+						for _, row := range data.Rows {
+							@BudgetCard(row, data.Month)
+						}
+					</div>
+				}
+			</div>
+		</div>
+	}
+}
+
+templ SummaryCard(title, value, cardType string) {
+	<div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+		<div class="flex items-center gap-4">
+			<div class={ "w-12 h-12 rounded-xl flex items-center justify-center",
+				templ.KV("bg-amber-50", cardType == "expense"),
+				templ.KV("bg-indigo-50", cardType == "budget"),
+				templ.KV("bg-emerald-50", cardType == "safe"),
+				templ.KV("bg-yellow-50", cardType == "warning"),
+				templ.KV("bg-rose-50", cardType == "danger") }>
+				if cardType == "expense" {
+					<svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+					</svg>
+				}
+				if cardType == "budget" {
+					<svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+					</svg>
+				}
+				if cardType == "safe" {
+					<svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+					</svg>
+				}
+				if cardType == "warning" {
+					<svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+					</svg>
+				}
+				if cardType == "danger" {
+					<svg class="w-6 h-6 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+					</svg>
+				}
+			</div>
+			<div>
+				<p class="text-sm font-medium text-slate-500">{ title }</p>
+				<p class={ "text-2xl font-bold",
+					templ.KV("text-amber-600", cardType == "expense"),
+					templ.KV("text-indigo-600", cardType == "budget"),
+					templ.KV("text-emerald-600", cardType == "safe"),
+					templ.KV("text-yellow-600", cardType == "warning"),
+					templ.KV("text-rose-600", cardType == "danger") }>
+					{ value }
+				</p>
+			</div>
+		</div>
+	</div>
+}
+
+templ BudgetCard(row BudgetRow, month string) {
+	<div 
+		id={ fmt.Sprintf("budget-%s", row.Category) }
+		class="p-4 rounded-xl border border-slate-100 hover:border-slate-200 transition-colors bg-slate-50/50"
+	>
+		<div class="flex items-center justify-between mb-3">
+			<div class="flex items-center gap-2">
+				@CategoryIcon(row.Category)
+				<span class="text-sm font-semibold text-slate-800">{ row.Category }</span>
+			</div>
+			<span class={ "text-xs font-medium px-2 py-0.5 rounded-full",
+				templ.KV("bg-emerald-100 text-emerald-700", row.Status == "safe"),
+				templ.KV("bg-yellow-100 text-yellow-700", row.Status == "warning"),
+				templ.KV("bg-rose-100 text-rose-700", row.Status == "danger"),
+				templ.KV("bg-slate-100 text-slate-500", row.Status == "unset") }>
+				if row.Status == "unset" {
+					No limit
+				} else {
+					{ fmt.Sprintf("%.0f%%", row.Percentage) }
+				}
+			</span>
+		</div>
+		
+		<!-- Progress Bar -->
+		<div class="h-2 bg-slate-200 rounded-full overflow-hidden mb-3">
+			<div 
+				class={ "h-full rounded-full transition-all",
+					templ.KV("bg-emerald-500", row.Status == "safe"),
+					templ.KV("bg-yellow-500", row.Status == "warning"),
+					templ.KV("bg-rose-500", row.Status == "danger"),
+					templ.KV("bg-slate-300", row.Status == "unset") }
+				style={ fmt.Sprintf("width: %.1f%%", minFloat(row.Percentage, 100)) }
+			></div>
+		</div>
+		
+		<!-- Amounts -->
+		<div class="flex items-center justify-between text-sm">
+			<span class="text-slate-600">
+				<span class="font-semibold text-slate-800">{ components.FormatINR(row.Spent) }</span>
+				<span class="text-slate-400"> spent</span>
+			</span>
+			
+			<!-- Editable Limit -->
+			<div x-data="{ editing: false }" class="flex items-center gap-1">
+				<template x-if="!editing">
+					<button 
+						@click="editing = true" 
+						class="text-slate-500 hover:text-emerald-600 transition-colors flex items-center gap-1"
+					>
+						if row.Limit > 0 {
+							<span class="font-medium">/ { components.FormatINR(row.Limit) }</span>
+						} else {
+							<span class="text-xs text-emerald-600">+ Set limit</span>
+						}
+						<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+						</svg>
+					</button>
+				</template>
+				<template x-if="editing">
+					<form 
+						hx-post="/app/budgets"
+						hx-target={ fmt.Sprintf("#budget-%s", row.Category) }
+						hx-swap="outerHTML"
+						class="flex items-center gap-1"
+						@submit="editing = false"
+					>
+						<input type="hidden" name="category" value={ row.Category }/>
+						<input type="hidden" name="month" value={ month }/>
+						<span class="text-slate-400">/</span>
+						<input 
+							type="number" 
+							name="amount" 
+							value={ fmt.Sprintf("%.0f", row.Limit) }
+							class="w-20 px-2 py-1 text-sm border border-emerald-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
+							step="100"
+							min="0"
+							autofocus
+						/>
+						<button type="submit" class="p-1 text-emerald-600 hover:bg-emerald-50 rounded">
+							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+							</svg>
+						</button>
+						<button type="button" @click="editing = false" class="p-1 text-slate-400 hover:bg-slate-100 rounded">
+							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+							</svg>
+						</button>
+					</form>
+				</template>
+			</div>
+		</div>
+	</div>
+}
+
+templ CategoryIcon(category string) {
+	<div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-400 to-indigo-600 flex items-center justify-center">
+		<span class="text-white text-xs font-bold">{ string([]rune(category)[0]) }</span>
+	</div>
+}
+
+templ MonthOptions(currentMonth string) {
+	for _, m := range getMonthOptions() {
+		<option value={ m.Value } selected?={ m.Value == currentMonth }>{ m.Label }</option>
+	}
+}
+
+type MonthOption struct {
+	Value string
+	Label string
+}
+
+func getMonthOptions() []MonthOption {
+	var options []MonthOption
+	now := time.Now()
+	for i := 0; i < 12; i++ {
+		m := now.AddDate(0, -i, 0)
+		options = append(options, MonthOption{
+			Value: m.Format("2006-01"),
+			Label: m.Format("January 2006"),
+		})
+	}
+	return options
+}
+
+func getBudgetStatus(spent, limit float64) string {
+	if limit <= 0 {
+		return "safe"
+	}
+	pct := (spent / limit) * 100
+	if pct >= 100 {
+		return "danger"
+	} else if pct >= 75 {
+		return "warning"
+	}
+	return "safe"
+}
+
+func minFloat(a, b float64) float64 {
+	if a < b {
+		return a
+	}
+	return b
+}
