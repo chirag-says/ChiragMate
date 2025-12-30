@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"errors"
+	"math/big"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -27,4 +28,18 @@ func GenerateSecureToken() (string, error) {
 		return "", errors.New("failed to generate random token")
 	}
 	return hex.EncodeToString(bytes), nil
+}
+
+// GenerateInviteCode creates a short, readable random code (e.g. 8 chars)
+func GenerateInviteCode() (string, error) {
+	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	b := make([]byte, 8)
+	for i := range b {
+		num, err := rand.Int(rand.Reader, big.NewInt(int64(len(charset))))
+		if err != nil {
+			return "", err
+		}
+		b[i] = charset[num.Int64()]
+	}
+	return string(b), nil
 }

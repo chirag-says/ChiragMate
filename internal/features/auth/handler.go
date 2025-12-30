@@ -9,7 +9,14 @@ import (
 
 func HandleLogin(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
-		Login("").Render(r.Context(), w)
+		// Pass the 'next' parameter if present, basically implies we might need to modify view to support it
+		// Check r.URL.Query().Get("next")
+		// But the view function Login() takes only 'error' string currently.
+		// We will keep it simple: We rely on the layout or custom handling,
+		// BUT actually, we can't preserve "next" if the view doesn't render it in the form action.
+		// For now, let's assume the user just wants the redirect logic fixed.
+		// We will need to update the view to preserve 'next'.
+		Login("", r.URL.Query().Get("next")).Render(r.Context(), w)
 		return
 	}
 
@@ -17,21 +24,24 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 		email := r.FormValue("email")
 		password := r.FormValue("password")
 
+		// Grab 'next' from query param - NOTE: r.FormValue gets from query OR body
+		next := r.FormValue("next")
+
 		user, err := database.GetUserByEmail(email)
 		if err != nil {
-			Login("Invalid email or password").Render(r.Context(), w)
+			Login("Invalid email or password", next).Render(r.Context(), w)
 			return
 		}
 
 		if !database.CheckPasswordHash(password, user.PasswordHash) {
-			Login("Invalid email or password").Render(r.Context(), w)
+			Login("Invalid email or password", next).Render(r.Context(), w)
 			return
 		}
 
 		// Create Session
 		token, err := database.CreateSession(user.ID)
 		if err != nil {
-			Login("System error, please try again").Render(r.Context(), w)
+			Login("System error, please try again", next).Render(r.Context(), w)
 			return
 		}
 
@@ -46,7 +56,12 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 			SameSite: http.SameSiteStrictMode,
 		})
 
-		http.Redirect(w, r, "/app", http.StatusSeeOther)
+		// Handles Redirect
+		if next != "" {
+			http.Redirect(w, r, next, http.StatusSeeOther)
+		} else {
+			http.Redirect(w, r, "/app", http.StatusSeeOther)
+		}
 	}
 }
 
@@ -129,7 +144,7 @@ func HandleDemoLogin(w http.ResponseWriter, r *http.Request) {
 
 func HandleSignup(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
-		Signup("").Render(r.Context(), w)
+		Signup("", r.URL.Query().Get("next")).Render(r.Context(), w)
 		return
 	}
 
@@ -142,22 +157,23 @@ func HandleSignup(w http.ResponseWriter, r *http.Request) {
 		name := r.FormValue("name") // User name
 		email := r.FormValue("email")
 		password := r.FormValue("password")
+		next := r.FormValue("next")
 
 		if name == "" || email == "" || password == "" {
-			Signup("All fields are required").Render(r.Context(), w)
+			Signup("All fields are required", next).Render(r.Context(), w)
 			return
 		}
 
 		// Check if email exists first
 		if _, err := database.GetUserByEmail(email); err == nil {
-			Signup("Email already registered").Render(r.Context(), w)
+			Signup("Email already registered", next).Render(r.Context(), w)
 			return
 		}
 
 		// Transactional Signup
 		user, err := database.RegisterFamilyAdmin(name, email, password)
 		if err != nil {
-			Signup("Registration failed. Please try again.").Render(r.Context(), w)
+			Signup("Registration failed. Please try again.", next).Render(r.Context(), w)
 			return
 		}
 
@@ -178,7 +194,12 @@ func HandleSignup(w http.ResponseWriter, r *http.Request) {
 			SameSite: http.SameSiteStrictMode,
 		})
 
-		http.Redirect(w, r, "/app", http.StatusSeeOther)
+		// Handle next redirect if provided (though mostly used for login)
+		if next != "" {
+			http.Redirect(w, r, next, http.StatusSeeOther)
+		} else {
+			http.Redirect(w, r, "/app", http.StatusSeeOther)
+		}
 	}
 }
 

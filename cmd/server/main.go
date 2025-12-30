@@ -59,6 +59,10 @@ func main() {
 		r.Post("/demo-login", auth.HandleDemoLogin)
 	})
 
+	// Public Invite Join Route (Accessible by both guests and auth users)
+	r.Get("/join/{code}", family.HandleJoinRequest)
+	r.Post("/join/{code}", family.HandleJoinAction)
+
 	r.Post("/logout", auth.HandleLogout)
 
 	// =====================
@@ -90,6 +94,10 @@ func main() {
 		r.Post("/settings/invite", family.HandleInviteMember)
 		r.Post("/settings/invite/{id}/accept", family.HandleAcceptInvite)
 		r.Post("/settings/invite/{id}/decline", family.HandleDeclineInvite)
+
+		// Family (Alias for Settings + Invite Link)
+		r.Get("/family", family.HandleSettings)
+		r.Get("/family/invite", family.HandleInviteLink)
 	})
 
 	// Start server

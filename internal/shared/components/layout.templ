@@ -86,6 +86,80 @@ templ Layout(title string, activeTab string) {
 	</html>
 }
 
+templ Header() {
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta name="description" content="BudgetMate - Privacy-centric family finance dashboard for the Indian market"/>
+	<title>BudgetMate</title>
+	
+	<!-- Tailwind CSS -->
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+	<script>
+		tailwind.config = {
+			theme: {
+				extend: {
+					fontFamily: {
+						sans: ['Inter', 'system-ui', 'sans-serif'],
+					},
+					animation: {
+						'fade-in-up': 'fadeInUp 0.5s ease-out',
+					},
+					keyframes: {
+						fadeInUp: {
+							'0%': { opacity: '0', transform: 'translateY(10px)' },
+							'100%': { opacity: '1', transform: 'translateY(0)' },
+						}
+					}
+				}
+			}
+		}
+	</script>
+	
+	<!-- Google Fonts - Inter -->
+	<link rel="preconnect" href="https://fonts.googleapis.com"/>
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+	
+	<!-- HTMX -->
+	<script src="https://unpkg.com/htmx.org@2.0.3" integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq" crossorigin="anonymous"></script>
+	
+	<!-- Chart.js -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+	
+	<style>
+		/* Custom scrollbar */
+		::-webkit-scrollbar {
+			width: 8px;
+		}
+		::-webkit-scrollbar-track {
+			background: #f1f5f9;
+		}
+		::-webkit-scrollbar-thumb {
+			background: #cbd5e1;
+			border-radius: 4px;
+		}
+		::-webkit-scrollbar-thumb:hover {
+			background: #94a3b8;
+		}
+		
+		/* Smooth transitions */
+		.htmx-swapping {
+			opacity: 0;
+			transition: opacity 0.2s ease-out;
+		}
+		
+		/* Card hover effect */
+		.card-hover {
+			transition: transform 0.2s ease, box-shadow 0.2s ease;
+		}
+		.card-hover:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+		}
+	</style>
+}
+
 templ Sidebar(activeTab string) {
 	<aside class="w-64 bg-white border-r border-slate-200 flex flex-col">
 		<!-- Logo -->

@@ -35,7 +35,7 @@ templ AuthLayout(title string) {
 	</html>
 }
 
-templ Login(errorMsg string) {
+templ Login(errorMsg, next string) {
 	@AuthLayout("Login") {
 		<h3 class="text-xl font-medium text-gray-900 mb-6 border-b border-gray-100 pb-4">Sign in</h3>
 		if errorMsg != "" {
@@ -45,6 +45,9 @@ templ Login(errorMsg string) {
 			</div>
 		}
 		<form class="space-y-6" action="/login" method="POST">
+            if next != "" {
+                <input type="hidden" name="next" value={ next } />
+            }
 			<div>
 				<label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
 				<div class="mt-1">
@@ -80,18 +83,21 @@ templ Login(errorMsg string) {
         </div>
 
 		<div class="mt-6 text-center pt-4 border-t border-gray-50">
-			<a href="/signup" class="text-sm font-medium text-emerald-600 hover:text-emerald-500">Create a new family account →</a>
+			<a href={ templ.SafeURL("/signup?next=" + next) } class="text-sm font-medium text-emerald-600 hover:text-emerald-500">Create a new family account →</a>
 		</div>
 	}
 }
 
-templ Signup(errorMsg string) {
+templ Signup(errorMsg, next string) {
 	@AuthLayout("Signup") {
 		<h3 class="text-xl font-medium text-gray-900 mb-6 border-b border-gray-100 pb-4">Create Family Space</h3>
 		if errorMsg != "" {
 			<div class="bg-red-50 border border-red-200 text-red-600 p-3 rounded-lg mb-4 text-sm">{ errorMsg }</div>
 		}
 		<form class="space-y-6" action="/signup" method="POST">
+            if next != "" {
+                <input type="hidden" name="next" value={ next } />
+            }
 			<div>
 				<label for="familyName" class="block text-sm font-medium text-gray-700">Family Name (e.g. The Guptas)</label>
 				<div class="mt-1">
@@ -130,7 +136,7 @@ templ Signup(errorMsg string) {
 			</div>
 		</form>
 		<div class="mt-6 text-center pt-4 border-t border-gray-50">
-			<a href="/login" class="text-sm font-medium text-emerald-600 hover:text-emerald-500">Already rely on us? Sign in</a>
+			<a href={ templ.SafeURL("/login?next=" + next) } class="text-sm font-medium text-emerald-600 hover:text-emerald-500">Already rely on us? Sign in</a>
 		</div>
 	}
 }

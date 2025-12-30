@@ -60,6 +60,13 @@ type Notification struct {
 	CreatedAt time.Time
 }
 
+type Invite struct {
+	Code      string
+	FamilyID  int64
+	CreatedBy int64
+	ExpiresAt time.Time
+}
+
 // --- Initialization ---
 
 // Init initializes the SQLite database connection and runs migrations
@@ -133,6 +140,14 @@ func migrate() error {
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
         );`,
+		`CREATE TABLE IF NOT EXISTS invites (
+            code TEXT PRIMARY KEY,
+            family_id INTEGER NOT NULL,
+            created_by INTEGER NOT NULL,
+            expires_at DATETIME NOT NULL,
+            FOREIGN KEY(family_id) REFERENCES families(id) ON DELETE CASCADE,
+            FOREIGN KEY(created_by) REFERENCES users(id)
+        );`,
 	}
 
 	for _, query := range queries {
@@ -141,7 +156,7 @@ func migrate() error {
 		}
 	}
 
-	// Simple migration strategy
+	// Simple migration strategy for transactions
 	var count int
 	err := DB.QueryRow("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='transactions'").Scan(&count)
 	if err == nil && count > 0 {
@@ -281,8 +296,18 @@ func DeleteSession(token string) error {
 	return err
 }
 
+func GetFamilyByID(id int64) (*Family, error) {
+	f := &Family{}
+	err := DB.QueryRow("SELECT id, name, subscription_tier, created_at FROM families WHERE id = ?", id).
+		Scan(&f.ID, &f.Name, &f.SubscriptionTier, &f.CreatedAt)
+	if err != nil {
+		return nil, err
+	}
+	return f, nil
+}
+
 func GetFamilyMembers(familyID int64) ([]User, error) {
-	rows, err := DB.Query("SELECT id, name, avatar_url, role FROM users WHERE family_id = ?", familyID)
+	rows, err := DB.Query("SELECT id, name, avatar_url, role, email FROM users WHERE family_id = ?", familyID)
 	if err != nil {
 		return nil, err
 	}
@@ -291,7 +316,7 @@ func GetFamilyMembers(familyID int64) ([]User, error) {
 	var users []User
 	for rows.Next() {
 		var u User
-		if err := rows.Scan(&u.ID, &u.Name, &u.AvatarURL, &u.Role); err == nil {
+		if err := rows.Scan(&u.ID, &u.Name, &u.AvatarURL, &u.Role, &u.Email); err == nil {
 			users = append(users, u)
 		}
 	}
@@ -302,6 +327,33 @@ func GetFamilyMembers(familyID int64) ([]User, error) {
 func UpdateUserFamily(userID int64, familyID int64) error {
 	_, err := DB.Exec("UPDATE users SET family_id = ? WHERE id = ?", familyID, userID)
 	return err
+}
+
+// --- Invite Functions ---
+
+func CreateInvite(familyID, userID int64) (string, error) {
+	code, err := GenerateInviteCode()
+	if err != nil {
+		return "", err
+	}
+	expiresAt := time.Now().Add(24 * time.Hour) // 24 hour expiry
+
+	_, err = DB.Exec("INSERT INTO invites (code, family_id, created_by, expires_at) VALUES (?, ?, ?, ?)",
+		code, familyID, userID, expiresAt)
+	if err != nil {
+		return "", err
+	}
+	return code, nil
+}
+
+func GetInvite(code string) (*Invite, error) {
+	i := &Invite{}
+	err := DB.QueryRow("SELECT code, family_id, created_by, expires_at FROM invites WHERE code = ? AND expires_at > CURRENT_TIMESTAMP", code).
+		Scan(&i.Code, &i.FamilyID, &i.CreatedBy, &i.ExpiresAt)
+	if err != nil {
+		return nil, err // Returns error if expired or not found
+	}
+	return i, nil
 }
 
 // --- Transaction Functions ---
