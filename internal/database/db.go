@@ -604,6 +604,11 @@ func MarkNotificationRead(id int64) error {
 	return err
 }
 
+func MarkAllNotificationsRead(userID int64) error {
+	_, err := DB.Exec("UPDATE notifications SET is_read = 1 WHERE user_id = ?", userID)
+	return err
+}
+
 // --- Budget Functions ---
 
 // Budget represents a monthly budget for a category
@@ -717,7 +722,7 @@ type PurchaseRequest struct {
 	UserVote     string
 }
 
-// CreatePurchaseRequest creates a new purchase request
+// CreatePurchaseRequest creates a new purchase request and notifies family
 func CreatePurchaseRequest(familyID, userID int64, itemName string, amount float64) (int64, error) {
 	res, err := DB.Exec(`
         INSERT INTO purchase_requests (family_id, user_id, item_name, amount)
@@ -726,10 +731,21 @@ func CreatePurchaseRequest(familyID, userID int64, itemName string, amount float
 	if err != nil {
 		return 0, err
 	}
-	return res.LastInsertId()
+
+	requestID, _ := res.LastInsertId()
+
+	// Get requestor name
+	var userName string
+	DB.QueryRow("SELECT name FROM users WHERE id = ?", userID).Scan(&userName)
+
+	// Notify other family members
+	message := fmt.Sprintf("%s requested: %s (%s)", userName, itemName, FormatINR(amount))
+	notifyFamilyExcept(familyID, userID, "purchase_request", message, fmt.Sprintf("%d", requestID))
+
+	return requestID, nil
 }
 
-// CastVote records a vote on a purchase request
+// CastVote records a vote on a purchase request and sends notifications
 func CastVote(requestID, userID int64, vote string) error {
 	_, err := DB.Exec(`
         INSERT INTO votes (request_id, user_id, vote)
@@ -737,7 +753,93 @@ func CastVote(requestID, userID int64, vote string) error {
         ON CONFLICT(request_id, user_id) 
         DO UPDATE SET vote = excluded.vote
     `, requestID, userID, vote)
-	return err
+	if err != nil {
+		return err
+	}
+
+	// Get voter name and request details
+	var voterName, itemName string
+	var requestorID int64
+	DB.QueryRow("SELECT name FROM users WHERE id = ?", userID).Scan(&voterName)
+	DB.QueryRow("SELECT user_id, item_name FROM purchase_requests WHERE id = ?", requestID).Scan(&requestorID, &itemName)
+
+	// Notify the requestor about the vote
+	voteEmoji := "approved"
+	if vote == "reject" {
+		voteEmoji = "rejected"
+	}
+	if requestorID != userID {
+		message := fmt.Sprintf("%s %s your request: %s", voterName, voteEmoji, itemName)
+		CreateNotification(requestorID, "vote", message, fmt.Sprintf("%d", requestID))
+	}
+
+	return nil
+}
+
+// NotifyRequestStatusChange notifies all family members when a request is approved/rejected
+func NotifyRequestStatusChange(requestID int64, status string) {
+	var familyID int64
+	var itemName string
+	DB.QueryRow("SELECT family_id, item_name FROM purchase_requests WHERE id = ?", requestID).Scan(&familyID, &itemName)
+
+	var statusText string
+	if status == "approved" {
+		statusText = "approved"
+	} else {
+		statusText = "rejected"
+	}
+
+	message := fmt.Sprintf("Request for %s was %s!", itemName, statusText)
+	notifyFamily(familyID, "request_status", message, fmt.Sprintf("%d", requestID))
+}
+
+// notifyFamily sends a notification to all members of a family
+func notifyFamily(familyID int64, nType, message, data string) {
+	rows, err := DB.Query("SELECT id FROM users WHERE family_id = ?", familyID)
+	if err != nil {
+		return
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var userID int64
+		if rows.Scan(&userID) == nil {
+			CreateNotification(userID, nType, message, data)
+		}
+	}
+}
+
+// notifyFamilyExcept sends a notification to all family members except one
+func notifyFamilyExcept(familyID, exceptUserID int64, nType, message, data string) {
+	rows, err := DB.Query("SELECT id FROM users WHERE family_id = ? AND id != ?", familyID, exceptUserID)
+	if err != nil {
+		return
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var userID int64
+		if rows.Scan(&userID) == nil {
+			CreateNotification(userID, nType, message, data)
+		}
+	}
+}
+
+// GetUnreadNotificationCount returns the count of unread notifications
+func GetUnreadNotificationCount(userID int64) int {
+	var count int
+	DB.QueryRow("SELECT COUNT(*) FROM notifications WHERE user_id = ? AND is_read = 0", userID).Scan(&count)
+	return count
+}
+
+// FormatINR formats a number as Indian Rupees
+func FormatINR(amount float64) string {
+	if amount >= 100000 {
+		return fmt.Sprintf("₹%.1fL", amount/100000)
+	} else if amount >= 1000 {
+		return fmt.Sprintf("₹%.0fK", amount/1000)
+	}
+	return fmt.Sprintf("₹%.0f", amount)
 }
 
 // GetFamilyRequests returns all pending purchase requests for a family

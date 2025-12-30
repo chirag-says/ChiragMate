@@ -265,9 +265,11 @@ func (h *Handler) HandleVote(w http.ResponseWriter, r *http.Request) {
 		majority := (req.TotalVoters / 2) + 1
 		if req.ApproveVotes >= majority {
 			database.UpdateRequestStatus(requestID, "approved")
+			database.NotifyRequestStatusChange(requestID, "approved")
 			req.Status = "approved"
 		} else if req.RejectVotes >= majority {
 			database.UpdateRequestStatus(requestID, "rejected")
+			database.NotifyRequestStatusChange(requestID, "rejected")
 			req.Status = "rejected"
 		}
 	}

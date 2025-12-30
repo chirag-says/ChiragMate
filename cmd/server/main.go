@@ -11,6 +11,7 @@ import (
 	"github.com/budgetmate/web/internal/features/dashboard"
 	"github.com/budgetmate/web/internal/features/family"
 	"github.com/budgetmate/web/internal/features/landing"
+	"github.com/budgetmate/web/internal/features/notifications"
 	"github.com/budgetmate/web/internal/features/transactions"
 	mw "github.com/budgetmate/web/internal/middleware"
 	"github.com/go-chi/chi/v5"
@@ -46,6 +47,7 @@ func main() {
 	dashboardHandler := dashboard.NewHandler()
 	transactionsHandler := transactions.NewHandler()
 	budgetsHandler := budgets.NewHandler()
+	notificationsHandler := notifications.NewHandler()
 
 	// =====================
 	// PUBLIC ROUTES (Marketing & Auth)
@@ -107,6 +109,12 @@ func main() {
 		r.Post("/budgets/category", budgetsHandler.HandleAddCategory)
 		r.Post("/budgets/requests", budgetsHandler.HandleCreateRequest)
 		r.Post("/budgets/vote", budgetsHandler.HandleVote)
+
+		// Notifications
+		r.Get("/notifications", notificationsHandler.HandleGetNotifications)
+		r.Get("/notifications/count", notificationsHandler.HandleGetCount)
+		r.Post("/notifications/read/{id}", notificationsHandler.HandleMarkRead)
+		r.Post("/notifications/read-all", notificationsHandler.HandleMarkAllRead)
 	})
 
 	// Start server

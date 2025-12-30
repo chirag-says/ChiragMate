@@ -1,0 +1,113 @@
+package notifications
+
+import (
+	"fmt"
+	"github.com/budgetmate/web/internal/database"
+	"time"
+)
+
+templ NotificationList(notifications []database.Notification) {
+	if len(notifications) == 0 {
+		<div class="p-6 text-center">
+			<div class="w-12 h-12 mx-auto mb-3 rounded-full bg-slate-100 flex items-center justify-center">
+				<svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+				</svg>
+			</div>
+			<p class="text-sm font-medium text-slate-500">All caught up!</p>
+			<p class="text-xs text-slate-400 mt-1">No new notifications</p>
+		</div>
+	} else {
+		<div class="divide-y divide-slate-100">
+			for _, n := range notifications {
+				@NotificationItem(n)
+			}
+		</div>
+		<div class="p-2 border-t border-slate-100">
+			<button 
+				class="w-full text-center text-xs text-slate-500 hover:text-emerald-600 py-2 transition-colors"
+				hx-post="/app/notifications/read-all"
+				hx-target="#notification-list"
+				hx-swap="innerHTML"
+			>
+				Mark all as read
+			</button>
+		</div>
+	}
+}
+
+templ NotificationItem(n database.Notification) {
+	<a 
+		href="/app/budgets"
+		class="flex items-start gap-3 p-3 hover:bg-slate-50 transition-colors group"
+		hx-post={ fmt.Sprintf("/app/notifications/read/%d", n.ID) }
+		hx-trigger="click"
+		hx-swap="none"
+	>
+		<div class={ "w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0",
+			templ.KV("bg-purple-100 text-purple-600", n.Type == "purchase_request"),
+			templ.KV("bg-emerald-100 text-emerald-600", n.Type == "vote" || n.Type == "request_status"),
+			templ.KV("bg-indigo-100 text-indigo-600", n.Type != "purchase_request" && n.Type != "vote" && n.Type != "request_status") }>
+			if n.Type == "purchase_request" {
+				<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+				</svg>
+			}
+			if n.Type == "vote" {
+				<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"/>
+				</svg>
+			}
+			if n.Type == "request_status" {
+				<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+				</svg>
+			}
+		</div>
+		<div class="flex-1 min-w-0">
+			<p class="text-sm text-slate-700 line-clamp-2">{ n.Message }</p>
+			<p class="text-xs text-slate-400 mt-0.5">{ formatTimeAgo(n.CreatedAt) }</p>
+		</div>
+		<div class="w-2 h-2 rounded-full bg-emerald-500 flex-shrink-0 mt-2"></div>
+	</a>
+}
+
+templ NotificationBadge(count int) {
+	if count > 0 {
+		<span class="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 bg-rose-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">
+			if count > 9 {
+				9+
+			} else {
+				{ fmt.Sprintf("%d", count) }
+			}
+		</span>
+	}
+}
+
+func formatTimeAgo(t time.Time) string {
+	now := time.Now()
+	diff := now.Sub(t)
+	
+	if diff < time.Minute {
+		return "Just now"
+	} else if diff < time.Hour {
+		mins := int(diff.Minutes())
+		if mins == 1 {
+			return "1 min ago"
+		}
+		return fmt.Sprintf("%d mins ago", mins)
+	} else if diff < 24*time.Hour {
+		hours := int(diff.Hours())
+		if hours == 1 {
+			return "1 hour ago"
+		}
+		return fmt.Sprintf("%d hours ago", hours)
+	} else if diff < 7*24*time.Hour {
+		days := int(diff.Hours() / 24)
+		if days == 1 {
+			return "Yesterday"
+		}
+		return fmt.Sprintf("%d days ago", days)
+	}
+	return t.Format("Jan 2")
+}
