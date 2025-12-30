@@ -47,6 +47,11 @@ func main() {
 	r.Get("/transactions/{id}/view", transactionsHandler.HandleGetView)
 	r.Post("/transactions/{id}", transactionsHandler.HandleUpdate)
 
+	// CSV Import routes
+	r.Get("/transactions/import/form", transactionsHandler.HandleShowImportForm)
+	r.Get("/transactions/import/cancel", transactionsHandler.HandleHideImportForm)
+	r.Post("/transactions/import", transactionsHandler.HandleImport)
+
 	// Settings placeholder
 	r.Get("/settings", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")

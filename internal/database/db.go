@@ -237,6 +237,49 @@ func UpdateTransaction(t *Transaction) error {
 	return err
 }
 
+// BulkInsertTransactions inserts multiple transactions in a single database transaction
+// Returns the number of successfully inserted records and any error
+func BulkInsertTransactions(transactions []Transaction) (int, error) {
+	if len(transactions) == 0 {
+		return 0, nil
+	}
+
+	// Begin database transaction
+	tx, err := DB.Begin()
+	if err != nil {
+		return 0, fmt.Errorf("failed to begin transaction: %w", err)
+	}
+	defer tx.Rollback() // Rollback if not committed
+
+	stmt, err := tx.Prepare(`
+		INSERT INTO transactions (amount, category, date, description, type)
+		VALUES (?, ?, ?, ?, ?)
+	`)
+	if err != nil {
+		return 0, fmt.Errorf("failed to prepare statement: %w", err)
+	}
+	defer stmt.Close()
+
+	inserted := 0
+	for _, t := range transactions {
+		_, err := stmt.Exec(t.Amount, t.Category, t.Date.Format("2006-01-02"), t.Description, t.Type)
+		if err != nil {
+			// Log the error but continue with other records
+			log.Printf("Warning: Failed to insert transaction '%s': %v", t.Description, err)
+			continue
+		}
+		inserted++
+	}
+
+	// Commit the transaction
+	if err := tx.Commit(); err != nil {
+		return 0, fmt.Errorf("failed to commit transaction: %w", err)
+	}
+
+	log.Printf("✓ Bulk inserted %d transactions", inserted)
+	return inserted, nil
+}
+
 // Close closes the database connection
 func Close() error {
 	if DB != nil {
