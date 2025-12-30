@@ -1,0 +1,39 @@
+# Version Control
+.git
+.gitignore
+
+# Dependencies
+node_modules
+vendor
+
+# Build Artifacts
+bin/
+tmp/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Database
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# IDE / Editor
+.vscode
+.idea
+*.swp
+*.swo
+
+# Docker
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# Documentation
+*.md
+docs/
+
+# Tests
+coverage.out
