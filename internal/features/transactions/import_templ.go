@@ -134,7 +134,7 @@ func ImportResult(success bool, message string, count int) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(message)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/import.templ`, Line: 125, Col: 18}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/import.templ`, Line: 122, Col: 18}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -177,7 +177,7 @@ func ImportResultWithRefresh(success bool, message string, count int) templ.Comp
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(message)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/import.templ`, Line: 144, Col: 19}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/import.templ`, Line: 141, Col: 19}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {

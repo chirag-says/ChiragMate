@@ -2,9 +2,9 @@ package budgets
 
 import (
 	"fmt"
-	"time"
 	"github.com/budgetmate/web/internal/database"
 	"github.com/budgetmate/web/internal/shared/components"
+	"time"
 )
 
 templ BudgetsPage(data BudgetsData) {
@@ -18,7 +18,7 @@ templ BudgetsPage(data BudgetsData) {
 				</div>
 				<div class="flex items-center gap-3">
 					<!-- Month Selector -->
-					<select 
+					<select
 						class="px-4 py-2 border border-slate-200 rounded-xl text-sm font-medium bg-white focus:ring-2 focus:ring-emerald-500 outline-none"
 						onchange="window.location.href='/app/budgets?month='+this.value"
 					>
@@ -27,22 +27,20 @@ templ BudgetsPage(data BudgetsData) {
 				</div>
 			</div>
 		</div>
-		
 		<!-- Summary Cards -->
 		<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
 			@SummaryCard("Total Spent", components.FormatINR(data.TotalSpent), "expense")
 			@SummaryCard("Total Budget", components.FormatINR(data.TotalLimit), "budget")
-			@SummaryCard("Remaining", components.FormatINR(data.TotalLimit - data.TotalSpent), 
+			@SummaryCard("Remaining", components.FormatINR(data.TotalLimit-data.TotalSpent),
 				getBudgetStatus(data.TotalSpent, data.TotalLimit))
 		</div>
-		
 		<!-- Budget Grid -->
 		<div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-8">
 			<div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
 				<div class="flex items-center gap-3">
 					<div class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center">
 						<svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
 						</svg>
 					</div>
 					<div>
@@ -51,12 +49,11 @@ templ BudgetsPage(data BudgetsData) {
 					</div>
 				</div>
 			</div>
-			
 			<div class="p-6">
 				if len(data.Rows) == 0 {
 					<div class="text-center py-12">
 						<svg class="w-12 h-12 mx-auto text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
 						</svg>
 						<p class="text-sm font-medium text-slate-500">No spending data yet</p>
 						<p class="text-xs text-slate-400 mt-1">Add some transactions to start budgeting</p>
@@ -70,7 +67,6 @@ templ BudgetsPage(data BudgetsData) {
 				}
 			</div>
 		</div>
-		
 		<!-- Purchase Approvals Section -->
 		<div id="purchase-requests-section">
 			@PurchaseRequestsSection(data.PurchaseRequests, data.CurrentUserID)
@@ -81,46 +77,50 @@ templ BudgetsPage(data BudgetsData) {
 templ SummaryCard(title, value, cardType string) {
 	<div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
 		<div class="flex items-center gap-4">
-			<div class={ "w-12 h-12 rounded-xl flex items-center justify-center",
+			<div
+				class={ "w-12 h-12 rounded-xl flex items-center justify-center",
 				templ.KV("bg-amber-50", cardType == "expense"),
 				templ.KV("bg-indigo-50", cardType == "budget"),
 				templ.KV("bg-emerald-50", cardType == "safe"),
 				templ.KV("bg-yellow-50", cardType == "warning"),
-				templ.KV("bg-rose-50", cardType == "danger") }>
+				templ.KV("bg-rose-50", cardType == "danger") }
+			>
 				if cardType == "expense" {
 					<svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
 					</svg>
 				}
 				if cardType == "budget" {
 					<svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
 					</svg>
 				}
 				if cardType == "safe" {
 					<svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
 					</svg>
 				}
 				if cardType == "warning" {
 					<svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
 					</svg>
 				}
 				if cardType == "danger" {
 					<svg class="w-6 h-6 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
 					</svg>
 				}
 			</div>
 			<div>
 				<p class="text-sm font-medium text-slate-500">{ title }</p>
-				<p class={ "text-2xl font-bold",
+				<p
+					class={ "text-2xl font-bold",
 					templ.KV("text-amber-600", cardType == "expense"),
 					templ.KV("text-indigo-600", cardType == "budget"),
 					templ.KV("text-emerald-600", cardType == "safe"),
 					templ.KV("text-yellow-600", cardType == "warning"),
-					templ.KV("text-rose-600", cardType == "danger") }>
+					templ.KV("text-rose-600", cardType == "danger") }
+				>
 					{ value }
 				</p>
 			</div>
@@ -129,7 +129,7 @@ templ SummaryCard(title, value, cardType string) {
 }
 
 templ BudgetCard(row BudgetRow, month string) {
-	<div 
+	<div
 		id={ fmt.Sprintf("budget-%s", row.Category) }
 		class="p-4 rounded-xl border border-slate-100 hover:border-slate-200 transition-colors bg-slate-50/50"
 	>
@@ -138,11 +138,13 @@ templ BudgetCard(row BudgetRow, month string) {
 				@CategoryIcon(row.Category)
 				<span class="text-sm font-semibold text-slate-800">{ row.Category }</span>
 			</div>
-			<span class={ "text-xs font-medium px-2 py-0.5 rounded-full",
+			<span
+				class={ "text-xs font-medium px-2 py-0.5 rounded-full",
 				templ.KV("bg-emerald-100 text-emerald-700", row.Status == "safe"),
 				templ.KV("bg-yellow-100 text-yellow-700", row.Status == "warning"),
 				templ.KV("bg-rose-100 text-rose-700", row.Status == "danger"),
-				templ.KV("bg-slate-100 text-slate-500", row.Status == "unset") }>
+				templ.KV("bg-slate-100 text-slate-500", row.Status == "unset") }
+			>
 				if row.Status == "unset" {
 					No limit
 				} else {
@@ -150,10 +152,9 @@ templ BudgetCard(row BudgetRow, month string) {
 				}
 			</span>
 		</div>
-		
 		<!-- Progress Bar -->
 		<div class="h-2 bg-slate-200 rounded-full overflow-hidden mb-3">
-			<div 
+			<div
 				class={ "h-full rounded-full transition-all",
 					templ.KV("bg-emerald-500", row.Status == "safe"),
 					templ.KV("bg-yellow-500", row.Status == "warning"),
@@ -162,19 +163,17 @@ templ BudgetCard(row BudgetRow, month string) {
 				style={ fmt.Sprintf("width: %.1f%%", minFloat(row.Percentage, 100)) }
 			></div>
 		</div>
-		
 		<!-- Amounts -->
 		<div class="flex items-center justify-between text-sm">
 			<span class="text-slate-600">
 				<span class="font-semibold text-slate-800">{ components.FormatINR(row.Spent) }</span>
-				<span class="text-slate-400"> spent</span>
+				<span class="text-slate-400">spent</span>
 			</span>
-			
 			<!-- Editable Limit -->
 			<div x-data="{ editing: false }" class="flex items-center gap-1">
 				<template x-if="!editing">
-					<button 
-						@click="editing = true" 
+					<button
+						@click="editing = true"
 						class="text-slate-500 hover:text-emerald-600 transition-colors flex items-center gap-1"
 					>
 						if row.Limit > 0 {
@@ -183,12 +182,12 @@ templ BudgetCard(row BudgetRow, month string) {
 							<span class="text-xs text-emerald-600">+ Set limit</span>
 						}
 						<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
 						</svg>
 					</button>
 				</template>
 				<template x-if="editing">
-					<form 
+					<form
 						hx-post="/app/budgets"
 						hx-target={ fmt.Sprintf("#budget-%s", row.Category) }
 						hx-swap="outerHTML"
@@ -198,9 +197,9 @@ templ BudgetCard(row BudgetRow, month string) {
 						<input type="hidden" name="category" value={ row.Category }/>
 						<input type="hidden" name="month" value={ month }/>
 						<span class="text-slate-400">/</span>
-						<input 
-							type="number" 
-							name="amount" 
+						<input
+							type="number"
+							name="amount"
 							value={ fmt.Sprintf("%.0f", row.Limit) }
 							class="w-20 px-2 py-1 text-sm border border-emerald-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
 							step="100"
@@ -209,12 +208,12 @@ templ BudgetCard(row BudgetRow, month string) {
 						/>
 						<button type="submit" class="p-1 text-emerald-600 hover:bg-emerald-50 rounded">
 							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
 							</svg>
 						</button>
 						<button type="button" @click="editing = false" class="p-1 text-slate-400 hover:bg-slate-100 rounded">
 							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
 							</svg>
 						</button>
 					</form>
@@ -280,7 +279,7 @@ templ PurchaseRequestsSection(requests []database.PurchaseRequest, currentUserID
 			<div class="flex items-center gap-3">
 				<div class="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center">
 					<svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
 					</svg>
 				</div>
 				<div>
@@ -288,19 +287,18 @@ templ PurchaseRequestsSection(requests []database.PurchaseRequest, currentUserID
 					<p class="text-xs text-slate-500">Family democracy in action</p>
 				</div>
 			</div>
-			<button 
+			<button
 				class="px-3 py-1.5 bg-purple-600 text-white text-xs font-medium rounded-lg hover:bg-purple-700 transition-colors"
 				onclick="document.getElementById('new-request-modal').showModal()"
 			>
 				+ New Request
 			</button>
 		</div>
-		
 		<div class="p-6">
 			if len(requests) == 0 {
 				<div class="text-center py-8">
 					<svg class="w-12 h-12 mx-auto text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
 					</svg>
 					<p class="text-sm font-medium text-slate-500">No pending requests</p>
 					<p class="text-xs text-slate-400 mt-1">Create a request for family approval</p>
@@ -314,7 +312,6 @@ templ PurchaseRequestsSection(requests []database.PurchaseRequest, currentUserID
 			}
 		</div>
 	</div>
-	
 	<!-- New Request Modal -->
 	<dialog id="new-request-modal" class="p-0 rounded-2xl shadow-2xl backdrop:bg-black/50 w-full max-w-md">
 		<div class="bg-white rounded-2xl">
@@ -322,12 +319,12 @@ templ PurchaseRequestsSection(requests []database.PurchaseRequest, currentUserID
 				<h3 class="text-lg font-semibold text-slate-800">New Purchase Request</h3>
 				<button onclick="document.getElementById('new-request-modal').close()" class="text-slate-400 hover:text-slate-600">
 					<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
 					</svg>
 				</button>
 			</div>
-			<form 
-				hx-post="/app/budgets/requests" 
+			<form
+				hx-post="/app/budgets/requests"
 				hx-target="#purchase-requests-section"
 				hx-swap="innerHTML"
 				class="p-6 space-y-4"
@@ -335,9 +332,9 @@ templ PurchaseRequestsSection(requests []database.PurchaseRequest, currentUserID
 			>
 				<div>
 					<label class="block text-sm font-medium text-slate-700 mb-1">What do you want to buy?</label>
-					<input 
-						type="text" 
-						name="item_name" 
+					<input
+						type="text"
+						name="item_name"
 						required
 						class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none"
 						placeholder="e.g., New TV, Vacation, iPhone..."
@@ -345,9 +342,9 @@ templ PurchaseRequestsSection(requests []database.PurchaseRequest, currentUserID
 				</div>
 				<div>
 					<label class="block text-sm font-medium text-slate-700 mb-1">Amount (₹)</label>
-					<input 
-						type="number" 
-						name="amount" 
+					<input
+						type="number"
+						name="amount"
 						required
 						min="1"
 						class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none"
@@ -363,7 +360,7 @@ templ PurchaseRequestsSection(requests []database.PurchaseRequest, currentUserID
 }
 
 templ PurchaseRequestCard(req database.PurchaseRequest, currentUserID int64) {
-	<div 
+	<div
 		id={ fmt.Sprintf("request-%d", req.ID) }
 		class="p-4 rounded-xl border border-slate-100 bg-gradient-to-br from-white to-slate-50/50 hover:shadow-md transition-shadow"
 	>
@@ -376,13 +373,12 @@ templ PurchaseRequestCard(req database.PurchaseRequest, currentUserID int64) {
 					<p class="text-xs text-slate-500">by { req.UserName } • { components.FormatINR(req.Amount) }</p>
 				</div>
 			</div>
-			
 			<!-- Right: Vote Buttons or Status -->
 			<div class="flex items-center gap-2 flex-shrink-0">
 				if req.Status == "pending" {
 					if !req.UserVoted {
 						<!-- Vote Buttons -->
-						<button 
+						<button
 							class="p-2 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition-colors"
 							hx-post="/app/budgets/vote"
 							hx-vals={ fmt.Sprintf(`{"request_id": "%d", "vote": "approve"}`, req.ID) }
@@ -390,10 +386,10 @@ templ PurchaseRequestCard(req database.PurchaseRequest, currentUserID int64) {
 							hx-swap="outerHTML"
 						>
 							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"/>
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path>
 							</svg>
 						</button>
-						<button 
+						<button
 							class="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors"
 							hx-post="/app/budgets/vote"
 							hx-vals={ fmt.Sprintf(`{"request_id": "%d", "vote": "reject"}`, req.ID) }
@@ -401,14 +397,16 @@ templ PurchaseRequestCard(req database.PurchaseRequest, currentUserID int64) {
 							hx-swap="outerHTML"
 						>
 							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.096c.5 0 .905-.405.905-.904 0-.715.211-1.413.608-2.008L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5"/>
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.096c.5 0 .905-.405.905-.904 0-.715.211-1.413.608-2.008L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5"></path>
 							</svg>
 						</button>
 					} else {
 						<!-- Already Voted Badge -->
-						<span class={ "text-xs font-medium px-2 py-1 rounded-full",
+						<span
+							class={ "text-xs font-medium px-2 py-1 rounded-full",
 							templ.KV("bg-emerald-100 text-emerald-700", req.UserVote == "approve"),
-							templ.KV("bg-rose-100 text-rose-700", req.UserVote == "reject") }>
+							templ.KV("bg-rose-100 text-rose-700", req.UserVote == "reject") }
+						>
 							if req.UserVote == "approve" {
 								You voted ✓
 							} else {
@@ -418,15 +416,16 @@ templ PurchaseRequestCard(req database.PurchaseRequest, currentUserID int64) {
 					}
 				} else {
 					<!-- Status Badge -->
-					<span class={ "text-xs font-bold px-3 py-1 rounded-full uppercase",
+					<span
+						class={ "text-xs font-bold px-3 py-1 rounded-full uppercase",
 						templ.KV("bg-emerald-100 text-emerald-700", req.Status == "approved"),
-						templ.KV("bg-rose-100 text-rose-700", req.Status == "rejected") }>
+						templ.KV("bg-rose-100 text-rose-700", req.Status == "rejected") }
+					>
 						{ req.Status }
 					</span>
 				}
 			</div>
 		</div>
-		
 		<!-- Vote Progress Bar -->
 		if req.TotalVoters > 0 && req.Status == "pending" {
 			<div class="mt-3 pt-3 border-t border-slate-100">
@@ -439,13 +438,13 @@ templ PurchaseRequestCard(req database.PurchaseRequest, currentUserID int64) {
 				</div>
 				<div class="h-1.5 bg-slate-100 rounded-full overflow-hidden flex">
 					if req.ApproveVotes + req.RejectVotes > 0 {
-						<div 
+						<div
 							class="h-full bg-emerald-500 transition-all"
-							style={ fmt.Sprintf("width: %.1f%%", float64(req.ApproveVotes)/float64(req.ApproveVotes + req.RejectVotes)*100) }
+							style={ fmt.Sprintf("width: %.1f%%", float64(req.ApproveVotes)/float64(req.ApproveVotes+req.RejectVotes)*100) }
 						></div>
-						<div 
+						<div
 							class="h-full bg-rose-500 transition-all"
-							style={ fmt.Sprintf("width: %.1f%%", float64(req.RejectVotes)/float64(req.ApproveVotes + req.RejectVotes)*100) }
+							style={ fmt.Sprintf("width: %.1f%%", float64(req.RejectVotes)/float64(req.ApproveVotes+req.RejectVotes)*100) }
 						></div>
 					}
 				</div>

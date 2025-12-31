@@ -138,7 +138,7 @@ func StatCard(title string, value string, subtitle string, positive bool) templ.
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(value)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/cards.templ`, Line: 29, Col: 12}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/cards.templ`, Line: 31, Col: 12}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -156,7 +156,7 @@ func StatCard(title string, value string, subtitle string, positive bool) templ.
 			var templ_7745c5c3_Var8 string
 			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(subtitle)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/cards.templ`, Line: 32, Col: 54}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/cards.templ`, Line: 34, Col: 54}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
@@ -254,7 +254,7 @@ func NotificationList(notifications []database.Notification) templ.Component {
 				var templ_7745c5c3_Var12 string
 				templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("notification-item-%d", n.ID))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/cards.templ`, Line: 61, Col: 115}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/cards.templ`, Line: 65, Col: 103}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 				if templ_7745c5c3_Err != nil {
@@ -267,7 +267,7 @@ func NotificationList(notifications []database.Notification) templ.Component {
 				var templ_7745c5c3_Var13 string
 				templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(n.Message)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/cards.templ`, Line: 67, Col: 73}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/cards.templ`, Line: 71, Col: 52}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 				if templ_7745c5c3_Err != nil {
@@ -280,7 +280,7 @@ func NotificationList(notifications []database.Notification) templ.Component {
 				var templ_7745c5c3_Var14 string
 				templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(n.CreatedAt.Format("Jan 02 3:04 PM"))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/cards.templ`, Line: 68, Col: 105}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/cards.templ`, Line: 72, Col: 84}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 				if templ_7745c5c3_Err != nil {
@@ -298,7 +298,7 @@ func NotificationList(notifications []database.Notification) templ.Component {
 					var templ_7745c5c3_Var15 string
 					templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("notification-actions-%d", n.ID))
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/cards.templ`, Line: 70, Col: 110}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/cards.templ`, Line: 74, Col: 86}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 					if templ_7745c5c3_Err != nil {
@@ -311,7 +311,7 @@ func NotificationList(notifications []database.Notification) templ.Component {
 					var templ_7745c5c3_Var16 string
 					templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/app/settings/invite/%d/accept", n.ID))
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/cards.templ`, Line: 73, Col: 101}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/cards.templ`, Line: 77, Col: 71}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 					if templ_7745c5c3_Err != nil {
@@ -324,7 +324,7 @@ func NotificationList(notifications []database.Notification) templ.Component {
 					var templ_7745c5c3_Var17 string
 					templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("#notification-item-%d", n.ID))
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/cards.templ`, Line: 74, Col: 94}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/cards.templ`, Line: 78, Col: 64}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 					if templ_7745c5c3_Err != nil {
@@ -337,7 +337,7 @@ func NotificationList(notifications []database.Notification) templ.Component {
 					var templ_7745c5c3_Var18 string
 					templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/app/settings/invite/%d/decline", n.ID))
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/cards.templ`, Line: 79, Col: 102}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/cards.templ`, Line: 83, Col: 72}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
 					if templ_7745c5c3_Err != nil {
@@ -350,7 +350,7 @@ func NotificationList(notifications []database.Notification) templ.Component {
 					var templ_7745c5c3_Var19 string
 					templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("#notification-item-%d", n.ID))
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/cards.templ`, Line: 80, Col: 94}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/cards.templ`, Line: 84, Col: 64}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
 					if templ_7745c5c3_Err != nil {

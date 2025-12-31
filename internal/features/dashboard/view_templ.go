@@ -67,7 +67,7 @@ func DashboardPage(data DashboardData) templ.Component {
 				var templ_7745c5c3_Var3 string
 				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(data.UserName)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 25, Col: 31}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 24, Col: 31}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 				if templ_7745c5c3_Err != nil {
@@ -200,7 +200,7 @@ func StatCardPremium(title string, value string, subtitle string, cardType strin
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 83, Col: 66}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 81, Col: 66}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -340,7 +340,7 @@ func TransactionGridRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var14 string
 		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("transaction-%d", t.ID))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 149, Col: 42}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 147, Col: 42}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 		if templ_7745c5c3_Err != nil {
@@ -353,7 +353,7 @@ func TransactionGridRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var15 string
 		templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/app/transactions/%d/edit", t.ID))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 151, Col: 57}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 149, Col: 57}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 		if templ_7745c5c3_Err != nil {
@@ -366,7 +366,7 @@ func TransactionGridRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var16 string
 		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("#transaction-%d", t.ID))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 152, Col: 50}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 150, Col: 50}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 		if templ_7745c5c3_Err != nil {
@@ -379,7 +379,7 @@ func TransactionGridRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var17 string
 		templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(t.Description)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 158, Col: 74}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 156, Col: 74}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 		if templ_7745c5c3_Err != nil {
@@ -421,7 +421,7 @@ func TransactionGridRow(t database.Transaction) templ.Component {
 			var templ_7745c5c3_Var20 string
 			templ_7745c5c3_Var20, templ_7745c5c3_Err = templ.JoinStringErrs(components.FormatINR(t.Amount))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 166, Col: 40}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 165, Col: 40}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var20))
 			if templ_7745c5c3_Err != nil {
@@ -435,7 +435,7 @@ func TransactionGridRow(t database.Transaction) templ.Component {
 			var templ_7745c5c3_Var21 string
 			templ_7745c5c3_Var21, templ_7745c5c3_Err = templ.JoinStringErrs(components.FormatINR(t.Amount))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 168, Col: 40}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 167, Col: 40}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var21))
 			if templ_7745c5c3_Err != nil {
@@ -449,7 +449,7 @@ func TransactionGridRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var22 string
 		templ_7745c5c3_Var22, templ_7745c5c3_Err = templ.JoinStringErrs(t.Category)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 177, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 175, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var22))
 		if templ_7745c5c3_Err != nil {
@@ -462,7 +462,7 @@ func TransactionGridRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var23 string
 		templ_7745c5c3_Var23, templ_7745c5c3_Err = templ.JoinStringErrs(t.Date.Format("Jan 02"))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 179, Col: 74}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 177, Col: 74}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var23))
 		if templ_7745c5c3_Err != nil {
@@ -475,7 +475,7 @@ func TransactionGridRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var24 string
 		templ_7745c5c3_Var24, templ_7745c5c3_Err = templ.JoinStringErrs(t.Category)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 186, Col: 16}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 183, Col: 16}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var24))
 		if templ_7745c5c3_Err != nil {
@@ -488,7 +488,7 @@ func TransactionGridRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var25 string
 		templ_7745c5c3_Var25, templ_7745c5c3_Err = templ.JoinStringErrs(t.Date.Format("Jan 02"))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 192, Col: 62}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 188, Col: 62}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var25))
 		if templ_7745c5c3_Err != nil {
@@ -530,7 +530,7 @@ func TransactionGridRow(t database.Transaction) templ.Component {
 			var templ_7745c5c3_Var28 string
 			templ_7745c5c3_Var28, templ_7745c5c3_Err = templ.JoinStringErrs(components.FormatINR(t.Amount))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 201, Col: 38}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 198, Col: 38}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var28))
 			if templ_7745c5c3_Err != nil {
@@ -544,7 +544,7 @@ func TransactionGridRow(t database.Transaction) templ.Component {
 			var templ_7745c5c3_Var29 string
 			templ_7745c5c3_Var29, templ_7745c5c3_Err = templ.JoinStringErrs(components.FormatINR(t.Amount))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 203, Col: 38}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 200, Col: 38}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var29))
 			if templ_7745c5c3_Err != nil {
@@ -587,7 +587,7 @@ func TransactionEditRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var31 string
 		templ_7745c5c3_Var31, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("transaction-%d", t.ID))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 212, Col: 42}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 209, Col: 42}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var31))
 		if templ_7745c5c3_Err != nil {
@@ -600,7 +600,7 @@ func TransactionEditRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var32 string
 		templ_7745c5c3_Var32, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/app/transactions/%d", t.ID))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 214, Col: 53}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 211, Col: 53}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var32))
 		if templ_7745c5c3_Err != nil {
@@ -613,7 +613,7 @@ func TransactionEditRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var33 string
 		templ_7745c5c3_Var33, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("#transaction-%d", t.ID))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 215, Col: 50}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 212, Col: 50}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var33))
 		if templ_7745c5c3_Err != nil {
@@ -626,7 +626,7 @@ func TransactionEditRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var34 string
 		templ_7745c5c3_Var34, templ_7745c5c3_Err = templ.JoinStringErrs(t.Description)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 224, Col: 26}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 221, Col: 26}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var34))
 		if templ_7745c5c3_Err != nil {
@@ -639,7 +639,7 @@ func TransactionEditRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var35 string
 		templ_7745c5c3_Var35, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%.2f", t.Amount))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 233, Col: 42}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 230, Col: 42}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var35))
 		if templ_7745c5c3_Err != nil {
@@ -652,7 +652,7 @@ func TransactionEditRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var36 string
 		templ_7745c5c3_Var36, templ_7745c5c3_Err = templ.JoinStringErrs(t.Category)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 243, Col: 23}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 240, Col: 23}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var36))
 		if templ_7745c5c3_Err != nil {
@@ -665,7 +665,7 @@ func TransactionEditRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var37 string
 		templ_7745c5c3_Var37, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/app/transactions/%d/view", t.ID))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 257, Col: 60}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 254, Col: 60}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var37))
 		if templ_7745c5c3_Err != nil {
@@ -678,7 +678,7 @@ func TransactionEditRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var38 string
 		templ_7745c5c3_Var38, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("#transaction-%d", t.ID))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 258, Col: 53}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 255, Col: 53}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var38))
 		if templ_7745c5c3_Err != nil {
@@ -1056,7 +1056,7 @@ func InsightCard(insight Insight) templ.Component {
 		var templ_7745c5c3_Var62 string
 		templ_7745c5c3_Var62, templ_7745c5c3_Err = templ.JoinStringErrs(insight.Message)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 344, Col: 23}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/dashboard/view.templ`, Line: 351, Col: 23}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var62))
 		if templ_7745c5c3_Err != nil {

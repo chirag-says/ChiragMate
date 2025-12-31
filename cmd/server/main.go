@@ -10,6 +10,7 @@ import (
 	"github.com/budgetmate/web/internal/features/budgets"
 	"github.com/budgetmate/web/internal/features/dashboard"
 	"github.com/budgetmate/web/internal/features/family"
+	"github.com/budgetmate/web/internal/features/goals"
 	"github.com/budgetmate/web/internal/features/landing"
 	"github.com/budgetmate/web/internal/features/notifications"
 	"github.com/budgetmate/web/internal/features/settings"
@@ -48,6 +49,7 @@ func main() {
 	dashboardHandler := dashboard.NewHandler()
 	transactionsHandler := transactions.NewHandler()
 	budgetsHandler := budgets.NewHandler()
+	goalsHandler := goals.NewHandler()
 	notificationsHandler := notifications.NewHandler()
 	settingsHandler := settings.NewHandler()
 
@@ -113,6 +115,12 @@ func main() {
 		r.Post("/budgets/category", budgetsHandler.HandleAddCategory)
 		r.Post("/budgets/requests", budgetsHandler.HandleCreateRequest)
 		r.Post("/budgets/vote", budgetsHandler.HandleVote)
+
+		// Goals (Savings Goals)
+		r.Get("/goals", goalsHandler.HandleIndex)
+		r.Post("/goals", goalsHandler.HandleCreate)
+		r.Post("/goals/contribute", goalsHandler.HandleContribute)
+		r.Delete("/goals/{id}", goalsHandler.HandleDelete)
 
 		// Notifications
 		r.Get("/notifications", notificationsHandler.HandleGetNotifications)

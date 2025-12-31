@@ -93,7 +93,7 @@ func BudgetsPage(data BudgetsData) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d categories", len(data.Rows)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 50, Col: 86}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 48, Col: 86}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -235,7 +235,7 @@ func SummaryCard(title, value, cardType string) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 117, Col: 57}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 115, Col: 57}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -383,7 +383,7 @@ func BudgetCard(row BudgetRow, month string) templ.Component {
 			var templ_7745c5c3_Var17 string
 			templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%.0f%%", row.Percentage))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 149, Col: 44}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 151, Col: 44}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 			if templ_7745c5c3_Err != nil {
@@ -423,7 +423,7 @@ func BudgetCard(row BudgetRow, month string) templ.Component {
 		var templ_7745c5c3_Var20 string
 		templ_7745c5c3_Var20, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues(fmt.Sprintf("width: %.1f%%", minFloat(row.Percentage, 100)))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 162, Col: 71}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 163, Col: 71}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var20))
 		if templ_7745c5c3_Err != nil {
@@ -454,7 +454,7 @@ func BudgetCard(row BudgetRow, month string) templ.Component {
 			var templ_7745c5c3_Var22 string
 			templ_7745c5c3_Var22, templ_7745c5c3_Err = templ.JoinStringErrs(components.FormatINR(row.Limit))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 181, Col: 68}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 180, Col: 68}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var22))
 			if templ_7745c5c3_Err != nil {
@@ -477,7 +477,7 @@ func BudgetCard(row BudgetRow, month string) templ.Component {
 		var templ_7745c5c3_Var23 string
 		templ_7745c5c3_Var23, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("#budget-%s", row.Category))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 193, Col: 57}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 192, Col: 57}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var23))
 		if templ_7745c5c3_Err != nil {
@@ -490,7 +490,7 @@ func BudgetCard(row BudgetRow, month string) templ.Component {
 		var templ_7745c5c3_Var24 string
 		templ_7745c5c3_Var24, templ_7745c5c3_Err = templ.JoinStringErrs(row.Category)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 198, Col: 63}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 197, Col: 63}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var24))
 		if templ_7745c5c3_Err != nil {
@@ -503,7 +503,7 @@ func BudgetCard(row BudgetRow, month string) templ.Component {
 		var templ_7745c5c3_Var25 string
 		templ_7745c5c3_Var25, templ_7745c5c3_Err = templ.JoinStringErrs(month)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 199, Col: 53}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 198, Col: 53}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var25))
 		if templ_7745c5c3_Err != nil {
@@ -516,7 +516,7 @@ func BudgetCard(row BudgetRow, month string) templ.Component {
 		var templ_7745c5c3_Var26 string
 		templ_7745c5c3_Var26, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%.0f", row.Limit))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 204, Col: 45}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 203, Col: 45}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var26))
 		if templ_7745c5c3_Err != nil {
@@ -558,7 +558,7 @@ func CategoryIcon(category string) templ.Component {
 		var templ_7745c5c3_Var28 string
 		templ_7745c5c3_Var28, templ_7745c5c3_Err = templ.JoinStringErrs(string([]rune(category)[0]))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 229, Col: 74}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 228, Col: 74}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var28))
 		if templ_7745c5c3_Err != nil {
@@ -601,7 +601,7 @@ func MonthOptions(currentMonth string) templ.Component {
 			var templ_7745c5c3_Var30 string
 			templ_7745c5c3_Var30, templ_7745c5c3_Err = templ.JoinStringErrs(m.Value)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 235, Col: 25}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 234, Col: 25}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var30))
 			if templ_7745c5c3_Err != nil {
@@ -624,7 +624,7 @@ func MonthOptions(currentMonth string) templ.Component {
 			var templ_7745c5c3_Var31 string
 			templ_7745c5c3_Var31, templ_7745c5c3_Err = templ.JoinStringErrs(m.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 235, Col: 75}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 234, Col: 75}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var31))
 			if templ_7745c5c3_Err != nil {
@@ -759,7 +759,7 @@ func PurchaseRequestCard(req database.PurchaseRequest, currentUserID int64) temp
 		var templ_7745c5c3_Var34 string
 		templ_7745c5c3_Var34, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("request-%d", req.ID))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 367, Col: 40}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 364, Col: 40}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var34))
 		if templ_7745c5c3_Err != nil {
@@ -772,7 +772,7 @@ func PurchaseRequestCard(req database.PurchaseRequest, currentUserID int64) temp
 		var templ_7745c5c3_Var35 string
 		templ_7745c5c3_Var35, templ_7745c5c3_Err = templ.JoinStringErrs(req.UserAvatar)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 373, Col: 29}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 370, Col: 29}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var35))
 		if templ_7745c5c3_Err != nil {
@@ -785,7 +785,7 @@ func PurchaseRequestCard(req database.PurchaseRequest, currentUserID int64) temp
 		var templ_7745c5c3_Var36 string
 		templ_7745c5c3_Var36, templ_7745c5c3_Err = templ.JoinStringErrs(req.UserName)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 373, Col: 50}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 370, Col: 50}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var36))
 		if templ_7745c5c3_Err != nil {
@@ -798,7 +798,7 @@ func PurchaseRequestCard(req database.PurchaseRequest, currentUserID int64) temp
 		var templ_7745c5c3_Var37 string
 		templ_7745c5c3_Var37, templ_7745c5c3_Err = templ.JoinStringErrs(req.ItemName)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 375, Col: 76}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 372, Col: 76}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var37))
 		if templ_7745c5c3_Err != nil {
@@ -811,7 +811,7 @@ func PurchaseRequestCard(req database.PurchaseRequest, currentUserID int64) temp
 		var templ_7745c5c3_Var38 string
 		templ_7745c5c3_Var38, templ_7745c5c3_Err = templ.JoinStringErrs(req.UserName)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 376, Col: 56}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 373, Col: 56}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var38))
 		if templ_7745c5c3_Err != nil {
@@ -824,7 +824,7 @@ func PurchaseRequestCard(req database.PurchaseRequest, currentUserID int64) temp
 		var templ_7745c5c3_Var39 string
 		templ_7745c5c3_Var39, templ_7745c5c3_Err = templ.JoinStringErrs(components.FormatINR(req.Amount))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 376, Col: 97}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 373, Col: 97}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var39))
 		if templ_7745c5c3_Err != nil {
@@ -843,7 +843,7 @@ func PurchaseRequestCard(req database.PurchaseRequest, currentUserID int64) temp
 				var templ_7745c5c3_Var40 string
 				templ_7745c5c3_Var40, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf(`{"request_id": "%d", "vote": "approve"}`, req.ID))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 388, Col: 79}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 384, Col: 79}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var40))
 				if templ_7745c5c3_Err != nil {
@@ -856,7 +856,7 @@ func PurchaseRequestCard(req database.PurchaseRequest, currentUserID int64) temp
 				var templ_7745c5c3_Var41 string
 				templ_7745c5c3_Var41, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("#request-%d", req.ID))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 389, Col: 53}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 385, Col: 53}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var41))
 				if templ_7745c5c3_Err != nil {
@@ -869,7 +869,7 @@ func PurchaseRequestCard(req database.PurchaseRequest, currentUserID int64) temp
 				var templ_7745c5c3_Var42 string
 				templ_7745c5c3_Var42, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf(`{"request_id": "%d", "vote": "reject"}`, req.ID))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 399, Col: 78}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 395, Col: 78}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var42))
 				if templ_7745c5c3_Err != nil {
@@ -882,7 +882,7 @@ func PurchaseRequestCard(req database.PurchaseRequest, currentUserID int64) temp
 				var templ_7745c5c3_Var43 string
 				templ_7745c5c3_Var43, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("#request-%d", req.ID))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 400, Col: 53}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 396, Col: 53}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var43))
 				if templ_7745c5c3_Err != nil {
@@ -992,7 +992,7 @@ func PurchaseRequestCard(req database.PurchaseRequest, currentUserID int64) temp
 			var templ_7745c5c3_Var49 string
 			templ_7745c5c3_Var49, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d Yes", req.ApproveVotes))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 434, Col: 89}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 433, Col: 89}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var49))
 			if templ_7745c5c3_Err != nil {
@@ -1005,7 +1005,7 @@ func PurchaseRequestCard(req database.PurchaseRequest, currentUserID int64) temp
 			var templ_7745c5c3_Var50 string
 			templ_7745c5c3_Var50, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d No", req.RejectVotes))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 436, Col: 84}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 435, Col: 84}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var50))
 			if templ_7745c5c3_Err != nil {
@@ -1018,7 +1018,7 @@ func PurchaseRequestCard(req database.PurchaseRequest, currentUserID int64) temp
 			var templ_7745c5c3_Var51 string
 			templ_7745c5c3_Var51, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d/%d voted", req.ApproveVotes+req.RejectVotes, req.TotalVoters))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 438, Col: 92}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 437, Col: 92}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var51))
 			if templ_7745c5c3_Err != nil {
@@ -1036,7 +1036,7 @@ func PurchaseRequestCard(req database.PurchaseRequest, currentUserID int64) temp
 				var templ_7745c5c3_Var52 string
 				templ_7745c5c3_Var52, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues(fmt.Sprintf("width: %.1f%%", float64(req.ApproveVotes)/float64(req.ApproveVotes+req.RejectVotes)*100))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 444, Col: 118}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 443, Col: 116}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var52))
 				if templ_7745c5c3_Err != nil {
@@ -1049,7 +1049,7 @@ func PurchaseRequestCard(req database.PurchaseRequest, currentUserID int64) temp
 				var templ_7745c5c3_Var53 string
 				templ_7745c5c3_Var53, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues(fmt.Sprintf("width: %.1f%%", float64(req.RejectVotes)/float64(req.ApproveVotes+req.RejectVotes)*100))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 448, Col: 117}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/budgets/view.templ`, Line: 447, Col: 115}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var53))
 				if templ_7745c5c3_Err != nil {

@@ -177,6 +177,18 @@ func migrate() error {
             FOREIGN KEY(request_id) REFERENCES purchase_requests(id) ON DELETE CASCADE,
             FOREIGN KEY(user_id) REFERENCES users(id)
         );`,
+		`CREATE TABLE IF NOT EXISTS goals (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            family_id INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            target_amount REAL NOT NULL,
+            current_amount REAL DEFAULT 0,
+            icon TEXT DEFAULT 'target',
+            deadline DATE,
+            color TEXT DEFAULT '#10B981',
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY(family_id) REFERENCES families(id) ON DELETE CASCADE
+        );`,
 	}
 
 	for _, query := range queries {
@@ -965,6 +977,126 @@ func GetPurchaseRequest(requestID, currentUserID int64) (*PurchaseRequest, error
 // UpdateRequestStatus updates the status of a purchase request
 func UpdateRequestStatus(requestID int64, status string) error {
 	_, err := DB.Exec("UPDATE purchase_requests SET status = ? WHERE id = ?", status, requestID)
+	return err
+}
+
+// --- Goal Functions ---
+
+// Goal represents a family savings goal
+type Goal struct {
+	ID            int64
+	FamilyID      int64
+	Name          string
+	TargetAmount  float64
+	CurrentAmount float64
+	Icon          string
+	Deadline      *time.Time
+	Color         string
+	CreatedAt     time.Time
+	Percentage    float64
+}
+
+// CreateGoal creates a new savings goal for a family
+func CreateGoal(familyID int64, name string, targetAmount float64, icon, color string, deadline *time.Time) (int64, error) {
+	if icon == "" {
+		icon = "target"
+	}
+	if color == "" {
+		color = "#10B981"
+	}
+
+	var res sql.Result
+	var err error
+
+	if deadline != nil {
+		res, err = DB.Exec(`
+            INSERT INTO goals (family_id, name, target_amount, icon, color, deadline)
+            VALUES (?, ?, ?, ?, ?, ?)
+        `, familyID, name, targetAmount, icon, color, deadline.Format("2006-01-02"))
+	} else {
+		res, err = DB.Exec(`
+            INSERT INTO goals (family_id, name, target_amount, icon, color)
+            VALUES (?, ?, ?, ?, ?)
+        `, familyID, name, targetAmount, icon, color)
+	}
+
+	if err != nil {
+		return 0, err
+	}
+	return res.LastInsertId()
+}
+
+// ContributeToGoal adds funds to a goal's current amount
+func ContributeToGoal(goalID int64, amount float64) error {
+	_, err := DB.Exec(`
+        UPDATE goals 
+        SET current_amount = CASE 
+            WHEN current_amount + ? > target_amount THEN target_amount
+            ELSE current_amount + ?
+        END
+        WHERE id = ?
+    `, amount, amount, goalID)
+	return err
+}
+
+// GetFamilyGoals fetches all goals for a family
+func GetFamilyGoals(familyID int64) ([]Goal, error) {
+	rows, err := DB.Query(`
+        SELECT id, family_id, name, target_amount, current_amount, icon, deadline, color, created_at
+        FROM goals
+        WHERE family_id = ?
+        ORDER BY created_at DESC
+    `, familyID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var goals []Goal
+	for rows.Next() {
+		var g Goal
+		var deadline sql.NullString
+		err := rows.Scan(&g.ID, &g.FamilyID, &g.Name, &g.TargetAmount, &g.CurrentAmount, &g.Icon, &deadline, &g.Color, &g.CreatedAt)
+		if err != nil {
+			continue
+		}
+		if deadline.Valid {
+			t, _ := time.Parse("2006-01-02", deadline.String)
+			g.Deadline = &t
+		}
+		// Calculate percentage
+		if g.TargetAmount > 0 {
+			g.Percentage = (g.CurrentAmount / g.TargetAmount) * 100
+		}
+		goals = append(goals, g)
+	}
+	return goals, nil
+}
+
+// GetGoalByID retrieves a single goal by ID
+func GetGoalByID(goalID int64) (*Goal, error) {
+	var g Goal
+	var deadline sql.NullString
+	err := DB.QueryRow(`
+        SELECT id, family_id, name, target_amount, current_amount, icon, deadline, color, created_at
+        FROM goals WHERE id = ?
+    `, goalID).Scan(&g.ID, &g.FamilyID, &g.Name, &g.TargetAmount, &g.CurrentAmount, &g.Icon, &deadline, &g.Color, &g.CreatedAt)
+	if err != nil {
+		return nil, err
+	}
+	if deadline.Valid {
+		t, _ := time.Parse("2006-01-02", deadline.String)
+		g.Deadline = &t
+	}
+	if g.TargetAmount > 0 {
+		g.Percentage = (g.CurrentAmount / g.TargetAmount) * 100
+	}
+	return &g, nil
+}
+
+// DeleteGoal deletes a goal by ID
+func DeleteGoal(goalID int64) error {
+	_, err := DB.Exec("DELETE FROM goals WHERE id = ?", goalID)
 	return err
 }
 

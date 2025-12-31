@@ -53,7 +53,7 @@ func CategoryDoughnutChart(data map[string]float64) templ.Component {
 			var templ_7745c5c3_Var2 string
 			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(chartData.Labels)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/charts.templ`, Line: 39, Col: 54}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/charts.templ`, Line: 39, Col: 36}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
@@ -66,7 +66,7 @@ func CategoryDoughnutChart(data map[string]float64) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(chartData.Values)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/charts.templ`, Line: 40, Col: 54}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/charts.templ`, Line: 40, Col: 36}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -228,7 +228,7 @@ func CategoryLegendItem(category string, amount float64, data map[string]float64
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues(fmt.Sprintf("background-color: %s", color))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/charts.templ`, Line: 151, Col: 87}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/charts.templ`, Line: 152, Col: 87}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -241,7 +241,7 @@ func CategoryLegendItem(category string, amount float64, data map[string]float64
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(category)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/charts.templ`, Line: 152, Col: 42}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/charts.templ`, Line: 153, Col: 42}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -254,7 +254,7 @@ func CategoryLegendItem(category string, amount float64, data map[string]float64
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(FormatINR(amount))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/charts.templ`, Line: 155, Col: 63}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/charts.templ`, Line: 156, Col: 63}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -267,7 +267,7 @@ func CategoryLegendItem(category string, amount float64, data map[string]float64
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%.1f%%", percentage))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/charts.templ`, Line: 156, Col: 91}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/charts.templ`, Line: 157, Col: 91}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
