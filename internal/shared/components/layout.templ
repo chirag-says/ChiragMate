@@ -8,7 +8,7 @@ templ Layout(title string, activeTab string) {
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 			<meta name="description" content="BudgetMate - Privacy-centric family finance dashboard for the Indian market"/>
 			<title>{ title } | BudgetMate</title>
-			<link rel="icon" type="image/png" href="/assets/logo_transparent.png"/>
+			<link rel="icon" type="image/png" href="/assets/icon.png"/>
 			<!-- Tailwind CSS -->
 			<script src="https://cdn.tailwindcss.com"></script>
 			<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
@@ -159,9 +159,14 @@ templ Header() {
 
 templ Sidebar(activeTab string) {
 	<aside class="hidden md:flex w-64 bg-white border-r border-slate-200 flex-col">
-		<!-- Logo -->
 		<div class="p-6 border-b border-slate-100">
-			<img src="/assets/logo_transparent.png" class="h-14 w-auto" alt="BudgetMate"/>
+			<div class="flex items-center gap-3">
+				<img src="/assets/icon.png" class="w-10 h-10" alt="BudgetMate"/>
+				<div>
+					<h1 class="text-lg font-semibold text-slate-800">BudgetMate</h1>
+					<p class="text-xs text-slate-500">Family Finance</p>
+				</div>
+			</div>
 		</div>
 		<!-- Navigation -->
 		<nav class="flex-1 p-4">

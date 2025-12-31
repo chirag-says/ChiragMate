@@ -9,7 +9,7 @@ templ MarketingLayout(title string) {
 			<meta name="description" content="BudgetMate - The first Offline-First Financial Operating System for Indian families. Privacy-centric family finance dashboard."/>
 			<meta name="keywords" content="family finance, budget tracker, Indian finance app, privacy first, offline finance"/>
 			<title>{ title } | BudgetMate</title>
-			<link rel="icon" type="image/png" href="/assets/logo_transparent.png"/>
+			<link rel="icon" type="image/png" href="/assets/icon.png"/>
 			<!-- Open Graph -->
 			<meta property="og:title" content="BudgetMate - Family Financial OS"/>
 			<meta property="og:description" content="The first Offline-First Financial Operating System for Indian families."/>
@@ -105,8 +105,9 @@ templ Footer() {
 			<div class="grid grid-cols-1 md:grid-cols-4 gap-12">
 				<!-- Brand -->
 				<div class="md:col-span-2">
-					<div class="mb-4">
-						<img src="/assets/logo_transparent.png" class="h-12 w-auto brightness-0 invert" alt="BudgetMate"/>
+					<div class="flex items-center gap-3 mb-4">
+						<img src="/assets/icon.png" class="h-10 w-10" alt="BudgetMate"/>
+						<span class="text-xl font-bold text-white">BudgetMate</span>
 					</div>
 					<p class="text-slate-400 text-sm max-w-sm">
 						The first Offline-First Financial Operating System built for Indian families. Your data, your control.
