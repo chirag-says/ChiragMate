@@ -39,7 +39,7 @@ func main() {
 	// Middleware
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
-	r.Use(middleware.Compress(5))
+	r.Use(mw.GzipMiddleware) // Custom GZIP compression with sync.Pool
 
 	// Static files
 	fileServer := http.FileServer(http.Dir("./assets"))

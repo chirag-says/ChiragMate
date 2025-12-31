@@ -109,6 +109,15 @@ func Init(dbPath string) error {
 		return fmt.Errorf("failed to open database: %w", err)
 	}
 
+	// === Connection Pooling Configuration ===
+	// These settings keep connections "warm" to skip SSL/TLS handshakes
+	// Critical for high-latency cloud databases like Turso
+	DB.SetMaxOpenConns(25)                 // Max concurrent connections (prevent resource exhaustion)
+	DB.SetMaxIdleConns(25)                 // Keep 25 connections ready (skip handshake overhead)
+	DB.SetConnMaxLifetime(5 * time.Minute) // Recycle connections to prevent stale connections
+	DB.SetConnMaxIdleTime(5 * time.Minute) // Close idle connections after 5 min
+	log.Println("⚡ Connection pooling enabled (25 warm connections)")
+
 	if err := DB.Ping(); err != nil {
 		return fmt.Errorf("failed to ping database: %w", err)
 	}

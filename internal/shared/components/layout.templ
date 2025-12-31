@@ -9,6 +9,16 @@ templ Layout(title string, activeTab string) {
 			<meta name="description" content="BudgetMate - Privacy-centric family finance dashboard for the Indian market"/>
 			<title>{ title } | BudgetMate</title>
 			<link rel="icon" type="image/png" href="/assets/icon.png"/>
+			<!-- Preconnect hints for faster resource loading -->
+			<link rel="preconnect" href="https://cdn.tailwindcss.com"/>
+			<link rel="dns-prefetch" href="https://cdn.tailwindcss.com"/>
+			<link rel="preconnect" href="https://unpkg.com"/>
+			<link rel="dns-prefetch" href="https://unpkg.com"/>
+			<link rel="preconnect" href="https://cdn.jsdelivr.net"/>
+			<link rel="dns-prefetch" href="https://cdn.jsdelivr.net"/>
+			<link rel="preconnect" href="https://fonts.googleapis.com"/>
+			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+			<link rel="dns-prefetch" href="https://fonts.googleapis.com"/>
 			<!-- Tailwind CSS -->
 			<script src="https://cdn.tailwindcss.com"></script>
 			<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
