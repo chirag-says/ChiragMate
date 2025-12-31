@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	"sync"
 	"time"
 
 	_ "github.com/tursodatabase/libsql-client-go/libsql"
@@ -13,6 +14,20 @@ import (
 )
 
 var DB *sql.DB
+
+// --- Session Cache for High-Latency Cloud Environments ---
+// Uses sync.Map for thread-safe in-memory caching of session lookups
+// This eliminates repeated DB round-trips for auth middleware
+
+var sessionCache sync.Map // map[token]cachedSession
+
+const sessionCacheTTL = 5 * time.Minute
+
+type cachedSession struct {
+	User      *User
+	CachedAt  time.Time
+	ExpiresAt time.Time // DB session expiry
+}
 
 // --- Types ---
 
@@ -332,26 +347,80 @@ func CreateSession(userID int64) (string, error) {
 	expiresAt := time.Now().Add(24 * time.Hour * 7) // 7 days
 
 	_, err = DB.Exec("INSERT INTO sessions (token, user_id, expires_at) VALUES (?, ?, ?)", token, userID, expiresAt)
-	return token, err
+	if err != nil {
+		return "", err
+	}
+
+	// Pre-populate cache with the user data for instant subsequent lookups
+	user, err := GetUserByID(userID)
+	if err == nil {
+		sessionCache.Store(token, cachedSession{
+			User:      user,
+			CachedAt:  time.Now(),
+			ExpiresAt: expiresAt,
+		})
+	}
+
+	return token, nil
 }
 
+// GetUserBySession retrieves a user by session token with in-memory caching
+// Step A: Check cache first (0ms latency)
+// Step B: If cache miss, query DB and populate cache
 func GetUserBySession(token string) (*User, error) {
+	// Step A: Check in-memory cache first
+	if cached, ok := sessionCache.Load(token); ok {
+		cs := cached.(cachedSession)
+		// Validate cache TTL and session expiry
+		if time.Since(cs.CachedAt) < sessionCacheTTL && time.Now().Before(cs.ExpiresAt) {
+			return cs.User, nil // Cache HIT - 0ms latency!
+		}
+		// Cache expired, remove it
+		sessionCache.Delete(token)
+	}
+
+	// Step B: Cache MISS - Query database (Turso)
 	u := &User{}
+	var expiresAt time.Time
 	err := DB.QueryRow(`
-        SELECT u.id, u.email, u.name, u.avatar_url, u.family_id, u.role 
+        SELECT u.id, u.email, u.name, u.avatar_url, u.family_id, u.role, s.expires_at
         FROM sessions s
         JOIN users u ON s.user_id = u.id
         WHERE s.token = ? AND s.expires_at > CURRENT_TIMESTAMP
-    `, token).Scan(&u.ID, &u.Email, &u.Name, &u.AvatarURL, &u.FamilyID, &u.Role)
+    `, token).Scan(&u.ID, &u.Email, &u.Name, &u.AvatarURL, &u.FamilyID, &u.Role, &expiresAt)
 	if err != nil {
 		return nil, err
 	}
+
+	// Store in cache for future requests
+	sessionCache.Store(token, cachedSession{
+		User:      u,
+		CachedAt:  time.Now(),
+		ExpiresAt: expiresAt,
+	})
+
 	return u, nil
 }
 
 func DeleteSession(token string) error {
+	// Remove from cache first
+	sessionCache.Delete(token)
+
+	// Then remove from database
 	_, err := DB.Exec("DELETE FROM sessions WHERE token = ?", token)
 	return err
+}
+
+// InvalidateUserSessions removes all cached sessions for a user
+// Call this when user data changes (e.g., profile update, password change)
+func InvalidateUserSessions(userID int64) {
+	sessionCache.Range(func(key, value interface{}) bool {
+		cs := value.(cachedSession)
+		if cs.User.ID == userID {
+			sessionCache.Delete(key)
+		}
+		return true
+	})
 }
 
 // UpdateUser updates a user's profile information
