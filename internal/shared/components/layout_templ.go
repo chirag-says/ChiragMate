@@ -42,7 +42,7 @@ func Layout(title string, activeTab string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " | BudgetMate</title><link rel=\"icon\" type=\"image/png\" href=\"/assets/icon.png\"><!-- Preconnect hints for faster resource loading --><link rel=\"preconnect\" href=\"https://cdn.tailwindcss.com\"><link rel=\"dns-prefetch\" href=\"https://cdn.tailwindcss.com\"><link rel=\"preconnect\" href=\"https://unpkg.com\"><link rel=\"dns-prefetch\" href=\"https://unpkg.com\"><link rel=\"preconnect\" href=\"https://cdn.jsdelivr.net\"><link rel=\"dns-prefetch\" href=\"https://cdn.jsdelivr.net\"><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin><link rel=\"dns-prefetch\" href=\"https://fonts.googleapis.com\"><!-- Tailwind CSS --><script src=\"https://cdn.tailwindcss.com\"></script><script src=\"https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js\" defer></script><script>\n\t\t\ttailwind.config = {\n\t\t\t\ttheme: {\n\t\t\t\t\textend: {\n\t\t\t\t\t\tfontFamily: {\n\t\t\t\t\t\t\tsans: ['Inter', 'system-ui', 'sans-serif'],\n\t\t\t\t\t\t},\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t</script><!-- Google Fonts - Inter --><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin><link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap\" rel=\"stylesheet\"><!-- HTMX --><script src=\"https://unpkg.com/htmx.org@2.0.3\" integrity=\"sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq\" crossorigin=\"anonymous\"></script><!-- Chart.js --><script src=\"https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js\"></script><style>\n\t\t/* Custom scrollbar */\n\t\t::-webkit-scrollbar {\n\t\t\twidth: 8px;\n\t\t}\n\t\t::-webkit-scrollbar-track {\n\t\t\tbackground: #f1f5f9;\n\t\t}\n\t\t::-webkit-scrollbar-thumb {\n\t\t\tbackground: #cbd5e1;\n\t\t\tborder-radius: 4px;\n\t\t}\n\t\t::-webkit-scrollbar-thumb:hover {\n\t\t\tbackground: #94a3b8;\n\t\t}\n\t\t\n\t\t/* HTMX Boost Loading Indicator */\n\t\t.htmx-indicator {\n\t\t\topacity: 0;\n\t\t\ttransition: opacity 200ms ease-in;\n\t\t}\n\t\t.htmx-request .htmx-indicator,\n\t\t.htmx-request.htmx-indicator {\n\t\t\topacity: 1;\n\t\t}\n\t\t\n\t\t/* Progress bar animation */\n\t\t@keyframes progress-indeterminate {\n\t\t\t0% { transform: translateX(-100%); }\n\t\t\t100% { transform: translateX(400%); }\n\t\t}\n\t\t.progress-bar-animate {\n\t\t\tanimation: progress-indeterminate 1s ease-in-out infinite;\n\t\t}\n\t\t\n\t\t/* Smooth page transitions */\n\t\t.htmx-swapping {\n\t\t\topacity: 0;\n\t\t\ttransition: opacity 0.15s ease-out;\n\t\t}\n\t\t.htmx-settling {\n\t\t\topacity: 1;\n\t\t\ttransition: opacity 0.15s ease-in;\n\t\t}\n\t\t\n\t\t/* Card hover effect */\n\t\t.card-hover {\n\t\t\ttransition: transform 0.2s ease, box-shadow 0.2s ease;\n\t\t}\n\t\t.card-hover:hover {\n\t\t\ttransform: translateY(-2px);\n\t\t\tbox-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);\n\t\t}\n\t\t</style></head><body class=\"h-full bg-slate-50 font-sans antialiased\" hx-boost=\"true\" hx-indicator=\"#global-progress\"><!-- Global Progress Bar - Shows during any HTMX navigation --><div id=\"global-progress\" class=\"htmx-indicator fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-600 z-[9999] overflow-hidden\"><div class=\"h-full w-1/4 bg-white/30 progress-bar-animate\"></div></div><div class=\"flex h-full\"><!-- Sidebar (Desktop) -->")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " | BudgetMate</title><link rel=\"icon\" type=\"image/png\" href=\"/assets/icon.png\"><!-- Preconnect hints for faster resource loading --><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin><link rel=\"preconnect\" href=\"https://unpkg.com\"><link rel=\"preconnect\" href=\"https://cdn.jsdelivr.net\"><!-- Static Tailwind CSS (Production Build) --><link href=\"/assets/css/styles.css\" rel=\"stylesheet\"><!-- Google Fonts - Inter --><link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap\" rel=\"stylesheet\"><!-- Alpine.js --><script src=\"https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js\" defer></script><!-- HTMX --><script src=\"https://unpkg.com/htmx.org@2.0.3\" integrity=\"sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq\" crossorigin=\"anonymous\"></script><!-- Chart.js --><script src=\"https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js\"></script></head><body class=\"h-full bg-slate-50 font-sans antialiased\" hx-boost=\"true\" hx-indicator=\"#global-progress\"><!-- Global Progress Bar - Shows during any HTMX navigation --><div id=\"global-progress\" class=\"htmx-indicator fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-600 z-[9999] overflow-hidden\"><div class=\"h-full w-1/4 bg-white/30 progress-bar-animate\"></div></div><div class=\"flex h-full\"><!-- Sidebar (Desktop) -->")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -268,7 +268,7 @@ func MobileNavItem(href, label string, icon templ.Component, active bool) templ.
 		var templ_7745c5c3_Var8 templ.SafeURL
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(href))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/layout.templ`, Line: 256, Col: 28}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/layout.templ`, Line: 185, Col: 28}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -348,7 +348,7 @@ func MobileNavItem(href, label string, icon templ.Component, active bool) templ.
 		var templ_7745c5c3_Var14 string
 		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(label)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/layout.templ`, Line: 268, Col: 10}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/layout.templ`, Line: 197, Col: 10}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 		if templ_7745c5c3_Err != nil {
@@ -401,7 +401,7 @@ func NavItem(href string, label string, icon templ.Component, active bool) templ
 		var templ_7745c5c3_Var17 templ.SafeURL
 		templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinURLErrs(templ.SafeURL(href))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/layout.templ`, Line: 275, Col: 29}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/layout.templ`, Line: 204, Col: 29}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 		if templ_7745c5c3_Err != nil {
@@ -431,7 +431,7 @@ func NavItem(href string, label string, icon templ.Component, active bool) templ
 		var templ_7745c5c3_Var19 string
 		templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(label)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/layout.templ`, Line: 281, Col: 10}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/shared/components/layout.templ`, Line: 210, Col: 10}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
 		if templ_7745c5c3_Err != nil {

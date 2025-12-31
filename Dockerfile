@@ -9,8 +9,9 @@ FROM golang:1.24-alpine AS builder
 
 # Install build dependencies
 # git: for fetching dependencies
-# make: if needed for build scripts
-RUN apk add --no-cache git make
+# make: for build scripts
+# nodejs/npm: for Tailwind CSS v4 build
+RUN apk add --no-cache git make nodejs npm
 
 # Set working directory
 WORKDIR /app
@@ -22,10 +23,21 @@ RUN go install github.com/a-h/templ/cmd/templ@latest
 COPY go.mod go.sum ./
 RUN go mod download
 
+# Copy package.json for npm dependencies
+COPY package.json package-lock.json* ./
+RUN npm install
+
+# Copy Tailwind config and CSS input
+COPY tailwind.config.js ./
+COPY assets/css/input.css ./assets/css/
+
 # Copy source code
 COPY . .
 
-# Generate templates
+# Generate Tailwind CSS v4 (production minified)
+RUN npx @tailwindcss/cli -i ./assets/css/input.css -o ./assets/css/styles.css --minify
+
+# Generate templ templates
 RUN templ generate
 
 # Build the binary

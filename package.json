@@ -1,0 +1,25 @@
+{
+  "name": "buddymate",
+  "version": "1.0.0",
+  "description": "> **Status:** 🟢 Production Ready (v1.0.0)  \r > **Stack:** ![Go](https://img.shields.io/badge/Go-1.22-00ADD8?style=flat-square&logo=go&logoColor=white) ![Templ](https://img.shields.io/badge/Templ-UI-black?style=flat-square) ![HTMX](https://img.shields.io/badge/HTMX-Interactive-3D58F2?style=flat-square) ![SQLite](https://img.shields.io/badge/SQLite-ModernC-003B57?style=flat-square) ![Docker](https://img.shields.io/badge/Docker-Distroless-2496ED?style=flat-square)",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chirag-says/ChiragMate.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/chirag-says/ChiragMate/issues"
+  },
+  "homepage": "https://github.com/chirag-says/ChiragMate#readme",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "tailwindcss": "^4.1.18"
+  }
+}
