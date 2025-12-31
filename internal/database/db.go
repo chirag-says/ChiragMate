@@ -4,8 +4,11 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"os"
+	"strings"
 	"time"
 
+	_ "github.com/tursodatabase/libsql-client-go/libsql"
 	_ "modernc.org/sqlite"
 )
 
@@ -72,7 +75,21 @@ type Invite struct {
 // Init initializes the SQLite database connection and runs migrations
 func Init(dbPath string) error {
 	var err error
-	DB, err = sql.Open("sqlite", dbPath)
+
+	// Check for Remote Database URL (Turso)
+	dbURL := os.Getenv("DB_URL")
+	driverName := "sqlite"
+	dsn := dbPath
+
+	if strings.Contains(dbURL, "libsql://") || strings.Contains(dbURL, "wss://") || strings.Contains(dbURL, "https://") {
+		driverName = "libsql"
+		dsn = dbURL
+		log.Println("☁️  Connecting to Cloud Database (Turso)...")
+	} else {
+		log.Println("💾 Using Local Offline Database (SQLite)...")
+	}
+
+	DB, err = sql.Open(driverName, dsn)
 	if err != nil {
 		return fmt.Errorf("failed to open database: %w", err)
 	}

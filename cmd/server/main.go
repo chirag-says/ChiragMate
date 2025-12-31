@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/budgetmate/web/internal/database"
+	"github.com/budgetmate/web/internal/features/ai"
 	"github.com/budgetmate/web/internal/features/auth"
 	"github.com/budgetmate/web/internal/features/budgets"
 	"github.com/budgetmate/web/internal/features/dashboard"
@@ -52,6 +53,7 @@ func main() {
 	goalsHandler := goals.NewHandler()
 	notificationsHandler := notifications.NewHandler()
 	settingsHandler := settings.NewHandler()
+	aiHandler := ai.NewHandler()
 
 	// =====================
 	// PUBLIC ROUTES (Marketing & Auth)
@@ -127,6 +129,9 @@ func main() {
 		r.Get("/notifications/count", notificationsHandler.HandleGetCount)
 		r.Post("/notifications/read/{id}", notificationsHandler.HandleMarkRead)
 		r.Post("/notifications/read-all", notificationsHandler.HandleMarkAllRead)
+
+		// AI Service (Ollama)
+		r.Post("/ai/categorize", aiHandler.HandleCategorize)
 	})
 
 	// Start server

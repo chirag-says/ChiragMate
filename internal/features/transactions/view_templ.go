@@ -128,7 +128,7 @@ func CreateTransactionPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<div class=\"max-w-2xl mx-auto\"><h1 class=\"text-2xl font-bold text-slate-800 mb-6\">Add New Transaction</h1><div class=\"bg-white rounded-2xl border border-slate-200 shadow-sm p-8\"><form action=\"/app/transactions\" method=\"POST\" class=\"space-y-6\"><div class=\"grid grid-cols-1 md:grid-cols-2 gap-6\"><div><label class=\"block text-sm font-medium text-slate-700 mb-1\">Type</label> <select name=\"type\" class=\"w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-colors\"><option value=\"expense\">Expense</option> <option value=\"income\">Income</option></select></div><div><label class=\"block text-sm font-medium text-slate-700 mb-1\">Amount</label><div class=\"relative\"><span class=\"absolute left-4 top-2 text-slate-400\">₹</span> <input type=\"number\" name=\"amount\" required step=\"0.01\" class=\"w-full pl-8 pr-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-colors\" placeholder=\"0.00\"></div></div></div><div><label class=\"block text-sm font-medium text-slate-700 mb-1\">Date</label> <input type=\"date\" name=\"date\" required class=\"w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-colors\"></div><div><label class=\"block text-sm font-medium text-slate-700 mb-1\">Description</label> <input type=\"text\" name=\"description\" required class=\"w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-colors\" placeholder=\"e.g. Grocery Shopping\"></div><div><label class=\"block text-sm font-medium text-slate-700 mb-1\">Category</label> <input type=\"text\" name=\"category\" required class=\"w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-colors\" placeholder=\"e.g. Food, Salary, Bills\" list=\"categories\"> <datalist id=\"categories\"><option value=\"Food & Dining\"></option> <option value=\"Groceries\"></option> <option value=\"Transportation\"></option> <option value=\"Utilities\"></option> <option value=\"Entertainment\"></option> <option value=\"Healthcare\"></option> <option value=\"Shopping\"></option> <option value=\"Salary\"></option> <option value=\"Investment\"></option></datalist></div><div class=\"pt-4 flex items-center justify-end gap-3\"><a href=\"/app/transactions\" class=\"px-6 py-2.5 text-slate-600 font-medium hover:bg-slate-50 rounded-xl transition-colors\">Cancel</a> <button type=\"submit\" class=\"px-6 py-2.5 bg-emerald-600 text-white font-medium rounded-xl hover:bg-emerald-700 shadow-lg shadow-emerald-200 transition-all\">Save Transaction</button></div></form></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<div class=\"max-w-2xl mx-auto\"><h1 class=\"text-2xl font-bold text-slate-800 mb-6\">Add New Transaction</h1><div class=\"bg-white rounded-2xl border border-slate-200 shadow-sm p-8\"><form action=\"/app/transactions\" method=\"POST\" class=\"space-y-6\" x-data=\"{ description: '', category: '', loading: false, async suggest() { if(!this.description) return; this.loading = true; try { let r = await fetch('/app/ai/categorize', {method:'POST', body:JSON.stringify({description: this.description})}); let d = await r.json(); if(d.category) this.category = d.category; } catch(e){} this.loading = false; } }\"><div class=\"grid grid-cols-1 md:grid-cols-2 gap-6\"><div><label class=\"block text-sm font-medium text-slate-700 mb-1\">Type</label> <select name=\"type\" class=\"w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-colors\"><option value=\"expense\">Expense</option> <option value=\"income\">Income</option></select></div><div><label class=\"block text-sm font-medium text-slate-700 mb-1\">Amount</label><div class=\"relative\"><span class=\"absolute left-4 top-2 text-slate-400\">₹</span> <input type=\"number\" name=\"amount\" required step=\"0.01\" class=\"w-full pl-8 pr-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-colors\" placeholder=\"0.00\"></div></div></div><div><label class=\"block text-sm font-medium text-slate-700 mb-1\">Date</label> <input type=\"date\" name=\"date\" required class=\"w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-colors\"></div><div><label class=\"block text-sm font-medium text-slate-700 mb-1\">Description</label> <input type=\"text\" name=\"description\" x-model=\"description\" required class=\"w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-colors\" placeholder=\"e.g. Grocery Shopping\"></div><div><div class=\"flex justify-between items-center mb-1\"><label class=\"block text-sm font-medium text-slate-700\">Category</label> <button type=\"button\" @click=\"suggest()\" class=\"text-xs text-emerald-600 font-medium hover:text-emerald-700 flex items-center gap-1 transition-colors\" :class=\"{'opacity-50 cursor-not-allowed': loading || !description}\"><span x-show=\"!loading\">✨ Auto-Categorize</span> <span x-show=\"loading\">✨ Analyzing...</span></button></div><input type=\"text\" name=\"category\" x-model=\"category\" required class=\"w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-colors\" placeholder=\"e.g. Food, Salary, Bills\" list=\"categories\"> <datalist id=\"categories\"><option value=\"Food & Dining\"></option> <option value=\"Groceries\"></option> <option value=\"Transportation\"></option> <option value=\"Utilities\"></option> <option value=\"Entertainment\"></option> <option value=\"Healthcare\"></option> <option value=\"Shopping\"></option> <option value=\"Salary\"></option> <option value=\"Investment\"></option></datalist></div><div class=\"pt-4 flex items-center justify-end gap-3\"><a href=\"/app/transactions\" class=\"px-6 py-2.5 text-slate-600 font-medium hover:bg-slate-50 rounded-xl transition-colors\">Cancel</a> <button type=\"submit\" class=\"px-6 py-2.5 bg-emerald-600 text-white font-medium rounded-xl hover:bg-emerald-700 shadow-lg shadow-emerald-200 transition-all\">Save Transaction</button></div></form></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -170,7 +170,7 @@ func TransactionSummaryCard(title string, value string) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 101, Col: 55}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 107, Col: 55}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -183,7 +183,7 @@ func TransactionSummaryCard(title string, value string) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(value)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 102, Col: 59}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 108, Col: 59}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -231,7 +231,7 @@ func IncomeSummaryCard(transactions []database.Transaction) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(components.FormatINR(total))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 115, Col: 83}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 121, Col: 83}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -279,7 +279,7 @@ func ExpenseSummaryCard(transactions []database.Transaction) templ.Component {
 		var templ_7745c5c3_Var11 string
 		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(components.FormatINR(total))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 128, Col: 80}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 134, Col: 80}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 		if templ_7745c5c3_Err != nil {
@@ -321,7 +321,7 @@ func TransactionTableRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var13 string
 		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("tx-row-%d", t.ID))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 133, Col: 41}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 139, Col: 41}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 		if templ_7745c5c3_Err != nil {
@@ -334,7 +334,7 @@ func TransactionTableRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var14 string
 		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/app/transactions/%d/edit", t.ID))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 133, Col: 184}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 139, Col: 184}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 		if templ_7745c5c3_Err != nil {
@@ -347,7 +347,7 @@ func TransactionTableRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var15 string
 		templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("#tx-row-%d", t.ID))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 133, Col: 230}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 139, Col: 230}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 		if templ_7745c5c3_Err != nil {
@@ -397,7 +397,7 @@ func TransactionTableRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var18 string
 		templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(t.Description)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 143, Col: 74}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 149, Col: 74}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
 		if templ_7745c5c3_Err != nil {
@@ -410,7 +410,7 @@ func TransactionTableRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var19 string
 		templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(t.Category)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 144, Col: 59}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 150, Col: 59}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
 		if templ_7745c5c3_Err != nil {
@@ -423,7 +423,7 @@ func TransactionTableRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var20 string
 		templ_7745c5c3_Var20, templ_7745c5c3_Err = templ.JoinStringErrs(t.Date.Format("Jan 02, 2006"))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 144, Col: 97}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 150, Col: 97}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var20))
 		if templ_7745c5c3_Err != nil {
@@ -463,7 +463,7 @@ func TransactionTableRow(t database.Transaction) templ.Component {
 			var templ_7745c5c3_Var23 string
 			templ_7745c5c3_Var23, templ_7745c5c3_Err = templ.JoinStringErrs(components.FormatINR(t.Amount))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 150, Col: 38}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 156, Col: 38}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var23))
 			if templ_7745c5c3_Err != nil {
@@ -477,7 +477,7 @@ func TransactionTableRow(t database.Transaction) templ.Component {
 			var templ_7745c5c3_Var24 string
 			templ_7745c5c3_Var24, templ_7745c5c3_Err = templ.JoinStringErrs(components.FormatINR(t.Amount))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 152, Col: 38}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 158, Col: 38}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var24))
 			if templ_7745c5c3_Err != nil {
@@ -520,7 +520,7 @@ func TransactionEditRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var26 string
 		templ_7745c5c3_Var26, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("tx-row-%d", t.ID))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 160, Col: 42}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 166, Col: 42}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var26))
 		if templ_7745c5c3_Err != nil {
@@ -533,7 +533,7 @@ func TransactionEditRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var27 string
 		templ_7745c5c3_Var27, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/app/transactions/%d", t.ID))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 160, Col: 158}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 166, Col: 158}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var27))
 		if templ_7745c5c3_Err != nil {
@@ -546,7 +546,7 @@ func TransactionEditRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var28 string
 		templ_7745c5c3_Var28, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("#tx-row-%d", t.ID))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 160, Col: 204}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 166, Col: 204}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var28))
 		if templ_7745c5c3_Err != nil {
@@ -559,7 +559,7 @@ func TransactionEditRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var29 string
 		templ_7745c5c3_Var29, templ_7745c5c3_Err = templ.JoinStringErrs(t.Description)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 162, Col: 147}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 168, Col: 147}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var29))
 		if templ_7745c5c3_Err != nil {
@@ -572,7 +572,7 @@ func TransactionEditRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var30 string
 		templ_7745c5c3_Var30, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%.2f", t.Amount))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 163, Col: 155}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 169, Col: 155}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var30))
 		if templ_7745c5c3_Err != nil {
@@ -585,7 +585,7 @@ func TransactionEditRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var31 string
 		templ_7745c5c3_Var31, templ_7745c5c3_Err = templ.JoinStringErrs(t.Category)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 164, Col: 138}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 170, Col: 138}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var31))
 		if templ_7745c5c3_Err != nil {
@@ -598,7 +598,7 @@ func TransactionEditRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var32 string
 		templ_7745c5c3_Var32, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/app/transactions/%d/view", t.ID))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 165, Col: 311}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 171, Col: 311}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var32))
 		if templ_7745c5c3_Err != nil {
@@ -611,7 +611,7 @@ func TransactionEditRow(t database.Transaction) templ.Component {
 		var templ_7745c5c3_Var33 string
 		templ_7745c5c3_Var33, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("#tx-row-%d", t.ID))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 165, Col: 357}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/features/transactions/view.templ`, Line: 171, Col: 357}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var33))
 		if templ_7745c5c3_Err != nil {
