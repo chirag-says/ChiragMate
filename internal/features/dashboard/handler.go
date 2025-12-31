@@ -35,46 +35,34 @@ func (h *Handler) HandleIndex(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Get total balance
-	balance, err := database.GetTotalBalance(user.FamilyID)
-	if err != nil {
-		http.Error(w, "Failed to get balance", http.StatusInternalServerError)
-		return
-	}
-
-	// Get total income
-	income, err := database.GetTotalIncome(user.FamilyID)
-	if err != nil {
-		http.Error(w, "Failed to get income", http.StatusInternalServerError)
-		return
-	}
-
-	// Get total expenses
-	expenses, err := database.GetTotalExpenses(user.FamilyID)
-	if err != nil {
-		http.Error(w, "Failed to get expenses", http.StatusInternalServerError)
-		return
-	}
-
-	// Get recent transactions
-	transactions, err := database.GetRecentTransactions(user.FamilyID, 5)
+	// Optimize: Fetch ALL transactions once (1 DB Call) and compute stats in-memory
+	// This reduces 6 DB round-trips to just 1, significantly improving speed on Cloud DBs.
+	allTransactions, err := database.GetAllTransactions(user.FamilyID)
 	if err != nil {
 		http.Error(w, "Failed to get transactions", http.StatusInternalServerError)
 		return
 	}
 
-	// Get ALL transactions for insight analysis
-	allTransactions, err := database.GetAllTransactions(user.FamilyID)
-	if err != nil {
-		http.Error(w, "Failed to get all transactions", http.StatusInternalServerError)
-		return
-	}
+	var balance, income, expenses float64
+	categoryBreakdown := make(map[string]float64)
 
-	// Get category breakdown for chart
-	categoryBreakdown, err := database.GetCategoryBreakdown(user.FamilyID)
-	if err != nil {
-		http.Error(w, "Failed to get category breakdown", http.StatusInternalServerError)
-		return
+	// Compute stats
+	for _, t := range allTransactions {
+		if t.Type == "income" {
+			income += t.Amount
+		} else { // expense
+			expenses += t.Amount
+			categoryBreakdown[t.Category] += t.Amount
+		}
+	}
+	balance = income - expenses
+
+	// Get recent 5 transactions (DB already sorts by Date DESC)
+	var recentTransactions []database.Transaction
+	if len(allTransactions) > 5 {
+		recentTransactions = allTransactions[:5]
+	} else {
+		recentTransactions = allTransactions
 	}
 
 	// Generate Calm AI insight
@@ -85,7 +73,7 @@ func (h *Handler) HandleIndex(w http.ResponseWriter, r *http.Request) {
 		Balance:           balance,
 		TotalIncome:       income,
 		TotalExpenses:     expenses,
-		Transactions:      transactions,
+		Transactions:      recentTransactions,
 		CategoryBreakdown: categoryBreakdown,
 		Insight:           insight,
 		UserName:          user.Name, // Pass User Name
