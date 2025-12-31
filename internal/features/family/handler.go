@@ -1,6 +1,7 @@
 package family
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -8,8 +9,11 @@ import (
 	"github.com/budgetmate/web/internal/database"
 	"github.com/budgetmate/web/internal/middleware"
 	"github.com/go-chi/chi/v5"
+	"golang.org/x/sync/errgroup"
 )
 
+// HandleSettings renders the family settings page using parallel data fetching
+// Optimized for high-latency cloud environments (Railway + Turso)
 func HandleSettings(w http.ResponseWriter, r *http.Request) {
 	user := middleware.GetUser(r.Context())
 	if user == nil {
@@ -17,14 +21,56 @@ func HandleSettings(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	family, err := database.GetFamilyByID(user.FamilyID)
-	if err != nil {
-		family = &database.Family{Name: "My Family", SubscriptionTier: "free"}
-	}
+	var (
+		family  *database.Family
+		members []database.User
+	)
 
-	members, err := database.GetFamilyMembers(user.FamilyID)
-	if err != nil {
-		members = []database.User{}
+	// Create errgroup for parallel execution
+	g, ctx := errgroup.WithContext(r.Context())
+
+	// G1: Fetch Family details
+	g.Go(func() error {
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
+		default:
+		}
+		f, err := database.GetFamilyByID(user.FamilyID)
+		if err != nil {
+			// Use default family on error
+			family = &database.Family{Name: "My Family", SubscriptionTier: "free"}
+			return nil
+		}
+		family = f
+		return nil
+	})
+
+	// G2: Fetch Family Members
+	g.Go(func() error {
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
+		default:
+		}
+		m, err := database.GetFamilyMembers(user.FamilyID)
+		if err != nil {
+			members = []database.User{}
+			return nil
+		}
+		members = m
+		return nil
+	})
+
+	// Wait for all goroutines to complete
+	if err := g.Wait(); err != nil {
+		// Non-fatal - use defaults if context was cancelled
+		if family == nil {
+			family = &database.Family{Name: "My Family", SubscriptionTier: "free"}
+		}
+		if members == nil {
+			members = []database.User{}
+		}
 	}
 
 	SettingsPage(user, family, members).Render(r.Context(), w)
@@ -229,3 +275,6 @@ func HandleDeclineInvite(w http.ResponseWriter, r *http.Request) {
 	database.MarkNotificationRead(notificationID)
 	w.Write([]byte("")) // Remove from list
 }
+
+// Ensure context is used (silence unused import if needed)
+var _ = context.Background

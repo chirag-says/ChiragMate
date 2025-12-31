@@ -542,6 +542,34 @@ func GetRecentTransactions(familyID int64, limit int) ([]Transaction, error) {
 	return transactions, nil
 }
 
+// GetRecentTransactionsForDays returns transactions from the last N days
+// Optimized for insight generation without fetching all historical data
+func GetRecentTransactionsForDays(familyID int64, days int) ([]Transaction, error) {
+	rows, err := DB.Query(`
+        SELECT id, amount, category, date, description, type, user_id, family_id
+        FROM transactions 
+        WHERE family_id = ? AND date >= date('now', '-' || ? || ' days')
+        ORDER BY date DESC
+    `, familyID, days)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var transactions []Transaction
+	for rows.Next() {
+		var t Transaction
+		var dateStr string
+		err := rows.Scan(&t.ID, &t.Amount, &t.Category, &dateStr, &t.Description, &t.Type, &t.UserID, &t.FamilyID)
+		if err != nil {
+			return nil, err
+		}
+		t.Date, _ = time.Parse("2006-01-02", dateStr)
+		transactions = append(transactions, t)
+	}
+	return transactions, nil
+}
+
 func GetTotalBalance(familyID int64) (float64, error) {
 	var income, expense float64
 	DB.QueryRow(`SELECT COALESCE(SUM(amount), 0) FROM transactions WHERE family_id = ? AND type = 'income'`, familyID).Scan(&income)

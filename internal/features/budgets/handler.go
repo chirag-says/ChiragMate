@@ -1,12 +1,14 @@
 package budgets
 
 import (
+	"context"
 	"net/http"
 	"strconv"
 	"time"
 
 	"github.com/budgetmate/web/internal/database"
 	"github.com/budgetmate/web/internal/middleware"
+	"golang.org/x/sync/errgroup"
 )
 
 // BudgetRow represents a single budget category with spending info
@@ -37,7 +39,8 @@ func NewHandler() *Handler {
 	return &Handler{}
 }
 
-// HandleIndex shows the budget overview page
+// HandleIndex shows the budget overview page using parallel data fetching
+// Optimized for high-latency cloud environments (Railway + Turso)
 func (h *Handler) HandleIndex(w http.ResponseWriter, r *http.Request) {
 	user := middleware.GetUser(r.Context())
 	if user == nil {
@@ -51,12 +54,7 @@ func (h *Handler) HandleIndex(w http.ResponseWriter, r *http.Request) {
 		month = time.Now().Format("2006-01")
 	}
 
-	data := h.getBudgetData(user.FamilyID, month)
-
-	// Get purchase requests
-	requests, _ := database.GetFamilyRequests(user.FamilyID, user.ID)
-	data.PurchaseRequests = requests
-	data.CurrentUserID = user.ID
+	data := h.getBudgetDataParallel(r.Context(), user.FamilyID, user.ID, month)
 
 	BudgetsPage(data).Render(r.Context(), w)
 }
@@ -90,7 +88,7 @@ func (h *Handler) HandleSave(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Return updated row
-	data := h.getBudgetData(user.FamilyID, month)
+	data := h.getBudgetDataParallel(r.Context(), user.FamilyID, user.ID, month)
 	for _, row := range data.Rows {
 		if row.Category == category {
 			BudgetCard(row, month).Render(r.Context(), w)
@@ -133,16 +131,95 @@ func (h *Handler) HandleAddCategory(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("HX-Refresh", "true")
 }
 
-func (h *Handler) getBudgetData(familyID int64, month string) BudgetsData {
-	// Get spending by category for the month
-	spending, _ := database.GetCategorySpendingForMonth(familyID, month)
+// getBudgetDataParallel fetches all budget data using parallel execution
+// Uses errgroup to run 4 concurrent database queries
+func (h *Handler) getBudgetDataParallel(ctx context.Context, familyID, userID int64, month string) BudgetsData {
+	var (
+		spending         map[string]float64
+		limits           map[string]float64
+		categories       []string
+		purchaseRequests []database.PurchaseRequest
+	)
 
-	// Get budget limits
-	limits, _ := database.GetMonthlyBudgets(familyID, month)
+	// Create errgroup for parallel execution
+	g, gCtx := errgroup.WithContext(ctx)
 
-	// Get all categories (from spending and budgets combined)
-	categories, _ := database.GetAllCategories(familyID)
+	// G1: Fetch Category Spending for month - SQL GROUP BY aggregation
+	g.Go(func() error {
+		select {
+		case <-gCtx.Done():
+			return gCtx.Err()
+		default:
+		}
+		s, err := database.GetCategorySpendingForMonth(familyID, month)
+		if err != nil {
+			spending = make(map[string]float64)
+			return nil
+		}
+		spending = s
+		return nil
+	})
 
+	// G2: Fetch Monthly Budgets (limits)
+	g.Go(func() error {
+		select {
+		case <-gCtx.Done():
+			return gCtx.Err()
+		default:
+		}
+		l, err := database.GetMonthlyBudgets(familyID, month)
+		if err != nil {
+			limits = make(map[string]float64)
+			return nil
+		}
+		limits = l
+		return nil
+	})
+
+	// G3: Fetch All Categories
+	g.Go(func() error {
+		select {
+		case <-gCtx.Done():
+			return gCtx.Err()
+		default:
+		}
+		c, err := database.GetAllCategories(familyID)
+		if err != nil {
+			categories = []string{}
+			return nil
+		}
+		categories = c
+		return nil
+	})
+
+	// G4: Fetch Purchase Requests
+	g.Go(func() error {
+		select {
+		case <-gCtx.Done():
+			return gCtx.Err()
+		default:
+		}
+		r, err := database.GetFamilyRequests(familyID, userID)
+		if err != nil {
+			purchaseRequests = []database.PurchaseRequest{}
+			return nil
+		}
+		purchaseRequests = r
+		return nil
+	})
+
+	// Wait for all goroutines to complete
+	_ = g.Wait()
+
+	// Initialize maps if nil (shouldn't happen but safety first)
+	if spending == nil {
+		spending = make(map[string]float64)
+	}
+	if limits == nil {
+		limits = make(map[string]float64)
+	}
+
+	// Build budget rows from parallel results
 	var rows []BudgetRow
 	var totalSpent, totalLimit float64
 
@@ -184,12 +261,19 @@ func (h *Handler) getBudgetData(familyID int64, month string) BudgetsData {
 	monthLabel := t.Format("January 2006")
 
 	return BudgetsData{
-		Month:      month,
-		MonthLabel: monthLabel,
-		Rows:       rows,
-		TotalSpent: totalSpent,
-		TotalLimit: totalLimit,
+		Month:            month,
+		MonthLabel:       monthLabel,
+		Rows:             rows,
+		TotalSpent:       totalSpent,
+		TotalLimit:       totalLimit,
+		PurchaseRequests: purchaseRequests,
+		CurrentUserID:    userID,
 	}
+}
+
+// getBudgetData is kept for backward compatibility but uses the parallel version
+func (h *Handler) getBudgetData(familyID int64, month string) BudgetsData {
+	return h.getBudgetDataParallel(context.Background(), familyID, 0, month)
 }
 
 // HandleCreateRequest creates a new purchase request
@@ -277,3 +361,6 @@ func (h *Handler) HandleVote(w http.ResponseWriter, r *http.Request) {
 	// Return updated card
 	PurchaseRequestCard(*req, user.ID).Render(r.Context(), w)
 }
+
+// Ensure context is used (silence unused import if needed)
+var _ = context.Background
