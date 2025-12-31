@@ -1,13 +1,13 @@
 module github.com/budgetmate/web
 
-go 1.24.0
+go 1.23.0
 
 require (
 	github.com/a-h/templ v0.3.960
 	github.com/go-chi/chi/v5 v5.1.0
 	github.com/tursodatabase/libsql-client-go v0.0.0-20251219100830-236aa1ff8acc
 	golang.org/x/crypto v0.28.0
-	golang.org/x/sync v0.19.0
+	golang.org/x/sync v0.16.0
 	modernc.org/sqlite v1.34.4
 )
 
