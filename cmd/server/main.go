@@ -14,6 +14,7 @@ import (
 	"github.com/budgetmate/web/internal/features/goals"
 	"github.com/budgetmate/web/internal/features/landing"
 	"github.com/budgetmate/web/internal/features/notifications"
+	"github.com/budgetmate/web/internal/features/reports"
 	"github.com/budgetmate/web/internal/features/settings"
 	"github.com/budgetmate/web/internal/features/subscriptions"
 	"github.com/budgetmate/web/internal/features/transactions"
@@ -60,6 +61,7 @@ func main() {
 	settingsHandler := settings.NewHandler()
 	aiHandler := ai.NewHandler()
 	subscriptionsHandler := subscriptions.NewHandler()
+	reportsHandler := reports.NewHandler()
 
 	// =====================
 	// PUBLIC ROUTES (Marketing & Auth)
@@ -148,6 +150,9 @@ func main() {
 		// AI Financial Advisor (Pro Suite)
 		r.Get("/chat", aiHandler.HandleShowChat)
 		r.Post("/chat", aiHandler.HandleChat)
+
+		// Reports (Pro Suite - Executive PDF Report)
+		r.Get("/reports/download", reportsHandler.HandleDownload)
 	})
 
 	// Start server

@@ -1344,6 +1344,126 @@ func GetSubscriptionByName(familyID int64, name string) (*Subscription, error) {
 	return &s, nil
 }
 
+// ====================================
+// REPORTS (Executive PDF Report)
+// ====================================
+
+// ReportData contains all data needed for generating a monthly report
+type ReportData struct {
+	FamilyName        string
+	Year              int
+	Month             time.Month
+	TotalIncome       float64
+	TotalExpense      float64
+	NetSavings        float64
+	SavingsRate       float64
+	Grade             string
+	CategoryBreakdown map[string]float64
+	TopExpenses       []Transaction
+}
+
+// GetMonthlyReportData fetches all data needed for a monthly financial report
+func GetMonthlyReportData(familyID int64, year int, month time.Month) (*ReportData, error) {
+	data := &ReportData{
+		Year:              year,
+		Month:             month,
+		CategoryBreakdown: make(map[string]float64),
+	}
+
+	// Get family name
+	var familyName string
+	err := DB.QueryRow("SELECT name FROM families WHERE id = ?", familyID).Scan(&familyName)
+	if err == nil {
+		data.FamilyName = familyName
+	} else {
+		data.FamilyName = "Your Family"
+	}
+
+	// Date range for the month
+	startDate := time.Date(year, month, 1, 0, 0, 0, 0, time.UTC).Format("2006-01-02")
+	endDate := time.Date(year, month+1, 0, 23, 59, 59, 0, time.UTC).Format("2006-01-02")
+
+	// Get total income
+	err = DB.QueryRow(`
+		SELECT COALESCE(SUM(amount), 0) FROM transactions 
+		WHERE family_id = ? AND type = 'income' AND date >= ? AND date <= ?
+	`, familyID, startDate, endDate).Scan(&data.TotalIncome)
+	if err != nil {
+		return nil, err
+	}
+
+	// Get total expenses
+	err = DB.QueryRow(`
+		SELECT COALESCE(SUM(amount), 0) FROM transactions 
+		WHERE family_id = ? AND type = 'expense' AND date >= ? AND date <= ?
+	`, familyID, startDate, endDate).Scan(&data.TotalExpense)
+	if err != nil {
+		return nil, err
+	}
+
+	// Calculate net savings and rate
+	data.NetSavings = data.TotalIncome - data.TotalExpense
+	if data.TotalIncome > 0 {
+		data.SavingsRate = (data.NetSavings / data.TotalIncome) * 100
+	}
+
+	// Assign grade based on savings rate
+	switch {
+	case data.SavingsRate >= 20:
+		data.Grade = "A"
+	case data.SavingsRate >= 10:
+		data.Grade = "B"
+	case data.SavingsRate >= 0:
+		data.Grade = "C"
+	default:
+		data.Grade = "F"
+	}
+
+	// Get category breakdown for expenses
+	rows, err := DB.Query(`
+		SELECT category, SUM(amount) as total FROM transactions 
+		WHERE family_id = ? AND type = 'expense' AND date >= ? AND date <= ?
+		GROUP BY category ORDER BY total DESC
+	`, familyID, startDate, endDate)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var category string
+		var total float64
+		if err := rows.Scan(&category, &total); err != nil {
+			continue
+		}
+		data.CategoryBreakdown[category] = total
+	}
+
+	// Get top 5 expenses
+	rows, err = DB.Query(`
+		SELECT id, amount, category, date, description, type, COALESCE(user_id, 0), COALESCE(family_id, 0)
+		FROM transactions 
+		WHERE family_id = ? AND type = 'expense' AND date >= ? AND date <= ?
+		ORDER BY amount DESC LIMIT 5
+	`, familyID, startDate, endDate)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var t Transaction
+		var dateStr string
+		if err := rows.Scan(&t.ID, &t.Amount, &t.Category, &dateStr, &t.Description, &t.Type, &t.UserID, &t.FamilyID); err != nil {
+			continue
+		}
+		t.Date, _ = time.Parse("2006-01-02", dateStr)
+		data.TopExpenses = append(data.TopExpenses, t)
+	}
+
+	return data, nil
+}
+
 func Close() error {
 	if DB != nil {
 		return DB.Close()
