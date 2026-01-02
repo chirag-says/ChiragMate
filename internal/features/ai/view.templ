@@ -1,0 +1,264 @@
+package ai
+
+import (
+	"github.com/budgetmate/web/internal/shared/components"
+)
+
+templ ChatPage() {
+	@components.Layout("AI Advisor", "chat") {
+		<!-- Header Section -->
+		<div class="mb-6">
+			<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+				<div class="flex items-center gap-4">
+					<div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background-color: #7c3aed;">
+						<svg class="w-6 h-6" style="color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+						</svg>
+					</div>
+					<div>
+						<h1 class="text-2xl font-bold text-slate-800">AI Financial Advisor</h1>
+						<p class="text-slate-500 mt-0.5">Your personal finance assistant powered by AI</p>
+					</div>
+				</div>
+				<button 
+					onclick="window.chatMessages = []; location.reload();"
+					class="px-4 py-2.5 bg-white border border-slate-200 text-slate-600 font-medium rounded-lg hover:bg-slate-50 transition-all flex items-center gap-2"
+				>
+					<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+					</svg>
+					New Chat
+				</button>
+			</div>
+		</div>
+
+		<!-- Feature Cards -->
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+			@FeatureCard("Spending Analysis", "Understand where your money goes", "chart", "violet")
+			@FeatureCard("Smart Savings", "Get personalized saving tips", "savings", "emerald")
+			@FeatureCard("Goal Planning", "Plan for your financial dreams", "target", "amber")
+		</div>
+
+		<!-- Main Chat Container -->
+		<div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
+			<!-- Chat Header -->
+			<div class="px-6 py-4 border-b border-slate-100">
+					<div class="flex items-center gap-3">
+					<div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background-color: #7c3aed;">
+						<svg class="w-5 h-5" style="color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+						</svg>
+					</div>
+					<div>
+						<h3 class="text-sm font-semibold text-slate-800">Chat with BudgetMate</h3>
+						<div class="flex items-center gap-1.5">
+							<div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
+							<p class="text-xs text-slate-500">Online • Analyzing your last 30 days</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Chat Messages Area -->
+			<div 
+				id="chat-messages" 
+				class="h-[400px] overflow-y-auto p-6 space-y-4 bg-slate-50"
+				style="scroll-behavior: smooth;"
+			>
+				<!-- Welcome Message -->
+				@WelcomeMessage()
+			</div>
+
+			<!-- Quick Suggestions -->
+			<div class="px-6 py-3 border-t border-slate-100 bg-white">
+				<p class="text-xs text-slate-400 mb-2">Quick questions:</p>
+				<div class="flex flex-wrap gap-2">
+					@QuickSuggestion("What did I spend most on?")
+					@QuickSuggestion("How can I save money?")
+					@QuickSuggestion("Am I on budget?")
+					@QuickSuggestion("Plan my savings")
+				</div>
+			</div>
+
+			<!-- Input Area -->
+			<div class="border-t border-slate-200 p-4 bg-white">
+				<form 
+					id="chat-form"
+					hx-post="/app/chat"
+					hx-target="#chat-messages"
+					hx-swap="beforeend"
+					hx-on::before-request="updateChatHistory()"
+					hx-on::after-request="afterChatSend(); this.reset(); document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;"
+					class="flex items-center gap-3"
+				>
+					<input type="hidden" name="history" id="history-input" value="[]"/>
+					<div class="flex-1">
+						<input 
+							type="text" 
+							name="message" 
+							id="message-input"
+							placeholder="Ask me anything about your finances..."
+							class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 outline-none transition-all text-sm"
+							autocomplete="off"
+							required
+						/>
+					</div>
+					<button 
+						type="submit"
+						class="px-5 py-3 font-medium rounded-lg transition-all flex items-center gap-2"
+						style="background-color: #7c3aed; color: white;"
+					>
+						<span class="hidden sm:inline">Send</span>
+						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+						</svg>
+					</button>
+				</form>
+			</div>
+		</div>
+
+		<!-- Chat History Script -->
+		<script>
+			window.chatMessages = window.chatMessages || [];
+			
+			function updateChatHistory() {
+				document.getElementById('history-input').value = JSON.stringify(window.chatMessages);
+			}
+			
+			function afterChatSend() {
+				setTimeout(function() {
+					var bubbles = document.querySelectorAll('#chat-messages .chat-bubble');
+					window.chatMessages = [];
+					bubbles.forEach(function(bubble) {
+						var isUser = bubble.classList.contains('justify-end');
+						var textEl = bubble.querySelector('p');
+						var text = textEl ? textEl.textContent : '';
+						if (text && !text.includes("I'm BudgetMate, your AI financial advisor")) {
+							window.chatMessages.push({
+								Role: isUser ? 'user' : 'assistant',
+								Content: text
+							});
+						}
+					});
+				}, 100);
+			}
+		</script>
+
+		<!-- Styles -->
+		<style>
+			.htmx-request #chat-form button {
+				opacity: 0.7;
+				pointer-events: none;
+			}
+			.htmx-request #chat-form button::after {
+				content: '';
+				display: inline-block;
+				width: 16px;
+				height: 16px;
+				margin-left: 8px;
+				border: 2px solid transparent;
+				border-top-color: white;
+				border-radius: 50%;
+				animation: spin 0.8s linear infinite;
+			}
+			@keyframes spin {
+				to { transform: rotate(360deg); }
+			}
+			@keyframes fadeInUp {
+				from { opacity: 0; transform: translateY(10px); }
+				to { opacity: 1; transform: translateY(0); }
+			}
+			.chat-bubble {
+				animation: fadeInUp 0.3s ease-out;
+			}
+		</style>
+	}
+}
+
+templ FeatureCard(title, description, cardType, colorScheme string) {
+	<div class="p-4 rounded-lg border border-slate-200 bg-white hover:border-slate-300 transition-all">
+		<div class="flex items-center gap-3">
+			<div class={ "w-10 h-10 rounded-lg flex items-center justify-center",
+				templ.KV("bg-violet-100", colorScheme == "violet"),
+				templ.KV("bg-emerald-100", colorScheme == "emerald"),
+				templ.KV("bg-amber-100", colorScheme == "amber") }>
+				if cardType == "chart" {
+					<svg class="w-5 h-5 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+					</svg>
+				}
+				if cardType == "savings" {
+					<svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+					</svg>
+				}
+				if cardType == "target" {
+					<svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+					</svg>
+				}
+			</div>
+			<div>
+				<h4 class="text-sm font-semibold text-slate-800">{ title }</h4>
+				<p class="text-xs text-slate-500">{ description }</p>
+			</div>
+		</div>
+	</div>
+}
+
+templ WelcomeMessage() {
+	<div class="flex justify-start chat-bubble">
+		<div class="max-w-[85%] md:max-w-[75%]">
+			<div class="bg-white border border-slate-200 rounded-xl rounded-bl-sm p-4">
+				<div class="flex items-center gap-2 mb-2">
+					<div class="w-7 h-7 rounded-full flex items-center justify-center" style="background-color: #7c3aed;">
+						<svg class="w-4 h-4" style="color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+						</svg>
+					</div>
+					<span class="text-sm font-semibold text-slate-800">BudgetMate AI</span>
+				</div>
+				<p class="text-sm text-slate-600 leading-relaxed">Hi! I'm BudgetMate, your AI financial advisor. I have access to your last 30 days of transactions.</p>
+				<p class="text-sm text-slate-600 leading-relaxed mt-2">Ask me anything about your spending patterns, budget suggestions, or financial insights!</p>
+			</div>
+		</div>
+	</div>
+}
+
+templ QuickSuggestion(text string) {
+	<button 
+		type="button"
+		data-suggestion={ text }
+		onclick="document.getElementById('message-input').value = this.dataset.suggestion; document.getElementById('chat-form').requestSubmit();"
+		class="px-3 py-1.5 text-xs font-medium text-slate-600 bg-slate-100 rounded-full hover:bg-slate-200 transition-all border border-slate-200"
+	>
+		{ text }
+	</button>
+}
+
+templ MessageBubble(text string, isUser bool) {
+	<div class={ "flex chat-bubble", templ.KV("justify-end", isUser), templ.KV("justify-start", !isUser) }>
+		if isUser {
+			<div class="max-w-[80%] md:max-w-[70%] rounded-xl rounded-br-sm px-4 py-3" style="background-color: #7c3aed; color: white;">
+				<p class="text-sm leading-relaxed whitespace-pre-wrap">{ text }</p>
+			</div>
+		} else {
+			<div class="max-w-[80%] md:max-w-[70%] rounded-xl rounded-bl-sm px-4 py-3 bg-white border border-slate-200 text-slate-700">
+				<div class="flex items-center gap-2 mb-2">
+					<div class="w-6 h-6 rounded-full flex items-center justify-center" style="background-color: #7c3aed;">
+						<svg class="w-3 h-3" style="color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+						</svg>
+					</div>
+					<span class="text-xs font-semibold text-slate-800">BudgetMate AI</span>
+				</div>
+				<p class="text-sm leading-relaxed whitespace-pre-wrap">{ text }</p>
+			</div>
+		}
+	</div>
+}
+
+templ ChatMessages(userMessage string, aiResponse string) {
+	@MessageBubble(userMessage, true)
+	@MessageBubble(aiResponse, false)
+}

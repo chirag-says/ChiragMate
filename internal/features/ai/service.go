@@ -57,14 +57,11 @@ type GroqResponse struct {
 	} `json:"choices"`
 }
 
-func (s *Service) callGroq(apiKey, description string) (string, error) {
-	prompt := fmt.Sprintf("Categorize this transaction '%s' into exactly one of: [Food & Dining, Groceries, Transportation, Utilities, Entertainment, Healthcare, Shopping, Salary, Investment]. Return ONLY the category name.", description)
-
+// callGroqGeneric makes a generic call to Groq API with custom messages
+func (s *Service) callGroqGeneric(apiKey string, messages []Message) (string, error) {
 	reqBody := GroqRequest{
-		Model: "llama3-8b-8192", // Fast, free-tier friendly model on Groq
-		Messages: []Message{
-			{Role: "user", Content: prompt},
-		},
+		Model:    "llama-3.1-8b-instant", // Updated to current free-tier model
+		Messages: messages,
 	}
 
 	jsonBody, _ := json.Marshal(reqBody)
@@ -92,6 +89,75 @@ func (s *Service) callGroq(apiKey, description string) (string, error) {
 		return strings.TrimSpace(groqResp.Choices[0].Message.Content), nil
 	}
 	return "", fmt.Errorf("empty response")
+}
+
+func (s *Service) callGroq(apiKey, description string) (string, error) {
+	prompt := fmt.Sprintf("Categorize this transaction '%s' into exactly one of: [Food & Dining, Groceries, Transportation, Utilities, Entertainment, Healthcare, Shopping, Salary, Investment]. Return ONLY the category name.", description)
+
+	messages := []Message{
+		{Role: "user", Content: prompt},
+	}
+
+	return s.callGroqGeneric(apiKey, messages)
+}
+
+// ChatMessage represents a message in the conversation
+type ChatMessage struct {
+	Role    string // "user" or "assistant"
+	Content string
+}
+
+// GenerateFinancialAdvice generates AI-powered financial advice based on user's transaction history
+func (s *Service) GenerateFinancialAdvice(history string, question string, conversationHistory []ChatMessage) (string, error) {
+	apiKey := os.Getenv("GROQ_API_KEY")
+	if apiKey == "" {
+		return "I'm sorry, but AI features are currently unavailable. Please check your GROQ_API_KEY configuration.", nil
+	}
+
+	systemPrompt := fmt.Sprintf(`You are BudgetMate, a friendly and REALISTIC financial advisor. You remember our entire conversation.
+
+=== USER'S FINANCIAL DATA (Last 30 Days) ===
+%s
+=== END DATA ===
+
+CRITICAL RULES:
+1. REMEMBER the conversation history - if user mentioned changing income, use that new number
+2. Calculate: Savings Potential = Income - Expenses (MAX they can save)
+3. NEVER suggest saving more than Savings Potential
+4. If user gives hypothetical scenarios (like "what if my income is X"), use those numbers
+5. Be consistent with previous answers in this conversation
+
+MATH:
+- Timeline = Goal Amount ÷ Monthly Savings
+- Be realistic about expensive goals (cars, houses)
+
+RESPONSE STYLE:
+- Natural, friendly conversation
+- Remember what we discussed earlier
+- Keep it short (80-120 words)
+- Each point on NEW LINE
+- Format: ₹XX,XXX or ₹XX lakhs`, history)
+
+	// Build messages with conversation history
+	messages := []Message{
+		{Role: "system", Content: systemPrompt},
+	}
+
+	// Add conversation history
+	for _, msg := range conversationHistory {
+		messages = append(messages, Message{Role: msg.Role, Content: msg.Content})
+	}
+
+	// Add current question
+	messages = append(messages, Message{Role: "user", Content: question})
+
+	response, err := s.callGroqGeneric(apiKey, messages)
+	if err != nil {
+		fmt.Printf("🔴 AI Service Error: %v\n", err)
+		return "", fmt.Errorf("AI service error: %w", err)
+	}
+
+	return response, nil
 }
 
 // Rule-Based Logic (0 RAM usage)

@@ -2,7 +2,12 @@ package ai
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"strings"
+
+	"github.com/budgetmate/web/internal/database"
+	"github.com/budgetmate/web/internal/middleware"
 )
 
 type Handler struct {
@@ -49,7 +54,76 @@ func (h *Handler) HandleCategorize(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(resp)
 }
 
-// HandleChat (Future) - generic assistant endpoint
+// HandleShowChat renders the AI Advisor chat page
+func (h *Handler) HandleShowChat(w http.ResponseWriter, r *http.Request) {
+	user := middleware.GetUser(r.Context())
+	if user == nil {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
+
+	ChatPage().Render(r.Context(), w)
+}
+
+// HandleChat processes chat messages and returns AI responses
 func (h *Handler) HandleChat(w http.ResponseWriter, r *http.Request) {
-	// similar logic for free-form chat
+	user := middleware.GetUser(r.Context())
+	if user == nil {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	// Get the user's message from form
+	message := strings.TrimSpace(r.FormValue("message"))
+	if message == "" {
+		http.Error(w, "Message is required", http.StatusBadRequest)
+		return
+	}
+
+	// Get conversation history from form (JSON array)
+	historyJSON := r.FormValue("history")
+	var conversationHistory []ChatMessage
+	if historyJSON != "" {
+		json.Unmarshal([]byte(historyJSON), &conversationHistory)
+	}
+
+	// Fetch last 30 days of transactions
+	transactions, err := database.GetRecentTransactionsForDays(user.FamilyID, 30)
+	if err != nil {
+		// Continue with empty history if error
+		transactions = []database.Transaction{}
+	}
+
+	// Format transactions as CSV-like string for AI context
+	var historyBuilder strings.Builder
+	historyBuilder.WriteString("Date,Amount,Type,Category,Description\n")
+	for _, t := range transactions {
+		amount := t.Amount
+		if t.Type == "expense" {
+			amount = -amount
+		}
+		historyBuilder.WriteString(fmt.Sprintf("%s,%.2f,%s,%s,%s\n",
+			t.Date.Format("2006-01-02"),
+			amount,
+			t.Type,
+			t.Category,
+			t.Description,
+		))
+	}
+
+	history := historyBuilder.String()
+
+	// If no transactions, add a note
+	if len(transactions) == 0 {
+		history = "No transactions in the last 30 days."
+	}
+
+	// Get AI response with conversation history
+	response, err := h.Service.GenerateFinancialAdvice(history, message, conversationHistory)
+	if err != nil {
+		response = "I apologize, but I'm having trouble processing your request right now. Please try again later."
+	}
+
+	// Return both user message and AI response as chat bubbles
+	ChatMessages(message, response).Render(r.Context(), w)
 }

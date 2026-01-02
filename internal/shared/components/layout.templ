@@ -141,6 +141,7 @@ templ Sidebar(activeTab string) {
 				@NavItem("/app/transactions", "Transactions", transactionsIcon(), activeTab == "transactions")
 				@NavItem("/app/budgets", "Budgets", budgetsIcon(), activeTab == "budgets")
 				@NavItem("/app/goals", "Goals", goalsIcon(), activeTab == "goals")
+				@NavItem("/app/chat", "AI Advisor", chatIcon(), activeTab == "chat")
 				@NavItem("/app/family", "Family", familyIcon(), activeTab == "family")
 				@NavItem("/app/settings", "Settings", settingsIcon(), activeTab == "settings")
 			</ul>
@@ -173,8 +174,7 @@ templ BottomNav(activeTab string) {
 			@MobileNavItem("/app", "Home", dashboardIcon(), activeTab == "dashboard")
 			@MobileNavItem("/app/transactions", "Money", transactionsIcon(), activeTab == "transactions")
 			@MobileNavItem("/app/budgets", "Budget", budgetsIcon(), activeTab == "budgets")
-			@MobileNavItem("/app/goals", "Goals", goalsIcon(), activeTab == "goals")
-			@MobileNavItem("/app/family", "Family", familyIcon(), activeTab == "family")
+			@MobileNavItem("/app/chat", "AI", chatIcon(), activeTab == "chat")
 			@MobileNavItem("/app/settings", "More", settingsIcon(), activeTab == "settings")
 		</div>
 	</nav>
@@ -298,3 +298,10 @@ templ goalsIcon() {
 		<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
 	</svg>
 }
+
+templ chatIcon() {
+	<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+		<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+	</svg>
+}
+

@@ -19,9 +19,13 @@ import (
 	mw "github.com/budgetmate/web/internal/middleware"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	// Load .env file if it exists (ignore error if not found)
+	_ = godotenv.Load()
+
 	// Initialize database
 	dbPath := os.Getenv("DB_PATH")
 	if dbPath == "" {
@@ -132,6 +136,10 @@ func main() {
 
 		// AI Service (Ollama)
 		r.Post("/ai/categorize", aiHandler.HandleCategorize)
+
+		// AI Financial Advisor (Pro Suite)
+		r.Get("/chat", aiHandler.HandleShowChat)
+		r.Post("/chat", aiHandler.HandleChat)
 	})
 
 	// Start server
