@@ -15,6 +15,7 @@ import (
 	"github.com/budgetmate/web/internal/features/landing"
 	"github.com/budgetmate/web/internal/features/notifications"
 	"github.com/budgetmate/web/internal/features/settings"
+	"github.com/budgetmate/web/internal/features/subscriptions"
 	"github.com/budgetmate/web/internal/features/transactions"
 	mw "github.com/budgetmate/web/internal/middleware"
 	"github.com/go-chi/chi/v5"
@@ -58,6 +59,7 @@ func main() {
 	notificationsHandler := notifications.NewHandler()
 	settingsHandler := settings.NewHandler()
 	aiHandler := ai.NewHandler()
+	subscriptionsHandler := subscriptions.NewHandler()
 
 	// =====================
 	// PUBLIC ROUTES (Marketing & Auth)
@@ -127,6 +129,12 @@ func main() {
 		r.Post("/goals", goalsHandler.HandleCreate)
 		r.Post("/goals/contribute", goalsHandler.HandleContribute)
 		r.Delete("/goals/{id}", goalsHandler.HandleDelete)
+
+		// Subscriptions (Pro Suite - Subscription Manager)
+		r.Get("/subscriptions", subscriptionsHandler.HandleIndex)
+		r.Post("/subscriptions", subscriptionsHandler.HandleAdd)
+		r.Post("/subscriptions/convert", subscriptionsHandler.HandleConvert)
+		r.Delete("/subscriptions", subscriptionsHandler.HandleDelete)
 
 		// Notifications
 		r.Get("/notifications", notificationsHandler.HandleGetNotifications)

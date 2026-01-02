@@ -230,6 +230,17 @@ func migrate() error {
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY(family_id) REFERENCES families(id) ON DELETE CASCADE
         );`,
+		`CREATE TABLE IF NOT EXISTS subscriptions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            family_id INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            amount REAL NOT NULL,
+            billing_day INTEGER NOT NULL CHECK(billing_day >= 1 AND billing_day <= 31),
+            category TEXT DEFAULT 'Subscriptions',
+            is_active BOOLEAN DEFAULT 1,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY(family_id) REFERENCES families(id) ON DELETE CASCADE
+        );`,
 	}
 
 	for _, query := range queries {
@@ -1221,6 +1232,116 @@ func GetGoalByID(goalID int64) (*Goal, error) {
 func DeleteGoal(goalID int64) error {
 	_, err := DB.Exec("DELETE FROM goals WHERE id = ?", goalID)
 	return err
+}
+
+// ====================================
+// SUBSCRIPTIONS (Recurring Bills)
+// ====================================
+
+// Subscription represents a recurring bill or subscription
+type Subscription struct {
+	ID         int64
+	FamilyID   int64
+	Name       string
+	Amount     float64
+	BillingDay int
+	Category   string
+	IsActive   bool
+	CreatedAt  time.Time
+}
+
+// PotentialSubscription represents a detected recurring expense
+type PotentialSubscription struct {
+	Name      string
+	AvgAmount float64
+	Count     int
+}
+
+// CreateSubscription inserts a new subscription
+func CreateSubscription(familyID int64, name string, amount float64, billingDay int, category string) error {
+	_, err := DB.Exec(`
+		INSERT INTO subscriptions (family_id, name, amount, billing_day, category, is_active)
+		VALUES (?, ?, ?, ?, ?, 1)
+	`, familyID, name, amount, billingDay, category)
+	return err
+}
+
+// GetSubscriptions retrieves all active subscriptions for a family
+func GetSubscriptions(familyID int64) ([]Subscription, error) {
+	rows, err := DB.Query(`
+		SELECT id, family_id, name, amount, billing_day, category, is_active, created_at
+		FROM subscriptions
+		WHERE family_id = ? AND is_active = 1
+		ORDER BY billing_day ASC
+	`, familyID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var subscriptions []Subscription
+	for rows.Next() {
+		var s Subscription
+		if err := rows.Scan(&s.ID, &s.FamilyID, &s.Name, &s.Amount, &s.BillingDay, &s.Category, &s.IsActive, &s.CreatedAt); err != nil {
+			return nil, err
+		}
+		subscriptions = append(subscriptions, s)
+	}
+	return subscriptions, nil
+}
+
+// ToggleSubscription activates or deactivates a subscription
+func ToggleSubscription(subscriptionID int64, isActive bool) error {
+	_, err := DB.Exec("UPDATE subscriptions SET is_active = ? WHERE id = ?", isActive, subscriptionID)
+	return err
+}
+
+// DeleteSubscription removes a subscription
+func DeleteSubscription(subscriptionID int64) error {
+	_, err := DB.Exec("DELETE FROM subscriptions WHERE id = ?", subscriptionID)
+	return err
+}
+
+// DetectPotentialSubscriptions finds recurring expenses in transaction history
+// Returns expenses that appear 2+ times with similar amounts
+func DetectPotentialSubscriptions(familyID int64) ([]PotentialSubscription, error) {
+	rows, err := DB.Query(`
+		SELECT description, AVG(amount) as avg_amount, COUNT(*) as count
+		FROM transactions
+		WHERE family_id = ? AND type = 'expense'
+		GROUP BY LOWER(description)
+		HAVING COUNT(*) >= 2
+		ORDER BY COUNT(*) DESC
+		LIMIT 5
+	`, familyID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var potentials []PotentialSubscription
+	for rows.Next() {
+		var p PotentialSubscription
+		if err := rows.Scan(&p.Name, &p.AvgAmount, &p.Count); err != nil {
+			return nil, err
+		}
+		potentials = append(potentials, p)
+	}
+	return potentials, nil
+}
+
+// GetSubscriptionByName checks if a subscription with the same name already exists
+func GetSubscriptionByName(familyID int64, name string) (*Subscription, error) {
+	var s Subscription
+	err := DB.QueryRow(`
+		SELECT id, family_id, name, amount, billing_day, category, is_active, created_at
+		FROM subscriptions
+		WHERE family_id = ? AND LOWER(name) = LOWER(?)
+	`, familyID, name).Scan(&s.ID, &s.FamilyID, &s.Name, &s.Amount, &s.BillingDay, &s.Category, &s.IsActive, &s.CreatedAt)
+	if err != nil {
+		return nil, err
+	}
+	return &s, nil
 }
 
 func Close() error {
